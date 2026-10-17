@@ -1,26 +1,160 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+/* ───────────────────────── WRONGE design tokens ───────────────────────── */
+@theme {
+  --color-ink: #0b0b0b;
+  --color-ink-2: #161616;
+  --color-ink-3: #232323;
+  --color-paper: #f3f2ee;
+  --color-paper-2: #e9e8e3;
+  --color-studio: #e5e5e5;
+  --color-line: #d8d7d1;
+  --color-line-dark: #2c2c2c;
+  --color-muted: #6b6a64;
+  --color-acid: #dcff3d;
+  --color-acid-2: #c8ec1f;
+  --color-signal: #ff4d1f;
+  --color-ok: #1f9d55;
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
+  --font-sans: var(--font-archivo), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-archivo), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-jetbrains), ui-monospace, monospace;
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+  --animate-marquee: marquee var(--marquee-speed, 38s) linear infinite;
+  --animate-marquee-rev: marquee-rev var(--marquee-speed, 38s) linear infinite;
+  --animate-float: float 6s ease-in-out infinite;
+  --animate-pulse-ring: pulse-ring 2s ease-out infinite;
+
+  @keyframes marquee {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+  @keyframes marquee-rev {
+    from { transform: translateX(-50%); }
+    to { transform: translateX(0); }
+  }
+  @keyframes float {
+    0%, 100% { transform: translateY(0) rotate(var(--r, 0deg)); }
+    50% { transform: translateY(-8px) rotate(var(--r, 0deg)); }
+  }
+  @keyframes pulse-ring {
+    0% { box-shadow: 0 0 0 0 rgb(220 255 61 / 0.7); }
+    100% { box-shadow: 0 0 0 14px rgb(220 255 61 / 0); }
   }
 }
 
+:root {
+  color-scheme: light;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-tap-highlight-color: transparent;
+}
+
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--color-paper);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  font-feature-settings: "ss01";
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+::selection {
+  background: var(--color-acid);
+  color: var(--color-ink);
+}
+
+/* ───────────────────────── Typography helpers ───────────────────────── */
+@utility display {
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-stretch: 125%;
+  font-variation-settings: "wdth" 125;
+  text-transform: uppercase;
+  letter-spacing: -0.02em;
+  line-height: 0.92;
+}
+
+@utility display-narrow {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-variation-settings: "wdth" 100;
+  text-transform: uppercase;
+  letter-spacing: -0.01em;
+  line-height: 0.95;
+}
+
+@utility eyebrow {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+/* ───────────────────────── Textures ───────────────────────── */
+@utility halftone-dark {
+  background-color: var(--color-ink);
+  background-image:
+    linear-gradient(180deg, rgb(11 11 11 / 0.55), rgb(11 11 11 / 0.85)),
+    url("/brand/texture-dark.webp");
+  background-size: cover;
+  background-position: center;
+}
+
+@utility dots {
+  background-image: radial-gradient(rgb(11 11 11 / 0.14) 1px, transparent 1.2px);
+  background-size: 14px 14px;
+}
+
+@utility dots-light {
+  background-image: radial-gradient(rgb(255 255 255 / 0.12) 1px, transparent 1.2px);
+  background-size: 14px 14px;
+}
+
+@utility no-scrollbar {
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+/* Stitched border — like the tonal stitching on the jacket */
+@utility stitch {
+  outline: 1.5px dashed rgb(255 255 255 / 0.28);
+  outline-offset: -7px;
+}
+
+@utility stitch-dark {
+  outline: 1.5px dashed rgb(11 11 11 / 0.28);
+  outline-offset: -7px;
+}
+
+/* Pause marquees on hover */
+.marquee-track:hover {
+  animation-play-state: paused;
+}
+
+/* Respect reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Print: order invoice */
+@media print {
+  .no-print {
+    display: none !important;
+  }
+  body {
+    background: white;
+  }
 }

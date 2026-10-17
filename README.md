@@ -1,36 +1,44 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# WRONGE — web store
 
-## Getting Started
+One washed-black denim jacket, endless zip-in back panels. Cash-on-delivery store for Bangladesh, with an admin panel for orders, stock and stats.
 
-First, run the development server:
+**Stack:** Next.js 16 (App Router, Cache Components) · Supabase (Postgres, Auth, RLS) · Cloudinary (images) · Vercel (hosting) · Tailwind CSS v4
+
+## Run locally
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install
+cp .env.example .env.local   # then fill in the keys (see comments in the file)
+npm run dev                  # http://localhost:3000
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Database setup (once)
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+1. In Supabase → SQL Editor, run `supabase/schema.sql`, then `supabase/seed.sql`.
+2. Authentication → Users → **Add user** (auto-confirm), then run:
+   `select public.make_admin('you@example.com');`
+3. Authentication → turn **off** "Allow new users to sign up".
+4. `npm run images:upload` to move the starter images to Cloudinary.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Scripts
 
-## Learn More
+| Command | What it does |
+|---|---|
+| `npm run dev` | Development server |
+| `npm run build` / `npm start` | Production build / server |
+| `npm run typecheck` | TypeScript check |
+| `npm run lint` | ESLint |
+| `npm run images:upload` | Upload `public/seed` + `public/brand` to Cloudinary and update panel image URLs |
 
-To learn more about Next.js, take a look at the following resources:
+## Where things live
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- `src/app/(store)` — storefront pages · `src/app/admin` — admin panel (`/admin`)
+- `src/actions` — server actions (checkout, public forms, admin)
+- `src/lib/pricing.ts` — the only place prices are calculated (server re-checks every order)
+- `src/lib/data.ts` — cached public reads · `src/lib/admin-data.ts` — admin reads and stats
+- `src/proxy.ts` + `src/lib/admin-auth.ts` — admin session and access checks
+- `supabase/` — schema (tables, RLS, `place_order` / `set_order_status` functions) and seed data
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Environment variables
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+See `.env.example`. `SUPABASE_SECRET_KEY` and `CLOUDINARY_API_SECRET` are server-only: never expose or commit them.
