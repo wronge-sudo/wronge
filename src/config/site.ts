@@ -9,7 +9,12 @@ export const SITE = {
   tagline: "One jacket. Endless backs.",
   description:
     "Wronge makes a washed-black denim trucker jacket with a zip-out back panel. Wear it plain, or zip in original art panels and change your look in seconds. Cash on delivery all over Bangladesh.",
-  url: process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000",
+  // On Vercel, falls back to the project's production domain (custom domain once one is added).
+  url:
+    process.env.NEXT_PUBLIC_SITE_URL ||
+    (process.env.VERCEL_PROJECT_PRODUCTION_URL
+      ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
+      : "http://localhost:3000"),
   currency: "BDT",
   locale: "en-BD",
 };
