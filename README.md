@@ -39,6 +39,14 @@ npm run dev                  # http://localhost:3000
 - `src/proxy.ts` + `src/lib/admin-auth.ts` — admin session and access checks
 - `supabase/` — schema (tables, RLS, `place_order` / `set_order_status` functions) and seed data
 
+## Deploys
+
+Live at https://wronge.vercel.app (Vercel team `wronge`, functions in `bom1`, next to the Mumbai Supabase project).
+
+- Push to `main` → Vercel builds and deploys to production automatically.
+- Push any other branch → a preview deployment with its own URL.
+- Store content (prices, panels, stock, announcement) is edited in `/admin` and needs no deploy.
+
 ## Environment variables
 
 See `.env.example`. `SUPABASE_SECRET_KEY` and `CLOUDINARY_API_SECRET` are server-only: never expose or commit them.
