@@ -33,7 +33,7 @@ export function Hotspots({
             aria-pressed={active === i}
             className={cn(
               "absolute grid size-8 -translate-x-1/2 -translate-y-1/2 place-items-center rounded-full font-mono text-xs font-bold transition",
-              active === i ? "scale-110 bg-acid text-ink animate-pulse-ring" : "bg-paper text-ink hover:bg-acid",
+              active === i ? "scale-110 bg-primary text-paper animate-pulse-ring" : "bg-paper text-ink hover:bg-primary hover:text-paper",
             )}
             style={{ left: `${s.x}%`, top: `${s.y}%` }}
           >
@@ -53,7 +53,7 @@ export function Hotspots({
                   active === i ? "bg-ink text-paper" : "hover:bg-paper-2",
                 )}
               >
-                <span className={cn("grid size-8 shrink-0 place-items-center rounded-full font-mono text-xs font-bold", active === i ? "bg-acid text-ink" : "bg-paper-2")}>
+                <span className={cn("grid size-8 shrink-0 place-items-center rounded-full font-mono text-xs font-bold", active === i ? "bg-primary text-paper" : "bg-paper-2")}>
                   {i + 1}
                 </span>
                 <span>

@@ -193,7 +193,7 @@ export function PanelFlagToggle({ id, field, value, label }: { id: string; field
       }}
       className={cn("relative h-6 w-11 rounded-full transition", optimistic ? "bg-ink" : "bg-line", pending && "opacity-60")}
     >
-      <span className={cn("absolute top-0.5 size-5 rounded-full bg-white shadow transition-all", optimistic ? "left-[22px] bg-acid" : "left-0.5")} />
+      <span className={cn("absolute top-0.5 size-5 rounded-full bg-white shadow transition-all", optimistic ? "left-[22px] bg-primary-light" : "left-0.5")} />
     </button>
   );
 }

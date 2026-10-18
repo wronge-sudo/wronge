@@ -66,7 +66,7 @@ export function SetBuilder({ panels, initialSize = null }: { panels: Panel[]; in
   const step = (num: number, title: string, done: boolean, extra?: React.ReactNode) => (
     <div className="flex items-center justify-between gap-4">
       <div className="flex items-center gap-3">
-        <span className={cn("grid size-9 place-items-center rounded-full font-mono text-sm font-bold", done ? "bg-acid text-ink" : "bg-ink text-paper")}>
+        <span className={cn("grid size-9 place-items-center rounded-full font-mono text-sm font-bold", done ? "bg-primary text-paper" : "bg-ink text-paper")}>
           {done ? <Check className="size-4" /> : num}
         </span>
         <h2 className="display-narrow text-2xl sm:text-3xl">{title}</h2>
@@ -164,7 +164,7 @@ export function SetBuilder({ panels, initialSize = null }: { panels: Panel[]; in
                   <span className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-ink/90 to-transparent p-2 pt-6 text-[0.65rem] font-bold uppercase leading-tight text-paper">
                     {p.name}
                   </span>
-                  <span className={cn("absolute right-1.5 top-1.5 grid size-6 place-items-center rounded-full transition", isPicked ? "bg-acid text-ink" : "bg-paper/85 text-ink opacity-0 group-hover:opacity-100")}>
+                  <span className={cn("absolute right-1.5 top-1.5 grid size-6 place-items-center rounded-full transition", isPicked ? "bg-primary text-paper" : "bg-paper/85 text-ink opacity-0 group-hover:opacity-100")}>
                     {isPicked ? <Check className="size-3.5" /> : <Plus className="size-3.5" />}
                   </span>
                 </button>
@@ -200,7 +200,7 @@ export function SetBuilder({ panels, initialSize = null }: { panels: Panel[]; in
               </div>
             )}
             {settings.bundle_discount > 0 && (
-              <div className="flex justify-between gap-4 text-acid">
+              <div className="flex justify-between gap-4 text-primary-light">
                 <dt>Set saving</dt>
                 <dd>−{taka(settings.bundle_discount)}</dd>
               </div>
@@ -213,7 +213,7 @@ export function SetBuilder({ panels, initialSize = null }: { panels: Panel[]; in
           <p className="mt-2 text-xs text-paper/50">Plus delivery. Pay cash when it arrives.</p>
 
           {added ? (
-            <div className="mt-6 rounded-2xl bg-acid p-4 text-ink">
+            <div className="mt-6 rounded-2xl bg-primary-tint p-4 text-ink">
               <p className="font-bold">Set added to your bag! 🎉</p>
               <div className="mt-3 flex flex-wrap gap-2">
                 <Link href="/checkout" className="inline-flex h-11 items-center rounded-full bg-ink px-5 text-xs font-bold uppercase tracking-wider text-paper">
@@ -230,7 +230,7 @@ export function SetBuilder({ panels, initialSize = null }: { panels: Panel[]; in
                 type="button"
                 onClick={addSet}
                 disabled={!complete}
-                className="mt-6 h-14 w-full rounded-full bg-acid text-sm font-bold uppercase tracking-wider text-ink transition hover:bg-paper disabled:cursor-not-allowed disabled:opacity-40"
+                className="mt-6 h-14 w-full rounded-full bg-primary text-sm font-bold uppercase tracking-wider text-paper transition hover:bg-primary-hover disabled:cursor-not-allowed disabled:opacity-40"
               >
                 {complete ? "Add set to bag" : !size ? "Choose a size first" : `Pick ${n - chosen.length} more panel${n - chosen.length === 1 ? "" : "s"}`}
               </button>

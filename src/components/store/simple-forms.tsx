@@ -10,7 +10,7 @@ const input = "h-12 w-full rounded-xl border-2 border-line bg-paper px-4 outline
 function Status({ state }: { state: FormState }) {
   if (!state) return null;
   return (
-    <p className={cn("rounded-2xl p-4 text-sm font-semibold", state.ok ? "bg-acid text-ink" : "border-2 border-signal bg-signal/10 text-signal")} role="status">
+    <p className={cn("rounded-2xl p-4 text-sm font-semibold", state.ok ? "border-2 border-ok bg-ok/10 text-ink" : "border-2 border-signal bg-signal/10 text-signal")} role="status">
       {state.message}
     </p>
   );

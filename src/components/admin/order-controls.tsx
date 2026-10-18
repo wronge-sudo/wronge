@@ -34,7 +34,7 @@ export function StatusControl({ orderId, status }: { orderId: string; status: Or
     <div className="space-y-4">
       {next ? (
         <div>
-          <button type="button" disabled={pending} onClick={() => go(next.to)} className="inline-flex h-12 w-full items-center justify-center gap-2 rounded-xl bg-ink text-sm font-bold uppercase tracking-wider text-paper transition hover:bg-acid hover:text-ink disabled:opacity-50">
+          <button type="button" disabled={pending} onClick={() => go(next.to)} className="inline-flex h-12 w-full items-center justify-center gap-2 rounded-xl bg-ink text-sm font-bold uppercase tracking-wider text-paper transition hover:bg-primary hover:text-paper disabled:opacity-50">
             {pending ? <Loader2 className="size-4 animate-spin" /> : <Check className="size-4" />} {next.label}
           </button>
           <p className="mt-2 text-xs text-muted">{next.hint}</p>

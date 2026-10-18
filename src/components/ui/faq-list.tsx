@@ -26,7 +26,7 @@ export function FaqList({ faqs, dark = false }: { faqs: Faq[]; dark?: boolean })
                   className={cn(
                     "grid size-9 shrink-0 place-items-center rounded-full border transition-transform duration-300",
                     dark ? "border-paper/30" : "border-ink/20",
-                    isOpen && "rotate-45 border-transparent bg-acid text-ink",
+                    isOpen && "rotate-45 border-transparent bg-primary text-paper",
                   )}
                 >
                   <Plus className="size-4" />

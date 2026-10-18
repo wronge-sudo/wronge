@@ -18,14 +18,14 @@ export function AnnouncementBar({ settings }: { settings: StoreSettings }) {
   const row = [...items, ...items];
 
   return (
-    <div className="relative overflow-hidden bg-acid text-ink" role="region" aria-label="Announcements">
+    <div className="relative overflow-hidden bg-primary text-paper" role="region" aria-label="Announcements">
       <div className="marquee-track flex w-max animate-marquee py-2" style={{ ["--marquee-speed" as string]: "45s" }}>
         {[0, 1].map((copy) => (
           <ul key={copy} className="flex shrink-0 items-center" aria-hidden={copy === 1}>
             {row.map((t, i) => (
               <li key={`${copy}-${i}`} className="flex items-center whitespace-nowrap px-5 font-mono text-[0.7rem] font-bold uppercase tracking-[0.14em]">
                 {t}
-                <span className="ml-10 inline-block size-1.5 rotate-45 bg-ink" aria-hidden />
+                <span className="ml-10 inline-block size-1.5 rotate-45 bg-paper/60" aria-hidden />
               </li>
             ))}
           </ul>

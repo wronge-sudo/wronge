@@ -54,7 +54,7 @@ export function CheckoutForm() {
     return (
       <div className="py-20 text-center">
         <p className="display-narrow text-3xl">Your bag is empty</p>
-        <Link href="/build" className={buttonClass("acid", "lg", "mt-6")}>Build your set →</Link>
+        <Link href="/build" className={buttonClass("primary", "lg", "mt-6")}>Build your set →</Link>
       </div>
     );
   }
@@ -187,7 +187,7 @@ export function CheckoutForm() {
                     )}
                   >
                     <span className="flex items-center gap-3">
-                      <input type="radio" name="zone" value={value} checked={active} disabled={disabled} onChange={() => setZone(value)} className="accent-acid" />
+                      <input type="radio" name="zone" value={value} checked={active} disabled={disabled} onChange={() => setZone(value)} className="accent-primary" />
                       <span className="text-sm font-semibold">{label}</span>
                     </span>
                     <span className="font-mono text-sm font-bold">{totals.subtotal >= (settings.free_delivery_min ?? Infinity) ? "Free" : taka(fee)}</span>
@@ -206,8 +206,8 @@ export function CheckoutForm() {
 
         <fieldset>
           <legend className="display-narrow mb-3 text-2xl">Payment</legend>
-          <div className="flex items-start gap-4 rounded-2xl border-2 border-ink bg-acid p-4">
-            <Banknote className="mt-0.5 size-6 shrink-0" />
+          <div className="flex items-start gap-4 rounded-2xl border-2 border-primary bg-primary-tint p-4">
+            <Banknote className="mt-0.5 size-6 shrink-0 text-primary" />
             <div>
               <p className="font-bold">Cash on delivery</p>
               <p className="text-sm text-ink/75">Pay the rider in cash when your order arrives. No advance payment, no card needed.</p>
@@ -242,7 +242,7 @@ export function CheckoutForm() {
               <dd>{taka(totals.total)}</dd>
             </div>
           </dl>
-          <button type="submit" disabled={pending} className={buttonClass("acid", "lg", "mt-6 w-full")}>
+          <button type="submit" disabled={pending} className={buttonClass("primary", "lg", "mt-6 w-full")}>
             {pending ? <Loader2 className="size-4 animate-spin" /> : <Lock className="size-4" />}
             {pending ? "Placing order…" : `Place order · ${taka(totals.total)}`}
           </button>

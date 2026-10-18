@@ -49,7 +49,7 @@ export function TrackForm() {
               <p className="font-mono text-2xl font-bold">{order.number}</p>
               <p className="text-sm text-muted">Placed {formatDate(order.createdAt, true)} · {order.district}</p>
             </div>
-            <span className={cn("rounded-full px-4 py-2 font-mono text-xs font-bold uppercase tracking-wider", stopped ? "bg-signal text-white" : order.status === "delivered" ? "bg-ok text-white" : "bg-acid")}>
+            <span className={cn("rounded-full px-4 py-2 font-mono text-xs font-bold uppercase tracking-wider", stopped ? "bg-signal text-white" : order.status === "delivered" ? "bg-ok text-white" : "bg-primary text-paper")}>
               {STATUS_LABEL[order.status]}
             </span>
           </div>
@@ -66,7 +66,7 @@ export function TrackForm() {
                 return (
                   <li key={s} className="relative flex gap-4 pb-6 last:pb-0">
                     {i < FLOW.length - 1 && <span className={cn("absolute left-[15px] top-8 h-[calc(100%-2rem)] w-0.5", i < reached ? "bg-ink" : "bg-line")} />}
-                    <span className={cn("relative z-10 grid size-8 shrink-0 place-items-center rounded-full border-2", done ? "border-ink bg-ink text-acid" : "border-line bg-paper")}>
+                    <span className={cn("relative z-10 grid size-8 shrink-0 place-items-center rounded-full border-2", done ? "border-ink bg-ink text-primary-light" : "border-line bg-paper")}>
                       {done ? <Check className="size-4" /> : <span className="size-2 rounded-full bg-line" />}
                     </span>
                     <div className="pt-1">

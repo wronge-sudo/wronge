@@ -23,8 +23,8 @@ export function SectionHeading({
   return (
     <div className={cn(align === "center" && "mx-auto max-w-3xl text-center", className)}>
       {eyebrow && (
-        <p className={cn("eyebrow mb-4 inline-flex items-center gap-2", light ? "text-acid" : "text-muted")}>
-          <span className={cn("inline-block size-1.5 rotate-45", light ? "bg-acid" : "bg-ink")} aria-hidden />
+        <p className={cn("eyebrow mb-4 inline-flex items-center gap-2", light ? "text-primary-light" : "text-muted")}>
+          <span className={cn("inline-block size-1.5 rotate-45", light ? "bg-primary-light" : "bg-ink")} aria-hidden />
           {eyebrow}
         </p>
       )}

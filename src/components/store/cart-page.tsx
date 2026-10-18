@@ -19,13 +19,13 @@ export function CartPageClient() {
   if (lines.length === 0) {
     return (
       <div className="flex flex-col items-center gap-4 py-20 text-center">
-        <div className="grid size-16 place-items-center rounded-full bg-ink text-acid">
+        <div className="grid size-16 place-items-center rounded-full bg-ink text-primary-light">
           <ShoppingBag className="size-7" />
         </div>
         <p className="display-narrow text-3xl">Your bag is empty</p>
         <p className="max-w-sm text-muted">Start with the jacket, then pick the art you want on your back.</p>
         <div className="mt-2 flex flex-wrap justify-center gap-2">
-          <Link href="/build" className={buttonClass("acid", "lg")}>Build your set →</Link>
+          <Link href="/build" className={buttonClass("primary", "lg")}>Build your set →</Link>
           <Link href="/panels" className={buttonClass("outline", "lg")}>Shop panels</Link>
         </div>
       </div>
@@ -58,7 +58,7 @@ export function CartPageClient() {
           {settings.free_delivery_min && subtotal < settings.free_delivery_min && (
             <p className="mt-3 text-xs text-muted">Add {taka(settings.free_delivery_min - subtotal)} more for free delivery.</p>
           )}
-          <Link href="/checkout" className={buttonClass("acid", "lg", "mt-6 w-full")}>
+          <Link href="/checkout" className={buttonClass("primary", "lg", "mt-6 w-full")}>
             Checkout →
           </Link>
           <p className="mt-3 text-center text-xs text-muted">Cash on delivery · No advance payment</p>

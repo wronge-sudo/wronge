@@ -87,7 +87,7 @@ export function PackTray({ alwaysShow = false }: { alwaysShow?: boolean }) {
             </div>
 
             <div className="min-w-0 flex-1">
-              <p className="eyebrow text-acid">
+              <p className="eyebrow text-primary-light">
                 {size}-panel pack · {taka(settings.pack_price + fee)}
               </p>
               <p className="truncate text-sm text-paper/80">
@@ -109,7 +109,7 @@ export function PackTray({ alwaysShow = false }: { alwaysShow?: boolean }) {
                 <button
                   type="button"
                   onClick={addPack}
-                  className="h-11 rounded-full bg-acid px-4 text-xs font-bold uppercase tracking-wider text-ink transition hover:bg-paper sm:px-6"
+                  className="h-11 rounded-full bg-primary px-4 text-xs font-bold uppercase tracking-wider text-paper transition hover:bg-primary-hover sm:px-6"
                 >
                   Add pack
                 </button>

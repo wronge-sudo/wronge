@@ -14,7 +14,7 @@ export default function AboutPage() {
     <>
       <section className="halftone-dark text-paper">
         <Container className="py-20 sm:py-28">
-          <p className="eyebrow mb-4 text-acid">About Wronge</p>
+          <p className="eyebrow mb-4 text-primary-light">About Wronge</p>
           <h1 className="display max-w-5xl text-5xl sm:text-7xl lg:text-8xl">
             Rules say one jacket, one look. We read that wrong.
           </h1>

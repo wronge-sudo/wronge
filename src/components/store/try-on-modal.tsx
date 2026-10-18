@@ -60,7 +60,7 @@ export function TryOnModal({ panel, onClose }: { panel: Panel | null; onClose: (
                   onClick={() => toggle(toPanelRef(panel), settings.pack_size)}
                   className={cn(
                     "inline-flex h-12 items-center gap-2 rounded-full px-6 text-xs font-bold uppercase tracking-wider transition disabled:opacity-40",
-                    inPack ? "bg-ink text-acid" : "bg-acid text-ink hover:bg-ink hover:text-acid",
+                    inPack ? "bg-ink text-primary-light" : "bg-primary text-paper hover:bg-primary-hover",
                   )}
                 >
                   {inPack ? <Check className="size-4" /> : <Plus className="size-4" />}

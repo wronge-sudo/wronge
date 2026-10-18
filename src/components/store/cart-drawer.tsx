@@ -64,12 +64,12 @@ export function CartDrawer() {
 
             {lines.length === 0 ? (
               <div className="flex flex-1 flex-col items-center justify-center gap-4 px-8 text-center">
-                <div className="grid size-16 place-items-center rounded-full bg-ink text-acid">
+                <div className="grid size-16 place-items-center rounded-full bg-ink text-primary-light">
                   <ShoppingBag className="size-7" />
                 </div>
                 <p className="display-narrow text-2xl">Your bag is empty</p>
                 <p className="text-sm text-muted">Start with the jacket, then pick the art you want to wear on your back.</p>
-                <Link href="/build" onClick={() => setOpen(false)} className={buttonClass("acid", "lg", "mt-2")}>
+                <Link href="/build" onClick={() => setOpen(false)} className={buttonClass("primary", "lg", "mt-2")}>
                   Build your set →
                 </Link>
               </div>
@@ -97,7 +97,7 @@ export function CartDrawer() {
                   <p className="mt-1 text-xs text-muted">
                     Delivery: {taka(settings.delivery_inside_dhaka)} inside Dhaka · {taka(settings.delivery_outside_dhaka)} outside. Pay cash when it arrives.
                   </p>
-                  <Link href="/checkout" onClick={() => setOpen(false)} className={buttonClass("acid", "lg", "mt-4 w-full")}>
+                  <Link href="/checkout" onClick={() => setOpen(false)} className={buttonClass("primary", "lg", "mt-4 w-full")}>
                     Checkout · Cash on delivery
                   </Link>
                   <Link href="/cart" onClick={() => setOpen(false)} className="mt-3 block text-center text-xs font-semibold uppercase tracking-wider underline-offset-4 hover:underline">

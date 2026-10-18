@@ -51,7 +51,7 @@ export async function Footer({ settings }: { settings: StoreSettings }) {
         <div className="grid gap-12 lg:grid-cols-12">
           <div className="lg:col-span-5">
             <p className="display text-4xl sm:text-5xl">
-              Get first dibs <br /> on new drops<span className="text-acid">.</span>
+              Get first dibs <br /> on new drops<span className="text-primary-light">.</span>
             </p>
             <p className="mt-4 max-w-md text-sm text-paper/60">
               New art panels, restocks and artist collabs. No spam — just the good stuff, a few times a month.
@@ -70,7 +70,7 @@ export async function Footer({ settings }: { settings: StoreSettings }) {
               ] as const
             ).map(([title, links]) => (
               <div key={title}>
-                <p className="eyebrow text-acid">{title}</p>
+                <p className="eyebrow text-primary-light">{title}</p>
                 <ul className="mt-4 space-y-2.5">
                   {links.map((l) => (
                     <li key={l.href}>
@@ -83,7 +83,7 @@ export async function Footer({ settings }: { settings: StoreSettings }) {
               </div>
             ))}
             <div className="col-span-2 sm:col-span-3">
-              <p className="eyebrow text-acid">Talk to us</p>
+              <p className="eyebrow text-primary-light">Talk to us</p>
               <div className="mt-4 flex flex-wrap items-center gap-x-6 gap-y-2 text-sm text-paper/75">
                 {settings.support_phone && <a href={`tel:${settings.support_phone}`} className="hover:text-paper">{settings.support_phone}</a>}
                 {settings.support_email && <a href={`mailto:${settings.support_email}`} className="hover:text-paper">{settings.support_email}</a>}
@@ -91,7 +91,7 @@ export async function Footer({ settings }: { settings: StoreSettings }) {
                 {socials.length > 0 && (
                   <div className="flex gap-2">
                     {socials.map(({ href, label, Icon }) => (
-                      <a key={label} href={href} target="_blank" rel="noreferrer" aria-label={label} className="grid size-10 place-items-center rounded-full border border-paper/20 transition hover:border-acid hover:text-acid">
+                      <a key={label} href={href} target="_blank" rel="noreferrer" aria-label={label} className="grid size-10 place-items-center rounded-full border border-paper/20 transition hover:border-primary-light hover:text-primary-light">
                         <Icon className="size-4" />
                       </a>
                     ))}

@@ -29,13 +29,13 @@ export function NavList({ pathname, counts }: { pathname: string | null; counts:
             href={l.href}
             className={cn(
               "flex shrink-0 items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-semibold transition",
-              active ? "bg-acid text-ink" : "text-paper/70 hover:bg-white/10 hover:text-paper",
+              active ? "bg-primary text-paper" : "text-paper/70 hover:bg-white/10 hover:text-paper",
             )}
           >
             <l.icon className="size-4" />
             {l.label}
             {n > 0 && (
-              <span className={cn("ml-auto rounded-full px-2 py-0.5 font-mono text-[0.65rem] font-bold", active ? "bg-ink text-acid" : "bg-signal text-white")}>
+              <span className={cn("ml-auto rounded-full px-2 py-0.5 font-mono text-[0.65rem] font-bold", active ? "bg-paper text-primary" : "bg-signal text-white")}>
                 {n > 99 ? "99+" : n}
               </span>
             )}

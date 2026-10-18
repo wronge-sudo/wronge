@@ -77,7 +77,7 @@ export function StatCard({ label, value, sub, icon, accent }: { label: string; v
     <div className={cn("rounded-2xl border p-5", accent ? "border-ink bg-ink text-paper" : "border-line/80 bg-white")}>
       <div className="flex items-center justify-between">
         <p className={cn("text-xs font-bold uppercase tracking-wider", accent ? "text-paper/60" : "text-muted")}>{label}</p>
-        {icon && <span className={accent ? "text-acid" : "text-muted"}>{icon}</span>}
+        {icon && <span className={accent ? "text-primary-light" : "text-muted"}>{icon}</span>}
       </div>
       <p className="mt-2 font-mono text-2xl font-bold tracking-tight sm:text-[1.7rem]">{value}</p>
       {sub && <div className="mt-1.5">{sub}</div>}

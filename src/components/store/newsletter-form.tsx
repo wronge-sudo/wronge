@@ -8,7 +8,7 @@ export function NewsletterForm() {
 
   return (
     <form action={action} className="w-full">
-      <div className="flex rounded-full border-2 border-paper/25 bg-ink p-1 focus-within:border-acid">
+      <div className="flex rounded-full border-2 border-paper/25 bg-ink p-1 focus-within:border-primary-light">
         <label htmlFor="nl-email" className="sr-only">Email address</label>
         <input
           id="nl-email"
@@ -22,13 +22,13 @@ export function NewsletterForm() {
         <button
           type="submit"
           disabled={pending}
-          className="h-11 rounded-full bg-acid px-5 text-xs font-bold uppercase tracking-wider text-ink transition hover:bg-paper disabled:opacity-60"
+          className="h-11 rounded-full bg-primary px-5 text-xs font-bold uppercase tracking-wider text-paper transition hover:bg-primary-hover disabled:opacity-60"
         >
           {pending ? "…" : "Join"}
         </button>
       </div>
       {state && (
-        <p className={cn("mt-2 text-xs", state.ok ? "text-acid" : "text-signal")} role="status">
+        <p className={cn("mt-2 text-xs", state.ok ? "text-ok" : "text-signal")} role="status">
           {state.message}
         </p>
       )}

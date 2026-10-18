@@ -92,7 +92,7 @@ export function Header({ pathname }: { pathname: string | null }) {
             type="button"
             onClick={() => setCartOpen(true)}
             aria-label={`Open bag${mounted && count ? `, ${count} items` : ""}`}
-            className="relative flex h-10 items-center gap-2 rounded-full bg-ink pl-3.5 pr-4 text-paper transition hover:bg-acid hover:text-ink"
+            className="relative flex h-10 items-center gap-2 rounded-full bg-ink pl-3.5 pr-4 text-paper transition hover:bg-primary hover:text-paper"
           >
             <ShoppingBag className="size-[18px]" />
             <span className="font-mono text-xs font-bold">{mounted ? count : 0}</span>
@@ -130,7 +130,7 @@ export function Header({ pathname }: { pathname: string | null }) {
                     <Link
                       href={l.href}
                       onClick={() => setMenuOpen(false)}
-                      className={cn("display block py-3 text-3xl", isActive(l.href) ? "text-acid" : "text-paper")}
+                      className={cn("display block py-3 text-3xl", isActive(l.href) ? "text-primary-light" : "text-paper")}
                     >
                       {l.label}
                     </Link>
@@ -147,7 +147,7 @@ export function Header({ pathname }: { pathname: string | null }) {
                 <Link
                   href="/build"
                   onClick={() => setMenuOpen(false)}
-                  className="flex h-14 items-center justify-center rounded-full bg-acid text-sm font-bold uppercase tracking-wider text-ink"
+                  className="flex h-14 items-center justify-center rounded-full bg-primary text-sm font-bold uppercase tracking-wider text-paper"
                 >
                   Build your set →
                 </Link>

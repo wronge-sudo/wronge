@@ -24,8 +24,8 @@ export function HeroSwapCard({ panels }: { panels: Mini[] }) {
           Now wearing: <span className="text-muted">{p?.name}</span>
         </p>
         <span className="relative flex size-2 shrink-0">
-          <span className="absolute inline-flex size-full animate-ping rounded-full bg-acid-2 opacity-75" />
-          <span className="relative inline-flex size-2 rounded-full bg-acid-2" />
+          <span className="absolute inline-flex size-full animate-ping rounded-full bg-primary opacity-75" />
+          <span className="relative inline-flex size-2 rounded-full bg-primary" />
         </span>
       </div>
     </div>

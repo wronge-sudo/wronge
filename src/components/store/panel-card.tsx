@@ -57,7 +57,7 @@ export function PanelCard({
         </Link>
 
         {panel.badge && (
-          <span className="absolute left-2.5 top-2.5 rounded-full bg-acid px-2.5 py-1 font-mono text-[0.6rem] font-bold uppercase tracking-widest text-ink">
+          <span className="absolute left-2.5 top-2.5 rounded-full bg-primary px-2.5 py-1 font-mono text-[0.6rem] font-bold uppercase tracking-widest text-paper">
             {panel.badge}
           </span>
         )}
@@ -92,7 +92,7 @@ export function PanelCard({
             onClick={() => toggle(toPanelRef(panel), settings.pack_size)}
             className={cn(
               "flex flex-1 items-center justify-center gap-1 rounded-full py-2 text-[0.65rem] font-bold uppercase tracking-wider transition disabled:cursor-not-allowed disabled:opacity-50",
-              selected ? "bg-ink text-acid" : "bg-acid text-ink hover:bg-ink hover:text-acid",
+              selected ? "bg-ink text-primary-light" : "bg-primary text-paper hover:bg-primary-hover",
             )}
           >
             {selected ? <Check className="size-3.5" /> : <Plus className="size-3.5" />}

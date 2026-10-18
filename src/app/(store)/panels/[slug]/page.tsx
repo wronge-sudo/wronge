@@ -57,7 +57,7 @@ async function PanelDetail({ params }: { params: Promise<{ slug: string }> }) {
         </div>
         <div className="lg:col-span-5 lg:pt-6">
           <div className="lg:sticky lg:top-28">
-            <p className="eyebrow text-muted">{panel.category}{panel.badge && <span className="ml-2 rounded-full bg-ink px-2 py-0.5 text-acid">{panel.badge}</span>}</p>
+            <p className="eyebrow text-muted">{panel.category}{panel.badge && <span className="ml-2 rounded-full bg-ink px-2 py-0.5 text-primary-light">{panel.badge}</span>}</p>
             <h1 className="display mt-3 text-5xl sm:text-6xl">{panel.name}</h1>
             <p className="mt-2 font-mono text-xs uppercase tracking-wider text-muted">Art by {panel.artist}</p>
             {panel.description && <p className="mt-6 text-lg text-muted">{panel.description}</p>}

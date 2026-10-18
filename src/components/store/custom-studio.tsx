@@ -148,7 +148,7 @@ export function CustomStudio({ uploadsEnabled }: { uploadsEnabled: boolean }) {
             </span>
           </label>
           {done ? (
-            <div className="mt-5 rounded-2xl bg-acid p-5">
+            <div className="mt-5 rounded-2xl border border-primary-border bg-primary-tint p-5">
               <p className="font-bold">Added to your pack ✓</p>
               <p className="mt-1 text-sm text-ink/75">
                 {picked.length < settings.pack_size ? `Pick ${settings.pack_size - picked.length} more panel(s) to complete the pack.` : "Your pack is complete."}
@@ -163,7 +163,7 @@ export function CustomStudio({ uploadsEnabled }: { uploadsEnabled: boolean }) {
               type="button"
               disabled={!uploaded || !rights || busy || full}
               onClick={addToPack}
-              className="mt-5 h-14 w-full rounded-full bg-acid text-sm font-bold uppercase tracking-wider text-ink shadow-[0_2px_0_0_rgb(11_11_11)] transition hover:bg-ink hover:text-acid disabled:cursor-not-allowed disabled:opacity-40 disabled:shadow-none"
+              className="mt-5 h-14 w-full rounded-full bg-primary text-sm font-bold uppercase tracking-wider text-paper shadow-[0_2px_0_0_rgb(11_11_11)] transition hover:bg-primary-hover disabled:cursor-not-allowed disabled:opacity-40 disabled:shadow-none"
             >
               {full ? "Your pack is full" : `Add to pack${settings.custom_panel_fee ? ` (+${taka(settings.custom_panel_fee)})` : ""}`}
             </button>

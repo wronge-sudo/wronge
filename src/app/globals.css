@@ -11,8 +11,12 @@
   --color-line: #d8d7d1;
   --color-line-dark: #2c2c2c;
   --color-muted: #6b6a64;
-  --color-acid: #dcff3d;
-  --color-acid-2: #c8ec1f;
+  /* Primary: dark crimson. Fills take paper text; on ink backgrounds use primary-light. */
+  --color-primary: #8b0000;
+  --color-primary-hover: #760000;
+  --color-primary-light: #e45a5a;
+  --color-primary-tint: #fbefef;
+  --color-primary-border: #c05959;
   --color-signal: #ff4d1f;
   --color-ok: #1f9d55;
 
@@ -38,8 +42,8 @@
     50% { transform: translateY(-8px) rotate(var(--r, 0deg)); }
   }
   @keyframes pulse-ring {
-    0% { box-shadow: 0 0 0 0 rgb(220 255 61 / 0.7); }
-    100% { box-shadow: 0 0 0 14px rgb(220 255 61 / 0); }
+    0% { box-shadow: 0 0 0 0 rgb(139 0 0 / 0.55); }
+    100% { box-shadow: 0 0 0 14px rgb(139 0 0 / 0); }
   }
 }
 
@@ -62,8 +66,8 @@ body {
 }
 
 ::selection {
-  background: var(--color-acid);
-  color: var(--color-ink);
+  background: var(--color-primary);
+  color: var(--color-paper);
 }
 
 /* ───────────────────────── Typography helpers ───────────────────────── */

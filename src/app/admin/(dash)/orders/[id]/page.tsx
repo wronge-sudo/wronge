@@ -53,7 +53,7 @@ export default async function OrderDetailPage(props: PageProps<"/admin/orders/[i
                         <p className="font-bold uppercase tracking-tight">
                           {it.title} <span className="font-mono text-muted">× {it.quantity}</span>
                         </p>
-                        {it.size && <p className="mt-0.5 text-sm">Size <span className="rounded bg-ink px-1.5 py-0.5 font-mono text-xs font-bold text-acid">{it.size}</span></p>}
+                        {it.size && <p className="mt-0.5 text-sm">Size <span className="rounded bg-ink px-1.5 py-0.5 font-mono text-xs font-bold text-primary-light">{it.size}</span></p>}
                       </div>
                       <div className="text-right font-mono text-sm">
                         <p className="font-bold">{taka(it.line_total)}</p>

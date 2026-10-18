@@ -59,7 +59,7 @@ export function PanelActions({ panel }: { panel: Panel }) {
   return (
     <div>
       <div className="flex flex-wrap items-center gap-2">
-        <span className="rounded-full bg-acid px-3.5 py-1.5 font-mono text-xs font-bold uppercase tracking-wider">
+        <span className="rounded-full bg-primary px-3.5 py-1.5 font-mono text-xs font-bold uppercase tracking-wider text-paper">
           Any {settings.pack_size} for {taka(settings.pack_price)}
         </span>
         {panel.stock !== null && panel.stock > 0 && panel.stock <= 10 && (
@@ -76,7 +76,7 @@ export function PanelActions({ panel }: { panel: Panel }) {
           onClick={() => toggle(toPanelRef(panel), settings.pack_size)}
           className={cn(
             "inline-flex h-14 flex-1 items-center justify-center gap-2 rounded-full px-8 text-sm font-bold uppercase tracking-wider transition disabled:opacity-40 sm:flex-none",
-            inPack ? "bg-ink text-acid" : "bg-acid text-ink shadow-[0_2px_0_0_rgb(11_11_11)] hover:bg-ink hover:text-acid hover:shadow-none",
+            inPack ? "bg-ink text-primary-light" : "bg-primary text-paper shadow-[0_2px_0_0_rgb(11_11_11)] hover:bg-primary-hover hover:shadow-none",
           )}
         >
           {inPack ? <Check className="size-4" /> : <Plus className="size-4" />}

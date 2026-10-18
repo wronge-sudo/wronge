@@ -24,7 +24,7 @@ export function OrderSuccess() {
 
   return (
     <div className="mx-auto max-w-2xl text-center">
-      <div className="mx-auto grid size-20 place-items-center rounded-full bg-acid">
+      <div className="mx-auto grid size-20 place-items-center rounded-full bg-primary text-paper">
         <CheckCircle2 className="size-10" />
       </div>
       <h1 className="display mt-6 text-5xl sm:text-7xl">Order placed!</h1>
@@ -33,7 +33,7 @@ export function OrderSuccess() {
           <p className="mt-4 text-lg text-muted">
             Thank you, {order.name.split(" ")[0]}. Your order number is
           </p>
-          <p className="mt-2 inline-block rounded-full bg-ink px-6 py-2 font-mono text-2xl font-bold text-acid">{order.orderNumber}</p>
+          <p className="mt-2 inline-block rounded-full bg-ink px-6 py-2 font-mono text-2xl font-bold text-primary-light">{order.orderNumber}</p>
 
           <div className="mt-10 rounded-3xl bg-paper-2 p-6 text-left">
             <ul className="divide-y divide-line">

@@ -65,7 +65,7 @@ export function JacketBuy() {
         </button>
       </div>
 
-      <div className="mt-4 rounded-2xl bg-acid p-5">
+      <div className="mt-4 rounded-2xl border border-primary-border bg-primary-tint p-5">
         <p className="font-bold uppercase tracking-tight">Make it a {settings.pack_size + 1}-in-1 set</p>
         <p className="mt-1 text-sm text-ink/75">
           Add any {settings.pack_size} art panels for {taka(settings.pack_price)}

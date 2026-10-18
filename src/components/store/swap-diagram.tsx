@@ -5,7 +5,7 @@ import { cn } from "@/lib/format";
  * 1 = lift the yoke flap, 2 = unzip three sides, 3 = slide in a new panel, 4 = tuck & done
  */
 export function SwapDiagram({ step, className }: { step: 1 | 2 | 3 | 4; className?: string }) {
-  const acid = "#dcff3d";
+  const accent = "#e45a5a"; // primary-light: reads on the dark jacket
   const zipOn = step === 2;
   return (
     <svg viewBox="0 0 200 200" className={cn("h-auto w-full", className)} aria-hidden>
@@ -17,7 +17,7 @@ export function SwapDiagram({ step, className }: { step: 1 | 2 | 3 | 4; classNam
         strokeWidth="1.5"
       />
       {/* yoke */}
-      <path d="M40 66 L160 66" stroke={step === 1 ? acid : "#3a3a3a"} strokeWidth={step === 1 ? 3 : 1.5} />
+      <path d="M40 66 L160 66" stroke={step === 1 ? accent : "#3a3a3a"} strokeWidth={step === 1 ? 3 : 1.5} />
       {/* waistband */}
       <rect x="40" y="156" width="120" height="16" fill="#1f1f1f" stroke="#3a3a3a" strokeWidth="1.5" />
       {/* panel window */}
@@ -39,26 +39,26 @@ export function SwapDiagram({ step, className }: { step: 1 | 2 | 3 | 4; classNam
         />
       </g>
       {/* zips: left, right, bottom */}
-      <g stroke={zipOn ? acid : "#4a4a4a"} strokeWidth={zipOn ? 3 : 1.5} strokeDasharray="2 2.5" fill="none">
+      <g stroke={zipOn ? accent : "#4a4a4a"} strokeWidth={zipOn ? 3 : 1.5} strokeDasharray="2 2.5" fill="none">
         <path d="M70 70 L70 154" />
         <path d="M130 70 L130 154" />
         <path d="M70 154 L130 154" />
       </g>
       {/* flap lift arrow */}
-      {step === 1 && <path d="M100 60 L100 44 M93 51 L100 44 L107 51" stroke={acid} strokeWidth="3" fill="none" strokeLinecap="round" />}
+      {step === 1 && <path d="M100 60 L100 44 M93 51 L100 44 L107 51" stroke={accent} strokeWidth="3" fill="none" strokeLinecap="round" />}
       {/* slide arrow */}
-      {step === 3 && <path d="M100 120 L100 96 M92 104 L100 96 L108 104" stroke={acid} strokeWidth="3" fill="none" strokeLinecap="round" />}
+      {step === 3 && <path d="M100 120 L100 96 M92 104 L100 96 L108 104" stroke={accent} strokeWidth="3" fill="none" strokeLinecap="round" />}
       {/* tick */}
       {step === 4 && (
         <g>
-          <circle cx="150" cy="44" r="14" fill={acid} />
+          <circle cx="150" cy="44" r="14" fill={accent} />
           <path d="M143 44 L148 49 L157 39" stroke="#0b0b0b" strokeWidth="3" fill="none" strokeLinecap="round" />
         </g>
       )}
       <defs>
         <linearGradient id="art" x1="0" y1="0" x2="1" y2="1">
           <stop offset="0" stopColor="#ff4d1f" />
-          <stop offset="0.5" stopColor="#dcff3d" />
+          <stop offset="0.5" stopColor="#8b0000" />
           <stop offset="1" stopColor="#3d5afe" />
         </linearGradient>
       </defs>

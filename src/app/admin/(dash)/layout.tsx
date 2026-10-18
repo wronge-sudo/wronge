@@ -57,7 +57,7 @@ export default function DashLayout({ children }: { children: React.ReactNode }) 
         <div className="flex items-center justify-between px-5 py-4 lg:py-6">
           <Link href="/admin" className="flex items-center gap-2.5">
             <Image src={asset(ASSETS.wordmarkWhite)} alt="Wronge" width={980} height={210} className="h-5 w-auto" loading="eager" />
-            <span className="rounded bg-acid px-1.5 py-0.5 font-mono text-[0.6rem] font-bold text-ink">ADMIN</span>
+            <span className="rounded bg-primary px-1.5 py-0.5 font-mono text-[0.6rem] font-bold text-paper">ADMIN</span>
           </Link>
         </div>
         <Suspense fallback={<NavList pathname={null} counts={null} />}>

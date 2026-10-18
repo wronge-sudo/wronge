@@ -20,7 +20,7 @@ export default async function AdminPanelsPage(props: PageProps<"/admin/panels">)
         title="Art panels"
         description={`${panels.length} panels · ${active} visible in the store`}
         actions={
-          <Link href="/admin/panels/new" className="inline-flex h-10 items-center gap-2 rounded-full bg-ink px-4 text-xs font-bold uppercase tracking-wider text-paper hover:bg-acid hover:text-ink">
+          <Link href="/admin/panels/new" className="inline-flex h-10 items-center gap-2 rounded-full bg-ink px-4 text-xs font-bold uppercase tracking-wider text-paper hover:bg-primary hover:text-paper">
             <Plus className="size-4" /> New panel
           </Link>
         }
@@ -48,7 +48,7 @@ export default async function AdminPanelsPage(props: PageProps<"/admin/panels">)
                 </Link>
                 <div className="min-w-0">
                   <Link href={`/admin/panels/${p.id}`} className="block truncate font-bold hover:underline">{p.name}</Link>
-                  <p className="truncate font-mono text-xs text-muted">/{p.slug}{p.badge && <span className="ml-2 rounded bg-acid px-1.5 py-0.5 font-sans text-[0.6rem] font-bold uppercase text-ink">{p.badge}</span>}</p>
+                  <p className="truncate font-mono text-xs text-muted">/{p.slug}{p.badge && <span className="ml-2 rounded bg-primary px-1.5 py-0.5 font-sans text-[0.6rem] font-bold uppercase text-paper">{p.badge}</span>}</p>
                   <p className="text-xs text-muted md:hidden">{p.category} · {p.stock === null ? "∞" : `${p.stock} left`}</p>
                 </div>
                 <span className="hidden truncate text-sm md:block">{p.category}</span>

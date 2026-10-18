@@ -122,7 +122,7 @@ export default async function JacketPage() {
               <thead>
                 <tr className="border-b border-paper/20 font-mono text-xs uppercase tracking-wider text-paper/60">
                   <th className="py-4 pr-4" />
-                  <th className="py-4 pr-4 text-acid">Wronge set</th>
+                  <th className="py-4 pr-4 text-primary-light">Wronge set</th>
                   <th className="py-4">Four regular jackets</th>
                 </tr>
               </thead>

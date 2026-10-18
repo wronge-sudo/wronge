@@ -74,12 +74,12 @@ export default async function HomePage() {
                 <defs>
                   <path id="circle" d="M50,50 m-37,0 a37,37 0 1,1 74,0 a37,37 0 1,1 -74,0" />
                 </defs>
-                <circle cx="50" cy="50" r="49" fill="#dcff3d" />
-                <text fontSize="10.5" fontWeight="800" letterSpacing="2.2" fill="#0b0b0b" style={{ fontFamily: "var(--font-jetbrains)" }}>
+                <circle cx="50" cy="50" r="49" fill="#8b0000" />
+                <text fontSize="10.5" fontWeight="800" letterSpacing="2.2" fill="#f3f2ee" style={{ fontFamily: "var(--font-jetbrains)" }}>
                   <textPath href="#circle">ZIP IT · SWAP IT · WEAR IT · </textPath>
                 </text>
               </svg>
-              <span className="absolute inset-0 grid place-items-center font-black text-ink">
+              <span className="absolute inset-0 grid place-items-center font-black text-paper">
                 <span className="display text-xl sm:text-3xl">3×</span>
               </span>
             </div>
@@ -89,7 +89,7 @@ export default async function HomePage() {
                 <span className="rounded-full bg-paper px-3.5 py-2 font-mono text-[0.68rem] font-bold uppercase tracking-wider">
                   Jacket {taka(settings.jacket_price)}
                 </span>
-                <span className="rounded-full bg-acid px-3.5 py-2 font-mono text-[0.68rem] font-bold uppercase tracking-wider">
+                <span className="rounded-full bg-primary px-3.5 py-2 font-mono text-[0.68rem] font-bold uppercase tracking-wider text-paper">
                   Any {settings.pack_size} panels {taka(settings.pack_price)}
                 </span>
                 <span className="hidden rounded-full bg-ink/80 px-3.5 py-2 font-mono text-[0.68rem] font-bold uppercase tracking-wider text-paper backdrop-blur sm:inline-block">
@@ -140,7 +140,7 @@ export default async function HomePage() {
               <Reveal key={s.title} delay={i * 0.08}>
                 <li className="flex h-full flex-col rounded-3xl bg-ink p-5 text-paper">
                   <div className="flex items-center justify-between">
-                    <span className="font-mono text-xs font-bold text-acid">0{i + 1}</span>
+                    <span className="font-mono text-xs font-bold text-primary-light">0{i + 1}</span>
                     <span className="eyebrow text-paper/40">Step</span>
                   </div>
                   <SwapDiagram step={(i + 1) as 1 | 2 | 3 | 4} className="mx-auto my-4 max-w-[220px]" />
@@ -168,7 +168,7 @@ export default async function HomePage() {
       {/* ───────────── 4-IN-1 SET ───────────── */}
       <section className="py-20 sm:py-28">
         <Container>
-          <div className="grid items-center gap-10 overflow-hidden rounded-[2rem] bg-acid p-6 sm:p-10 lg:grid-cols-2 lg:gap-16 lg:p-16">
+          <div className="grid items-center gap-10 overflow-hidden rounded-[2rem] bg-primary p-6 text-paper sm:p-10 lg:grid-cols-2 lg:gap-16 lg:p-16">
             <div className="relative mx-auto flex w-full max-w-lg items-end justify-center">
               <div className="relative z-10 w-[52%] -rotate-3 overflow-hidden rounded-2xl bg-studio shadow-2xl" style={{ aspectRatio: `${ASSET_SIZES.jacketFront.width}/${ASSET_SIZES.jacketFront.height}` }}>
                 <Image src={asset(ASSETS.jacketFront)} alt="Front of the Wronge denim jacket" fill sizes="(min-width:1024px) 22vw, 45vw" className="object-cover" />
@@ -177,7 +177,7 @@ export default async function HomePage() {
                 {showcase.slice(0, 3).map((p, i) => (
                   <div
                     key={p.slug}
-                    className="relative aspect-[4/7] w-1/2 shrink-0 overflow-hidden rounded-xl border-4 border-acid shadow-xl first:ml-0 [&:not(:first-child)]:-ml-[22%]"
+                    className="relative aspect-[4/7] w-1/2 shrink-0 overflow-hidden rounded-xl border-4 border-primary shadow-xl first:ml-0 [&:not(:first-child)]:-ml-[22%]"
                     style={{ transform: `rotate(${(i - 1) * 7}deg) translateY(${i === 1 ? -14 : 0}px)`, zIndex: 20 + i }}
                   >
                     <Image src={p.image_url} alt={p.name} fill sizes="140px" className="object-cover" />
@@ -191,11 +191,11 @@ export default async function HomePage() {
                 {settings.pack_size + 1} looks.
                 <br />1 jacket.
               </h2>
-              <p className="mt-5 max-w-md text-base text-ink/75 sm:text-lg">
+              <p className="mt-5 max-w-md text-base text-paper/75 sm:text-lg">
                 The jacket comes with its blank denim panel. Add any {settings.pack_size} art panels and you have {settings.pack_size + 1}{" "}
                 completely different jackets in one.
               </p>
-              <dl className="mt-8 max-w-md divide-y divide-ink/15 border-y border-ink/15 font-mono text-sm">
+              <dl className="mt-8 max-w-md divide-y divide-paper/20 border-y border-paper/20 font-mono text-sm">
                 <div className="flex justify-between py-3">
                   <dt>Jacket + blank panel</dt>
                   <dd className="font-bold">{taka(settings.jacket_price)}</dd>
@@ -215,7 +215,7 @@ export default async function HomePage() {
                   <dd className="font-black">{taka(setPrice)}</dd>
                 </div>
               </dl>
-              <LinkButton href="/build" variant="ink" size="lg" className="mt-8">
+              <LinkButton href="/build" variant="white" size="lg" className="mt-8">
                 Build my set <Arrow />
               </LinkButton>
             </div>
@@ -244,7 +244,7 @@ export default async function HomePage() {
                       <p className="display-narrow text-xl text-paper sm:text-3xl">{c.name}</p>
                       <p className="mt-1 font-mono text-[0.65rem] uppercase tracking-widest text-paper/60">{c.panels.length} designs</p>
                     </div>
-                    <span className="grid size-10 shrink-0 place-items-center rounded-full bg-acid text-ink transition group-hover:rotate-[-45deg] sm:size-12">→</span>
+                    <span className="grid size-10 shrink-0 place-items-center rounded-full bg-primary text-paper transition group-hover:rotate-[-45deg] sm:size-12">→</span>
                   </div>
                 </Link>
               </Reveal>
@@ -309,7 +309,7 @@ export default async function HomePage() {
         <Container>
           <div className="grid items-center gap-10 overflow-hidden rounded-[2rem] bg-ink p-6 text-paper sm:p-10 lg:grid-cols-2 lg:p-16">
             <div className="order-2 lg:order-1">
-              <p className="eyebrow text-acid">Create your own</p>
+              <p className="eyebrow text-primary-light">Create your own</p>
               <h2 className="display mt-4 text-5xl sm:text-7xl">
                 Your art.
                 <br />
@@ -329,10 +329,10 @@ export default async function HomePage() {
               <div className="relative">
                 <JacketBack panel={null} />
                 <div
-                  className="absolute grid place-items-center rounded-sm border-2 border-dashed border-acid bg-ink/60 text-center"
+                  className="absolute grid place-items-center rounded-sm border-2 border-dashed border-primary-light bg-ink/60 text-center"
                   style={{ left: `${BACK_PANEL_RECT.left}%`, top: `${BACK_PANEL_RECT.top}%`, width: `${BACK_PANEL_RECT.width}%`, height: `${BACK_PANEL_RECT.height}%` }}
                 >
-                  <span className="px-2 font-mono text-[0.6rem] font-bold uppercase leading-tight tracking-widest text-acid sm:text-xs">
+                  <span className="px-2 font-mono text-[0.6rem] font-bold uppercase leading-tight tracking-widest text-primary-light sm:text-xs">
                     Your
                     <br />
                     art
@@ -405,7 +405,7 @@ export default async function HomePage() {
             { Icon: Layers, t: "One standard size", b: "Every panel fits every jacket" },
           ].map(({ Icon, t, b }) => (
             <div key={t} className="flex items-start gap-3">
-              <span className="grid size-11 shrink-0 place-items-center rounded-full bg-ink text-acid">
+              <span className="grid size-11 shrink-0 place-items-center rounded-full bg-ink text-primary-light">
                 <Icon className="size-5" />
               </span>
               <div>

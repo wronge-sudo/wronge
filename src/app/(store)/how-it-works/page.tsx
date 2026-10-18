@@ -29,7 +29,7 @@ export default async function HowItWorksPage() {
                   <SwapDiagram step={(i + 1) as 1 | 2 | 3 | 4} className="mx-auto max-w-sm" />
                 </div>
                 <div>
-                  <p className="font-mono text-sm font-bold text-acid">Step 0{i + 1}</p>
+                  <p className="font-mono text-sm font-bold text-primary-light">Step 0{i + 1}</p>
                   <h2 className="display mt-3 text-4xl sm:text-6xl">{s.title}</h2>
                   <p className="mt-4 max-w-md text-paper/70 sm:text-lg">{s.body}</p>
                 </div>
