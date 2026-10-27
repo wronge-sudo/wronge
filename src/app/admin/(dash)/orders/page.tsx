@@ -54,7 +54,7 @@ export default async function OrdersPage(props: PageProps<"/admin/orders">) {
             )}
           >
             {st === "all" ? "All" : STATUS_LABEL[st]}
-            <span className={cn("rounded-full px-1.5 font-mono text-[0.65rem]", filters.status === st ? "bg-primary text-paper" : "bg-paper-2")}>{counts[st] ?? 0}</span>
+            <span className={cn("rounded-full px-1.5 font-mono text-[0.65rem]", filters.status === st ? "bg-primary text-ink" : "bg-paper-2")}>{counts[st] ?? 0}</span>
           </Link>
         ))}
       </div>

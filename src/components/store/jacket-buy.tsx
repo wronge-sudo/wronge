@@ -27,9 +27,9 @@ export function JacketBuy() {
   return (
     <div>
       <div className="flex items-baseline gap-3">
-        <span className="font-mono text-3xl font-bold">{taka(settings.jacket_price)}</span>
+        <span className="tabular-nums text-3xl font-bold">{taka(settings.jacket_price)}</span>
         {settings.jacket_compare_at && settings.jacket_compare_at > settings.jacket_price && (
-          <span className="font-mono text-lg text-muted line-through">{taka(settings.jacket_compare_at)}</span>
+          <span className="tabular-nums text-lg text-muted line-through">{taka(settings.jacket_compare_at)}</span>
         )}
       </div>
       <p className="mt-1 text-sm text-muted">Includes the matching blank denim panel · Cash on delivery</p>
@@ -55,13 +55,15 @@ export function JacketBuy() {
           <button type="button" onClick={() => setQty(Math.max(1, qty - 1))} className="grid size-12 place-items-center rounded-full hover:bg-ink/5" aria-label="Decrease quantity">
             <Minus className="size-4" />
           </button>
-          <span className="w-6 text-center font-mono font-bold">{qty}</span>
+          <span className="w-6 text-center tabular-nums font-bold">{qty}</span>
           <button type="button" onClick={() => setQty(Math.min(10, qty + 1))} className="grid size-12 place-items-center rounded-full hover:bg-ink/5" aria-label="Increase quantity">
             <Plus className="size-4" />
           </button>
         </div>
         <button type="button" onClick={addJacket} className={buttonClass("ink", "lg", "flex-1")}>
-          <ShoppingBag className="size-4" /> Add jacket to bag
+          <ShoppingBag className="hidden size-4 sm:block" aria-hidden />
+          <span className="sm:hidden">Add to bag</span>
+          <span className="hidden sm:inline">Add jacket to bag</span>
         </button>
       </div>
 

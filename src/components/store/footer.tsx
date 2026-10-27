@@ -1,11 +1,12 @@
-import Image from "next/image";
 import Link from "next/link";
+import { Banknote, RefreshCcw, Truck } from "lucide-react";
 import { cacheLife } from "next/cache";
-import { ASSETS, asset } from "@/config/assets";
 import { FOOTER_LINKS, SITE } from "@/config/site";
+import { taka } from "@/lib/format";
 import type { StoreSettings } from "@/lib/types";
 import { NewsletterForm } from "./newsletter-form";
 import { Logo } from "./logo";
+import { Container } from "@/components/ui/section";
 
 function FacebookIcon(props: React.SVGProps<SVGSVGElement>) {
   return (
@@ -45,78 +46,87 @@ export async function Footer({ settings }: { settings: StoreSettings }) {
     settings.whatsapp && { href: `https://wa.me/${settings.whatsapp.replace(/[^\d]/g, "")}`, label: "WhatsApp", Icon: WhatsAppIcon },
   ].filter(Boolean) as { href: string; label: string; Icon: typeof FacebookIcon }[];
 
+  const reassurance = [
+    { Icon: Banknote, t: "Cash on delivery", b: "Check your jacket, then pay the rider. No card or bKash needed." },
+    { Icon: Truck, t: "All 64 districts", b: `Delivery from ${taka(settings.delivery_inside_dhaka)} inside Dhaka, ${taka(settings.delivery_outside_dhaka)} outside.` },
+    { Icon: RefreshCcw, t: "7-day size exchange", b: "Wrong size? Swap it within 7 days of delivery." },
+  ];
+
   return (
-    <footer className="relative overflow-hidden bg-ink text-paper">
-      <div className="mx-auto max-w-[1440px] px-4 pb-10 pt-16 sm:px-6 lg:px-10 lg:pt-24">
-        <div className="grid gap-12 lg:grid-cols-12">
-          <div className="lg:col-span-5">
-            <p className="display text-4xl sm:text-5xl">
-              Get first dibs <br /> on new drops<span className="text-primary-light">.</span>
-            </p>
-            <p className="mt-4 max-w-md text-sm text-paper/60">
-              New art panels, restocks and artist collabs. No spam — just the good stuff, a few times a month.
-            </p>
-            <div className="mt-6 max-w-md">
+    <footer className="border-t border-line bg-paper text-ink">
+      <Container className="pb-8 pt-10 lg:pt-12">
+        <ul className="grid gap-3 md:grid-cols-3">
+          {reassurance.map(({ Icon, t, b }) => (
+            <li key={t} className="flex items-start gap-3.5 rounded-[10px] border border-line bg-card p-5">
+              <span className="grid size-10 shrink-0 place-items-center rounded-full bg-paper-2">
+                <Icon className="size-[18px]" />
+              </span>
+              <div>
+                <p className="text-[1.02rem] font-bold">{t}</p>
+                <p className="mt-1 text-[0.9rem] leading-snug text-ink/80">{b}</p>
+              </div>
+            </li>
+          ))}
+        </ul>
+
+        <div className="mt-12 grid grid-cols-2 gap-x-6 gap-y-10 lg:grid-cols-12 lg:gap-8">
+          {(
+            [
+              ["Shop", FOOTER_LINKS.shop, "lg:col-span-3"],
+              ["Help", FOOTER_LINKS.help, "lg:col-span-3"],
+              ["Wronge", FOOTER_LINKS.brand, "lg:col-span-2"],
+            ] as const
+          ).map(([title, links, span]) => (
+            <div key={title} className={span}>
+              <p className="text-[1.05rem] font-bold uppercase">{title}</p>
+              <ul className="mt-2.5">
+                {links.map((l) => (
+                  <li key={l.href}>
+                    <Link href={l.href} className="inline-block py-1.5 text-[1.05rem] transition hover:underline hover:underline-offset-4">
+                      {l.label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
+
+          <div className="col-span-2 lg:col-span-4">
+            <p className="text-[1.05rem] font-bold uppercase">Newsletter</p>
+            <p className="mt-3 text-[1.05rem]">New art panels and restocks, a few times a month.</p>
+            <div className="mt-4 max-w-md">
               <NewsletterForm />
             </div>
-          </div>
-
-          <div className="grid grid-cols-2 gap-8 sm:grid-cols-3 lg:col-span-7 lg:pl-10">
-            {(
-              [
-                ["Shop", FOOTER_LINKS.shop],
-                ["Help", FOOTER_LINKS.help],
-                ["Wronge", FOOTER_LINKS.brand],
-              ] as const
-            ).map(([title, links]) => (
-              <div key={title}>
-                <p className="eyebrow text-primary-light">{title}</p>
-                <ul className="mt-4 space-y-2.5">
-                  {links.map((l) => (
-                    <li key={l.href}>
-                      <Link href={l.href} className="text-sm text-paper/75 transition hover:text-paper">
-                        {l.label}
-                      </Link>
-                    </li>
+            <div className="mt-6 flex flex-wrap items-center gap-x-5 gap-y-2 text-[0.95rem]">
+              {settings.support_phone && <a href={`tel:${settings.support_phone}`} className="hover:underline">{settings.support_phone}</a>}
+              {settings.support_email && <a href={`mailto:${settings.support_email}`} className="hover:underline">{settings.support_email}</a>}
+              {!settings.support_phone && !settings.support_email && <Link href="/contact" className="hover:underline">Send us a message →</Link>}
+              {socials.length > 0 && (
+                <div className="flex gap-2">
+                  {socials.map(({ href, label, Icon }) => (
+                    <a key={label} href={href} target="_blank" rel="noreferrer" aria-label={label} className="grid size-10 place-items-center rounded-full border border-ink/15 bg-card transition hover:border-ink">
+                      <Icon className="size-4" />
+                    </a>
                   ))}
-                </ul>
-              </div>
-            ))}
-            <div className="col-span-2 sm:col-span-3">
-              <p className="eyebrow text-primary-light">Talk to us</p>
-              <div className="mt-4 flex flex-wrap items-center gap-x-6 gap-y-2 text-sm text-paper/75">
-                {settings.support_phone && <a href={`tel:${settings.support_phone}`} className="hover:text-paper">{settings.support_phone}</a>}
-                {settings.support_email && <a href={`mailto:${settings.support_email}`} className="hover:text-paper">{settings.support_email}</a>}
-                {!settings.support_phone && !settings.support_email && <Link href="/contact" className="hover:text-paper">Send us a message →</Link>}
-                {socials.length > 0 && (
-                  <div className="flex gap-2">
-                    {socials.map(({ href, label, Icon }) => (
-                      <a key={label} href={href} target="_blank" rel="noreferrer" aria-label={label} className="grid size-10 place-items-center rounded-full border border-paper/20 transition hover:border-primary-light hover:text-primary-light">
-                        <Icon className="size-4" />
-                      </a>
-                    ))}
-                  </div>
-                )}
-              </div>
+                </div>
+              )}
             </div>
           </div>
         </div>
+      </Container>
 
-        <div className="relative mt-16 select-none" aria-hidden>
-          <Image src={asset(ASSETS.wordmarkWhite)} alt="" width={980} height={210} className="h-auto w-full opacity-[0.08]" />
-        </div>
-
-        <div className="mt-8 flex flex-col gap-4 border-t border-paper/10 pt-6 text-xs text-paper/50 sm:flex-row sm:items-center sm:justify-between">
+      <div className="border-t border-ink">
+        <Container className="flex flex-col gap-4 py-6 text-[0.85rem] sm:flex-row sm:items-center sm:justify-between">
           <div className="flex items-center gap-3">
-            <Logo light className="opacity-80 [&_img]:h-4 sm:[&_img]:h-4" />
+            <Logo className="opacity-50 [&_img]:h-[18px] sm:[&_img]:h-[18px]" />
             <span>© {year} {SITE.legalName}. Made in Bangladesh.</span>
           </div>
-          <div className="flex flex-wrap items-center gap-2">
-            <span className="rounded-full border border-paper/15 px-3 py-1 font-mono uppercase tracking-wider">Cash on delivery</span>
-            <span className="rounded-full border border-paper/15 px-3 py-1 font-mono uppercase tracking-wider">64 districts</span>
-            <span className="rounded-full border border-paper/15 px-3 py-1 font-mono uppercase tracking-wider">7-day exchange</span>
+          <div className="flex flex-wrap items-center gap-x-5">
+            <Link href="/terms" className="py-1.5 hover:underline">Terms</Link>
+            <Link href="/privacy" className="py-1.5 hover:underline">Privacy</Link>
+            <Link href="/shipping-returns" className="py-1.5 hover:underline">Delivery & exchanges</Link>
           </div>
-        </div>
+        </Container>
       </div>
     </footer>
   );

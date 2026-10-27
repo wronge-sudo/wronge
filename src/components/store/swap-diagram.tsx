@@ -5,7 +5,7 @@ import { cn } from "@/lib/format";
  * 1 = lift the yoke flap, 2 = unzip three sides, 3 = slide in a new panel, 4 = tuck & done
  */
 export function SwapDiagram({ step, className }: { step: 1 | 2 | 3 | 4; className?: string }) {
-  const accent = "#e45a5a"; // primary-light: reads on the dark jacket
+  const accent = "#f9cd0c"; // primary: reads on the dark jacket
   const zipOn = step === 2;
   return (
     <svg viewBox="0 0 200 200" className={cn("h-auto w-full", className)} aria-hidden>
@@ -58,7 +58,7 @@ export function SwapDiagram({ step, className }: { step: 1 | 2 | 3 | 4; classNam
       <defs>
         <linearGradient id="art" x1="0" y1="0" x2="1" y2="1">
           <stop offset="0" stopColor="#ff4d1f" />
-          <stop offset="0.5" stopColor="#8b0000" />
+          <stop offset="0.5" stopColor="#f9cd0c" />
           <stop offset="1" stopColor="#3d5afe" />
         </linearGradient>
       </defs>

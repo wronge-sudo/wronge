@@ -15,10 +15,11 @@ export function PanelBrowserFromParams({ panels }: { panels: Panel[] }) {
   const params = useSearchParams();
   return (
     <PanelBrowser
-      key={`${params.get("category")}-${params.get("saved")}`}
+      key={`${params.get("category")}-${params.get("saved")}-${params.get("q")}`}
       panels={panels}
       initialCategory={params.get("category")}
       initialSaved={params.get("saved") === "1"}
+      initialQuery={params.get("q")}
     />
   );
 }
@@ -27,10 +28,12 @@ export function PanelBrowser({
   panels,
   initialCategory = null,
   initialSaved = false,
+  initialQuery = null,
 }: {
   panels: Panel[];
   initialCategory?: string | null;
   initialSaved?: boolean;
+  initialQuery?: string | null;
 }) {
   const mounted = useMounted();
   const categories = useMemo(() => Array.from(new Set(panels.map((p) => p.category))), [panels]);
@@ -38,7 +41,7 @@ export function PanelBrowser({
     initialCategory && categories.includes(initialCategory) ? initialCategory : null,
   );
   const [savedOnly, setSavedOnly] = useState(initialSaved);
-  const [query, setQuery] = useState("");
+  const [query, setQuery] = useState(initialQuery ?? "");
   const [sort, setSort] = useState<Sort>("featured");
   const [preview, setPreview] = useState<Panel | null>(null);
   const saved = useWishlist((s) => s.slugs);
@@ -59,13 +62,13 @@ export function PanelBrowser({
 
   const chip = (active: boolean) =>
     cn(
-      "inline-flex h-10 shrink-0 items-center gap-1.5 rounded-full border px-4 text-xs font-bold uppercase tracking-wider transition",
+      "inline-flex h-10 shrink-0 items-center gap-1.5 rounded-full border px-4 text-[0.92rem] font-bold transition",
       active ? "border-ink bg-ink text-paper" : "border-line bg-paper hover:border-ink",
     );
 
   return (
     <div>
-      <div className="sticky top-16 z-30 -mx-4 border-b border-line bg-paper/95 px-4 py-3 backdrop-blur sm:-mx-6 sm:px-6 lg:top-[72px] lg:-mx-10 lg:px-10">
+      <div className="sticky top-16 z-30 -mx-4 border-b border-line bg-paper/95 px-4 py-3 backdrop-blur sm:-mx-6 sm:px-6 lg:-mx-[23px] lg:px-[23px]">
         <div className="flex flex-col gap-3 lg:flex-row lg:items-center">
           <div className="no-scrollbar -mx-1 flex gap-2 overflow-x-auto px-1">
             <button type="button" className={chip(!category && !savedOnly)} onClick={() => { setCategory(null); setSavedOnly(false); }}>
@@ -88,7 +91,7 @@ export function PanelBrowser({
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
                 placeholder="Search designs…"
-                className="h-10 w-full rounded-full border border-line bg-paper pl-10 pr-9 text-sm outline-none focus:border-ink"
+                className="h-10 w-full rounded-full border border-line bg-paper pl-10 pr-9 text-base outline-none focus:border-ink sm:text-sm"
               />
               {query && (
                 <button type="button" onClick={() => setQuery("")} aria-label="Clear search" className="absolute right-2 top-1/2 grid size-6 -translate-y-1/2 place-items-center rounded-full hover:bg-ink/5">
@@ -101,7 +104,7 @@ export function PanelBrowser({
               id="sort"
               value={sort}
               onChange={(e) => setSort(e.target.value as Sort)}
-              className="h-10 rounded-full border border-line bg-paper px-4 text-xs font-bold uppercase tracking-wider outline-none focus:border-ink"
+              className="h-10 rounded-full border border-line bg-card px-4 text-base font-bold outline-none focus:border-ink sm:text-[0.92rem]"
             >
               <option value="featured">Featured</option>
               <option value="new">Newest</option>

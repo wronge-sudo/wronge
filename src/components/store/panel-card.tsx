@@ -37,13 +37,14 @@ export function PanelCard({
   const disabled = soldOut || (mounted && packFull && !inPack);
 
   return (
-    <article className={cn("group relative flex flex-col", className)}>
-      <div
-        className={cn(
-          "relative overflow-hidden rounded-2xl bg-ink-2 ring-offset-2 ring-offset-paper transition",
-          (selected || active) && "ring-[3px] ring-ink",
-        )}
-      >
+    <article
+      className={cn(
+        "group relative flex flex-col rounded-[10px] border bg-card p-2 transition-[border-color,box-shadow] duration-200 hover:shadow-[0_6px_20px_rgb(0_0_0/0.08)]",
+        selected || active ? "border-ink shadow-press" : "border-line",
+        className,
+      )}
+    >
+      <div className="relative overflow-hidden rounded-[6px] bg-ink-2">
         <Link href={`/panels/${panel.slug}`} className="block" aria-label={`View ${panel.name}`}>
           <div className="relative aspect-[4/7]">
             <Image
@@ -57,12 +58,12 @@ export function PanelCard({
         </Link>
 
         {panel.badge && (
-          <span className="absolute left-2.5 top-2.5 rounded-full bg-primary px-2.5 py-1 font-mono text-[0.6rem] font-bold uppercase tracking-widest text-paper">
+          <span className="absolute left-2 top-2 rounded-full border-2 border-ink bg-primary px-2.5 py-0.5 text-[0.72rem] font-bold text-ink">
             {panel.badge}
           </span>
         )}
         {soldOut && (
-          <span className="absolute inset-x-0 top-1/2 -translate-y-1/2 bg-ink/85 py-2 text-center font-mono text-xs uppercase tracking-widest text-paper">
+          <span className="absolute inset-x-0 top-1/2 -translate-y-1/2 bg-ink/85 py-2 text-center text-sm font-bold uppercase text-paper">
             Sold out
           </span>
         )}
@@ -71,17 +72,17 @@ export function PanelCard({
           type="button"
           onClick={() => toggleWish(panel.slug)}
           aria-label={wished ? "Remove from wishlist" : "Save to wishlist"}
-          className="absolute right-2.5 top-2.5 grid size-9 place-items-center rounded-full bg-paper/90 text-ink backdrop-blur transition hover:scale-110"
+          className="absolute right-2 top-2 grid size-9 place-items-center rounded-full bg-card text-ink shadow-sm transition hover:scale-110"
         >
           <Heart className={cn("size-4", mounted && wished && "fill-signal text-signal")} />
         </button>
 
-        <div className="absolute inset-x-2.5 bottom-2.5 flex gap-2">
+        <div className="absolute inset-x-2 bottom-2 flex gap-1.5">
           {onPreview && (
             <button
               type="button"
               onClick={() => onPreview(panel)}
-              className="flex-1 rounded-full bg-paper/90 py-2 text-[0.65rem] font-bold uppercase tracking-wider text-ink backdrop-blur transition hover:bg-paper"
+              className="flex-1 whitespace-nowrap rounded-full border-2 border-ink bg-card py-1.5 font-display text-[0.8rem] font-black uppercase tracking-[-0.02em] text-ink transition hover:bg-paper-2"
             >
               Try on
             </button>
@@ -91,22 +92,22 @@ export function PanelCard({
             disabled={disabled}
             onClick={() => toggle(toPanelRef(panel), settings.pack_size)}
             className={cn(
-              "flex flex-1 items-center justify-center gap-1 rounded-full py-2 text-[0.65rem] font-bold uppercase tracking-wider transition disabled:cursor-not-allowed disabled:opacity-50",
-              selected ? "bg-ink text-primary-light" : "bg-primary text-paper hover:bg-primary-hover",
+              "flex flex-1 items-center justify-center gap-1 whitespace-nowrap rounded-full border-2 border-ink py-1.5 font-display text-[0.8rem] font-black uppercase tracking-[-0.02em] transition disabled:cursor-not-allowed disabled:opacity-50",
+              selected ? "bg-ink text-paper" : "bg-primary text-ink hover:bg-primary-hover",
             )}
           >
             {selected ? <Check className="size-3.5" /> : <Plus className="size-3.5" />}
-            {selected ? "In pack" : "Add"}
+            {selected ? "Added" : "Add"}
           </button>
         </div>
       </div>
 
-      <div className="mt-3 flex items-start justify-between gap-2 px-0.5">
+      <div className="flex items-start justify-between gap-2 px-1.5 pb-1 pt-3">
         <div className="min-w-0">
-          <Link href={`/panels/${panel.slug}`} className="block truncate font-bold uppercase tracking-tight hover:underline">
+          <Link href={`/panels/${panel.slug}`} className="block truncate text-[1.02rem] font-bold leading-tight hover:underline">
             {panel.name}
           </Link>
-          <p className="truncate text-xs text-muted">{panel.category}</p>
+          <p className="mt-0.5 truncate text-[0.85rem] text-muted">{panel.category}</p>
         </div>
       </div>
     </article>

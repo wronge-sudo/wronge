@@ -91,7 +91,7 @@ export function ReviewForm() {
         </label>
         <label className="block">
           <span className="mb-1.5 block text-sm font-semibold">Order number <span className="font-normal text-muted">(optional)</span></span>
-          <input name="order_number" className={cn(input, "font-mono uppercase")} placeholder="WR-1001" />
+          <input name="order_number" className={cn(input, "tabular-nums uppercase")} placeholder="WR-1001" />
         </label>
       </div>
       <label className="block">

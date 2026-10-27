@@ -10,6 +10,7 @@ import { cn } from "@/lib/format";
 import { useCart } from "@/store/cart";
 import { useWishlist } from "@/store/wishlist";
 import { useMounted } from "@/lib/use-mounted";
+import { buttonClass } from "@/components/ui/button";
 import { Logo } from "./logo";
 
 /** Reads the pathname (needs a Suspense boundary for routes with unknown params). */
@@ -43,32 +44,28 @@ export function Header({ pathname }: { pathname: string | null }) {
   const isActive = (href: string) => !!pathname && (pathname === href || pathname.startsWith(`${href}/`));
 
   return (
-    <header
-      className={cn(
-        "sticky top-0 z-50 border-b transition-colors duration-300",
-        scrolled ? "border-line bg-paper/90 backdrop-blur-md" : "border-transparent bg-paper",
-      )}
-    >
-      <div className="mx-auto flex h-16 max-w-[1440px] items-center gap-4 px-4 sm:px-6 lg:h-[72px] lg:px-10">
+    <header className={cn("sticky top-0 z-50 border-b border-line bg-card transition-shadow duration-300", scrolled && "shadow-[0_1px_12px_rgb(0_0_0/0.06)]")}>
+      <div className="relative flex h-16 items-center gap-3 px-4 sm:px-5 lg:px-6">
         <button
           type="button"
           className="-ml-2 grid size-10 place-items-center rounded-full hover:bg-ink/5 lg:hidden"
           onClick={() => setMenuOpen(true)}
           aria-label="Open menu"
         >
-          <Menu className="size-5" />
+          <Menu className="size-6" />
         </button>
 
         <Logo />
 
-        <nav className="ml-8 hidden items-center gap-1 lg:flex" aria-label="Main">
+        <nav className="hidden flex-1 items-center justify-center lg:flex xl:absolute xl:left-1/2 xl:-translate-x-1/2" aria-label="Main">
           {NAV_LINKS.map((l) => (
             <Link
               key={l.href}
               href={l.href}
+              aria-current={isActive(l.href) ? "page" : undefined}
               className={cn(
-                "relative rounded-full px-3.5 py-2 text-[0.78rem] font-semibold uppercase tracking-[0.08em] transition hover:bg-ink/5",
-                isActive(l.href) && "bg-ink text-paper hover:bg-ink",
+                "whitespace-nowrap rounded-full px-3 py-2.5 font-display text-[0.95rem] font-black uppercase leading-none tracking-[-0.02em] transition hover:bg-ink/5 xl:px-4 xl:text-[1.06rem]",
+                isActive(l.href) && "underline decoration-primary decoration-[3px] underline-offset-[6px]",
               )}
             >
               {l.label}
@@ -76,14 +73,14 @@ export function Header({ pathname }: { pathname: string | null }) {
           ))}
         </nav>
 
-        <div className="ml-auto flex items-center gap-1">
-          <Link href="/panels" aria-label="Search art panels" className="hidden size-10 place-items-center rounded-full hover:bg-ink/5 sm:grid">
-            <Search className="size-[18px]" />
+        <div className="ml-auto flex items-center gap-0.5 sm:gap-1.5">
+          <Link href="/panels" aria-label="Search art panels" className="hidden size-11 place-items-center rounded-full hover:bg-ink/5 sm:grid">
+            <Search className="size-6" strokeWidth={2.6} />
           </Link>
-          <Link href="/panels?saved=1" aria-label="Saved panels" className="relative grid size-10 place-items-center rounded-full hover:bg-ink/5">
-            <Heart className="size-[18px]" />
+          <Link href="/panels?saved=1" aria-label="Saved panels" className="relative grid size-11 place-items-center rounded-full hover:bg-ink/5">
+            <Heart className="size-6" strokeWidth={2.6} />
             {mounted && wishCount > 0 && (
-              <span className="absolute right-1 top-1 grid min-w-4 place-items-center rounded-full bg-signal px-1 font-mono text-[0.6rem] font-bold leading-4 text-white">
+              <span className="absolute right-0.5 top-0.5 grid min-w-[18px] place-items-center rounded-full bg-primary px-1 text-[0.66rem] font-bold leading-[18px] text-ink">
                 {wishCount}
               </span>
             )}
@@ -92,10 +89,14 @@ export function Header({ pathname }: { pathname: string | null }) {
             type="button"
             onClick={() => setCartOpen(true)}
             aria-label={`Open bag${mounted && count ? `, ${count} items` : ""}`}
-            className="relative flex h-10 items-center gap-2 rounded-full bg-ink pl-3.5 pr-4 text-paper transition hover:bg-primary hover:text-paper"
+            className="relative grid size-11 place-items-center rounded-full hover:bg-ink/5"
           >
-            <ShoppingBag className="size-[18px]" />
-            <span className="font-mono text-xs font-bold">{mounted ? count : 0}</span>
+            <ShoppingBag className="size-6" strokeWidth={2.6} />
+            {mounted && count > 0 && (
+              <span className="absolute right-0.5 top-0.5 grid min-w-[18px] place-items-center rounded-full bg-primary px-1 text-[0.66rem] font-bold leading-[18px] text-ink">
+                {count}
+              </span>
+            )}
           </button>
         </div>
       </div>
@@ -111,16 +112,16 @@ export function Header({ pathname }: { pathname: string | null }) {
               onClick={() => setMenuOpen(false)}
             />
             <motion.aside
-              className="fixed inset-y-0 left-0 z-50 flex w-[86%] max-w-sm flex-col bg-ink text-paper lg:hidden"
+              className="fixed inset-y-0 left-0 z-50 flex w-[86%] max-w-sm flex-col bg-card text-ink lg:hidden"
               initial={{ x: "-100%" }}
               animate={{ x: 0 }}
               exit={{ x: "-100%" }}
               transition={{ type: "spring", stiffness: 320, damping: 34 }}
               aria-label="Menu"
             >
-              <div className="flex h-16 items-center justify-between px-5">
-                <Logo light />
-                <button type="button" onClick={() => setMenuOpen(false)} aria-label="Close menu" className="grid size-10 place-items-center rounded-full hover:bg-paper/10">
+              <div className="flex h-16 items-center justify-between border-b border-line px-5">
+                <Logo />
+                <button type="button" onClick={() => setMenuOpen(false)} aria-label="Close menu" className="grid size-10 place-items-center rounded-full hover:bg-ink/5">
                   <X className="size-5" />
                 </button>
               </div>
@@ -130,13 +131,13 @@ export function Header({ pathname }: { pathname: string | null }) {
                     <Link
                       href={l.href}
                       onClick={() => setMenuOpen(false)}
-                      className={cn("display block py-3 text-3xl", isActive(l.href) ? "text-primary-light" : "text-paper")}
+                      className={cn("display block py-3 text-[1.9rem]", isActive(l.href) ? "text-ink underline decoration-primary decoration-[6px] underline-offset-[6px]" : "text-ink")}
                     >
                       {l.label}
                     </Link>
                   </motion.div>
                 ))}
-                <div className="mt-6 grid gap-3 border-t border-paper/15 pt-6 text-sm text-paper/70">
+                <div className="mt-6 grid gap-3.5 border-t border-line pt-6 text-[1.05rem] text-ink/80">
                   <Link href="/track" onClick={() => setMenuOpen(false)}>Track your order</Link>
                   <Link href="/faq" onClick={() => setMenuOpen(false)}>FAQ</Link>
                   <Link href="/reviews" onClick={() => setMenuOpen(false)}>Reviews</Link>
@@ -147,7 +148,7 @@ export function Header({ pathname }: { pathname: string | null }) {
                 <Link
                   href="/build"
                   onClick={() => setMenuOpen(false)}
-                  className="flex h-14 items-center justify-center rounded-full bg-primary text-sm font-bold uppercase tracking-wider text-paper"
+                  className={buttonClass("primary", "lg", "w-full")}
                 >
                   Build your set →
                 </Link>

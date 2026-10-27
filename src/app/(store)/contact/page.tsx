@@ -24,7 +24,7 @@ export default async function ContactPage() {
       <PageHero eyebrow="Say hi" title="Contact">
         Questions about sizing, an order, or a custom panel idea? Send us a message and we usually reply within a day.
       </PageHero>
-      <Container className="grid gap-12 py-12 sm:py-16 lg:grid-cols-12">
+      <Container className="grid grid-cols-1 gap-12 py-12 sm:py-16 lg:grid-cols-12">
         <div className="lg:col-span-7">
           <ContactForm />
         </div>

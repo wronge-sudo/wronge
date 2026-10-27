@@ -2,53 +2,56 @@
 
 /* ───────────────────────── WRONGE design tokens ───────────────────────── */
 @theme {
-  --color-ink: #0b0b0b;
-  --color-ink-2: #161616;
-  --color-ink-3: #232323;
-  --color-paper: #f3f2ee;
-  --color-paper-2: #e9e8e3;
+  --color-ink: #000000;
+  --color-ink-2: #141414;
+  --color-ink-3: #222222;
+  /* Page background is a cool light grey; cards sit on it in white (bg-card). */
+  --color-paper: #f7f7f7;
+  --color-paper-2: #eeeeee;
+  --color-card: #ffffff;
   --color-studio: #e5e5e5;
-  --color-line: #d8d7d1;
+  --color-line: #e2e2e2;
   --color-line-dark: #2c2c2c;
-  --color-muted: #6b6a64;
-  /* Primary: dark crimson. Fills take paper text; on ink backgrounds use primary-light. */
-  --color-primary: #8b0000;
-  --color-primary-hover: #760000;
-  --color-primary-light: #e45a5a;
-  --color-primary-tint: #fbefef;
-  --color-primary-border: #c05959;
-  --color-signal: #ff4d1f;
-  --color-ok: #1f9d55;
+  --color-muted: #5f5f5f;
+  /* Primary: signal yellow. Fills always take ink text; on ink backgrounds it also works as text (primary-light). */
+  --color-primary: #f9cd0c;
+  --color-primary-hover: #ebbd00;
+  --color-primary-light: #f9cd0c;
+  --color-primary-tint: #fdfbdb;
+  --color-primary-border: #e6d36a;
+  /* Warm neutrals: cream section bands + text on black, sand behind the set card. */
+  --color-cream: #fdfbdb;
+  --color-sand: #f3efe5;
+  --color-line-warm: #e9e5dc;
+  /* Savings red (offer strips, "Save" pills), plum for offer badges, peach for seasonal tags. */
+  --color-sale: #e02826;
+  --color-sale-deep: #be2220;
+  --color-plum: #40242f;
+  --color-peach: #ffb366;
+  --color-signal: #e02826;
+  --color-ok: #1f6b45;
 
   --font-sans: var(--font-archivo), ui-sans-serif, system-ui, sans-serif;
   --font-display: var(--font-archivo), ui-sans-serif, system-ui, sans-serif;
   --font-mono: var(--font-jetbrains), ui-monospace, monospace;
 
-  --animate-marquee: marquee var(--marquee-speed, 38s) linear infinite;
-  --animate-marquee-rev: marquee-rev var(--marquee-speed, 38s) linear infinite;
   --animate-float: float 6s ease-in-out infinite;
   --animate-pulse-ring: pulse-ring 2s ease-out infinite;
 
-  @keyframes marquee {
-    from { transform: translateX(0); }
-    to { transform: translateX(-50%); }
-  }
-  @keyframes marquee-rev {
-    from { transform: translateX(-50%); }
-    to { transform: translateX(0); }
-  }
   @keyframes float {
     0%, 100% { transform: translateY(0) rotate(var(--r, 0deg)); }
     50% { transform: translateY(-8px) rotate(var(--r, 0deg)); }
   }
   @keyframes pulse-ring {
-    0% { box-shadow: 0 0 0 0 rgb(139 0 0 / 0.55); }
-    100% { box-shadow: 0 0 0 14px rgb(139 0 0 / 0); }
+    0% { box-shadow: 0 0 0 0 rgb(249 205 12 / 0.6); }
+    100% { box-shadow: 0 0 0 14px rgb(249 205 12 / 0); }
   }
 }
 
 :root {
   color-scheme: light;
+  /* Keyboard focus ring for buttons: ink on light surfaces; dark surfaces switch it to yellow (on-dark, halftone-dark). */
+  --focus-ring: var(--color-ink);
 }
 
 html {
@@ -60,46 +63,56 @@ body {
   background: var(--color-paper);
   color: var(--color-ink);
   font-family: var(--font-sans);
-  font-feature-settings: "ss01";
+  letter-spacing: -0.012em;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
 }
 
 ::selection {
   background: var(--color-primary);
-  color: var(--color-paper);
+  color: var(--color-ink);
 }
 
 /* ───────────────────────── Typography helpers ───────────────────────── */
+/* Heavy, tight, uppercase headings. Section titles ≈ 2.4rem, card titles ≈ 1.3rem. */
 @utility display {
   font-family: var(--font-display);
   font-weight: 900;
-  font-stretch: 125%;
-  font-variation-settings: "wdth" 125;
+  font-variation-settings: "wdth" 100;
   text-transform: uppercase;
-  letter-spacing: -0.02em;
-  line-height: 0.92;
+  letter-spacing: -0.035em;
+  line-height: 0.95;
 }
 
 @utility display-narrow {
   font-family: var(--font-display);
-  font-weight: 800;
+  font-weight: 900;
   font-variation-settings: "wdth" 100;
   text-transform: uppercase;
-  letter-spacing: -0.01em;
-  line-height: 0.95;
+  letter-spacing: -0.03em;
+  line-height: 1;
 }
 
 @utility eyebrow {
-  font-family: var(--font-mono);
-  font-size: 0.72rem;
-  font-weight: 600;
-  letter-spacing: 0.14em;
+  font-family: var(--font-sans);
+  font-size: 0.8rem;
+  font-weight: 800;
+  letter-spacing: 0.01em;
   text-transform: uppercase;
 }
 
+/* Offset "pressed" shadow used by buttons and selected tiles. */
+@utility shadow-press {
+  box-shadow: 0 4px 0 0 var(--color-ink);
+}
+
 /* ───────────────────────── Textures ───────────────────────── */
+@utility on-dark {
+  --focus-ring: var(--color-primary);
+}
+
 @utility halftone-dark {
+  --focus-ring: var(--color-primary);
   background-color: var(--color-ink);
   background-image:
     linear-gradient(180deg, rgb(11 11 11 / 0.55), rgb(11 11 11 / 0.85)),
@@ -134,11 +147,6 @@ body {
 @utility stitch-dark {
   outline: 1.5px dashed rgb(11 11 11 / 0.28);
   outline-offset: -7px;
-}
-
-/* Pause marquees on hover */
-.marquee-track:hover {
-  animation-play-state: paused;
 }
 
 /* Respect reduced motion */

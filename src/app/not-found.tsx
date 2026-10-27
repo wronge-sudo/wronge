@@ -6,7 +6,7 @@ export default function NotFound() {
     <main className="halftone-dark flex min-h-dvh items-center justify-center px-4 text-paper">
       <div className="text-center">
         <p className="eyebrow text-primary-light">Error 404</p>
-        <h1 className="display mt-4 text-6xl sm:text-8xl">
+        <h1 className="display mt-4 text-[2.75rem] sm:text-[4rem]">
           You went
           <br />
           wronge.

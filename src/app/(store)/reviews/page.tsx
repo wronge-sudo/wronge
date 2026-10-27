@@ -26,7 +26,7 @@ export default async function ReviewsPage() {
           "Got your Wronge? Tell everyone how it wears. Every review is read by a real person before it goes up."
         )}
       </PageHero>
-      <Container className="grid gap-12 py-12 sm:py-16 lg:grid-cols-12">
+      <Container className="grid grid-cols-1 gap-12 py-12 sm:py-16 lg:grid-cols-12">
         <div className="lg:col-span-7">
           {reviews.length === 0 ? (
             <div className="rounded-3xl border-2 border-dashed border-line p-10 text-center">
@@ -43,11 +43,11 @@ export default async function ReviewsPage() {
                         <Star key={i} className={i < r.rating ? "size-4 fill-ink text-ink" : "size-4 text-line"} />
                       ))}
                     </div>
-                    <span className="font-mono text-xs text-muted">{formatDate(r.created_at)}</span>
+                    <span className="tabular-nums text-xs text-muted">{formatDate(r.created_at)}</span>
                   </div>
                   {r.title && <p className="mt-3 font-bold uppercase">{r.title}</p>}
                   <p className="mt-2 text-muted">{r.body}</p>
-                  <p className="mt-4 font-mono text-xs uppercase tracking-wider">
+                  <p className="mt-4 tabular-nums text-xs uppercase">
                     {r.name}
                     {r.location && <span className="text-muted"> · {r.location}</span>}
                     {r.panel_name && <span className="text-muted"> · Wears {r.panel_name}</span>}
@@ -58,7 +58,7 @@ export default async function ReviewsPage() {
           )}
         </div>
         <aside className="lg:col-span-5">
-          <div className="rounded-3xl bg-paper-2 p-6 lg:sticky lg:top-28">
+          <div className="rounded-[21px] border border-line bg-card p-6 lg:sticky lg:top-28">
             <h2 className="display-narrow mb-5 text-3xl">Write a review</h2>
             <ReviewForm />
           </div>

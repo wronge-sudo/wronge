@@ -12,6 +12,9 @@ export type PreviewPanel = {
 
 const NOISE = "url(/brand/noise.png)";
 
+/** CSS aspect-ratio of the back photo, for wrappers that size JacketBack by height. */
+export const JACKET_ASPECT = `${ASSET_SIZES.jacketBack.width} / ${ASSET_SIZES.jacketBack.height}`;
+
 /**
  * The jacket back flat-lay with an art panel "zipped" into the centre frame.
  * Pass `panel={null}` to show the matching blank denim panel.
@@ -41,7 +44,7 @@ export function JacketBack({
         rounded && "rounded-3xl",
         className,
       )}
-      style={{ aspectRatio: `${ASSET_SIZES.jacketBack.width} / ${ASSET_SIZES.jacketBack.height}` }}
+      style={{ aspectRatio: JACKET_ASPECT }}
     >
       <Image
         src={asset(ASSETS.jacketBack)}
@@ -101,7 +104,7 @@ export function JacketBack({
       </div>
 
       {showLabel && (
-        <div className="absolute bottom-3 left-3 rounded-full bg-ink/85 px-3 py-1.5 font-mono text-[0.65rem] uppercase tracking-widest text-paper backdrop-blur">
+        <div className="absolute bottom-3 left-3 rounded-full bg-ink/85 px-3 py-1.5 tabular-nums text-[0.7rem] uppercase text-paper backdrop-blur">
           {panel?.name ? `Panel: ${panel.name}` : "Blank denim panel"}
         </div>
       )}

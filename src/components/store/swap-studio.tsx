@@ -30,7 +30,7 @@ export function SwapStudio({ panels, dark = true }: { panels: Panel[]; dark?: bo
   }
 
   return (
-    <div className="grid items-start gap-8 lg:grid-cols-12 lg:gap-12">
+    <div className="grid grid-cols-1 items-start gap-8 lg:grid-cols-12 lg:gap-12">
       <div className="lg:sticky lg:top-28 lg:col-span-6">
         <JacketBack panel={current ? { image: current.image_url, name: current.name } : null} showLabel />
         <div className="mt-4 flex flex-wrap gap-2">
@@ -50,7 +50,7 @@ export function SwapStudio({ panels, dark = true }: { panels: Panel[]; dark?: bo
             className={cn(
               "inline-flex h-11 items-center gap-2 rounded-full border-2 px-5 text-xs font-bold uppercase tracking-wider transition",
               !current
-                ? "border-primary bg-primary text-paper"
+                ? "border-primary bg-primary text-ink"
                 : dark
                   ? "border-paper/30 text-paper hover:border-primary-light hover:text-primary-light"
                   : "border-ink hover:bg-ink hover:text-paper",
@@ -65,7 +65,7 @@ export function SwapStudio({ panels, dark = true }: { panels: Panel[]; dark?: bo
               onClick={() => toggle(toPanelRef(current), settings.pack_size)}
               className={cn(
                 "inline-flex h-11 items-center gap-2 rounded-full px-5 text-xs font-bold uppercase tracking-wider transition disabled:opacity-40",
-                inPack ? "bg-paper text-ink" : "bg-primary text-paper hover:bg-primary-hover",
+                inPack ? "bg-paper text-ink" : "bg-primary text-ink hover:bg-primary-hover",
               )}
             >
               {inPack ? <Check className="size-4" /> : <Plus className="size-4" />}
@@ -85,7 +85,7 @@ export function SwapStudio({ panels, dark = true }: { panels: Panel[]; dark?: bo
               </p>
             )}
           </div>
-          <Link href="/panels" className={cn("shrink-0 text-xs font-bold uppercase tracking-wider underline-offset-4 hover:underline", dark ? "text-paper" : "text-ink")}>
+          <Link href="/panels" className={cn("-my-2 shrink-0 py-2 text-xs font-bold uppercase tracking-wider underline-offset-4 hover:underline", dark ? "text-paper" : "text-ink")}>
             All panels →
           </Link>
         </div>
@@ -103,13 +103,13 @@ export function SwapStudio({ panels, dark = true }: { panels: Panel[]; dark?: bo
                 aria-pressed={active}
                 className={cn(
                   "group relative aspect-[4/7] overflow-hidden rounded-xl transition",
-                  active ? cn("ring-[3px] ring-offset-2", dark ? "ring-primary-light" : "ring-primary") : "opacity-80 hover:opacity-100",
+                  active ? cn("ring-[3px] ring-offset-2", dark ? "ring-primary-light" : "ring-ink") : "opacity-80 hover:opacity-100",
                   dark ? "ring-offset-ink" : "ring-offset-paper",
                 )}
               >
                 <Image src={p.image_url} alt="" fill sizes="(min-width: 1024px) 9vw, 22vw" className="object-cover transition duration-300 group-hover:scale-105" />
                 {picked && (
-                  <span className="absolute right-1 top-1 grid size-5 place-items-center rounded-full bg-primary text-paper">
+                  <span className="absolute right-1 top-1 grid size-5 place-items-center rounded-full bg-primary text-ink">
                     <Check className="size-3" />
                   </span>
                 )}
@@ -124,7 +124,7 @@ export function SwapStudio({ panels, dark = true }: { panels: Panel[]; dark?: bo
             bottom of the screen until the pack is complete.
           </p>
           <div className="mt-4 flex flex-wrap gap-2">
-            <Link href="/build" className="inline-flex h-11 items-center rounded-full bg-primary px-5 text-xs font-bold uppercase tracking-wider text-paper transition hover:bg-primary-hover">
+            <Link href="/build" className="inline-flex h-11 items-center rounded-full bg-primary px-5 text-xs font-bold uppercase tracking-wider text-ink transition hover:bg-primary-hover">
               Build jacket + pack →
             </Link>
             <Link

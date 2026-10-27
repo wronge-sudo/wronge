@@ -87,10 +87,11 @@ export function PackTray({ alwaysShow = false }: { alwaysShow?: boolean }) {
             </div>
 
             <div className="min-w-0 flex-1">
-              <p className="eyebrow text-primary-light">
-                {size}-panel pack · {taka(settings.pack_price + fee)}
+              <p className="eyebrow whitespace-nowrap text-primary-light">
+                <span className="sm:hidden">Pack</span>
+                <span className="hidden sm:inline">{size}-panel pack</span> · {taka(settings.pack_price + fee)}
               </p>
-              <p className="truncate text-sm text-paper/80">
+              <p className="line-clamp-2 text-[0.8rem] leading-snug text-paper/80 sm:line-clamp-1 sm:text-sm">
                 {full
                   ? "Pack complete. Add it to your bag."
                   : panels.length === 0
@@ -109,14 +110,14 @@ export function PackTray({ alwaysShow = false }: { alwaysShow?: boolean }) {
                 <button
                   type="button"
                   onClick={addPack}
-                  className="h-11 rounded-full bg-primary px-4 text-xs font-bold uppercase tracking-wider text-paper transition hover:bg-primary-hover sm:px-6"
+                  className="h-11 whitespace-nowrap rounded-full bg-primary px-3.5 text-xs font-bold uppercase tracking-wider text-ink transition hover:bg-primary-hover sm:px-6"
                 >
                   Add pack
                 </button>
               ) : (
                 <Link
                   href="/panels"
-                  className="h-11 content-center rounded-full border border-paper/30 px-4 text-xs font-bold uppercase tracking-wider text-paper/80 hover:border-paper sm:px-5"
+                  className="h-11 content-center rounded-full border border-paper/30 px-3.5 text-xs font-bold uppercase tracking-wider text-paper/80 hover:border-paper sm:px-5"
                 >
                   Browse
                 </Link>

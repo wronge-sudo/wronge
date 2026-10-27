@@ -44,22 +44,22 @@ async function PanelDetail({ params }: { params: Promise<{ slug: string }> }) {
   return (
     <>
       <Container className="py-6">
-        <nav className="font-mono text-xs uppercase tracking-wider text-muted" aria-label="Breadcrumb">
+        <nav className="tabular-nums text-xs uppercase text-muted" aria-label="Breadcrumb">
           <Link href="/panels" className="hover:text-ink">Art panels</Link> <span aria-hidden>/</span>{" "}
           <Link href={`/panels?category=${encodeURIComponent(panel.category)}`} className="hover:text-ink">{panel.category}</Link>{" "}
           <span aria-hidden>/</span> <span className="text-ink">{panel.name}</span>
         </nav>
       </Container>
 
-      <Container className="grid gap-10 pb-20 lg:grid-cols-12 lg:gap-16">
+      <Container className="grid grid-cols-1 gap-10 pb-20 lg:grid-cols-12 lg:gap-16">
         <div className="lg:col-span-7">
           <PanelGallery panel={panel} />
         </div>
         <div className="lg:col-span-5 lg:pt-6">
           <div className="lg:sticky lg:top-28">
             <p className="eyebrow text-muted">{panel.category}{panel.badge && <span className="ml-2 rounded-full bg-ink px-2 py-0.5 text-primary-light">{panel.badge}</span>}</p>
-            <h1 className="display mt-3 text-5xl sm:text-6xl">{panel.name}</h1>
-            <p className="mt-2 font-mono text-xs uppercase tracking-wider text-muted">Art by {panel.artist}</p>
+            <h1 className="display mt-3 text-[2.25rem] sm:text-[2.75rem]">{panel.name}</h1>
+            <p className="mt-2 tabular-nums text-xs uppercase text-muted">Art by {panel.artist}</p>
             {panel.description && <p className="mt-6 text-lg text-muted">{panel.description}</p>}
 
             <div className="mt-8">
@@ -74,7 +74,7 @@ async function PanelDetail({ params }: { params: Promise<{ slug: string }> }) {
                 ["Care", "Spot-clean, or hand-wash gently in cold water and dry flat. Don't iron directly on the print."],
               ].map(([k, v]) => (
                 <div key={k} className="grid grid-cols-3 gap-4 py-3.5">
-                  <dt className="font-mono text-xs font-bold uppercase tracking-wider">{k}</dt>
+                  <dt className="tabular-nums text-xs font-bold uppercase">{k}</dt>
                   <dd className="col-span-2 text-muted">{v}</dd>
                 </div>
               ))}
@@ -90,7 +90,7 @@ async function PanelDetail({ params }: { params: Promise<{ slug: string }> }) {
       {related.length > 0 && (
         <section className="border-t border-line py-16 sm:py-20">
           <Container>
-            <h2 className="display text-4xl sm:text-5xl">Pairs well with</h2>
+            <h2 className="display text-[2rem] sm:text-[2.4rem]">Pairs well with</h2>
             <div className="mt-8 grid grid-cols-2 gap-x-3 gap-y-8 sm:gap-x-5 md:grid-cols-4">
               {related.map((p) => (
                 <PanelCard key={p.slug} panel={p} />
@@ -105,7 +105,7 @@ async function PanelDetail({ params }: { params: Promise<{ slug: string }> }) {
 
 function PanelSkeleton() {
   return (
-    <Container className="grid gap-10 py-14 lg:grid-cols-12 lg:gap-16">
+    <Container className="grid grid-cols-1 gap-10 py-14 lg:grid-cols-12 lg:gap-16">
       <div className="aspect-square animate-pulse rounded-3xl bg-paper-2 lg:col-span-7" />
       <div className="space-y-4 lg:col-span-5">
         <div className="h-4 w-24 animate-pulse rounded bg-paper-2" />

@@ -26,11 +26,11 @@ export function TrackForm() {
       <form action={action} className="grid gap-3 rounded-3xl bg-paper-2 p-5 sm:grid-cols-[1fr_1fr_auto] sm:p-6">
         <label className="block">
           <span className="mb-1.5 block text-sm font-semibold">Order number</span>
-          <input name="order" required placeholder="WR-1001" className="h-12 w-full rounded-xl border-2 border-line bg-paper px-4 font-mono uppercase outline-none focus:border-ink" />
+          <input name="order" required placeholder="WR-1001" className="h-12 w-full rounded-xl border-2 border-line bg-paper px-4 tabular-nums uppercase outline-none focus:border-ink" />
         </label>
         <label className="block">
           <span className="mb-1.5 block text-sm font-semibold">Phone number</span>
-          <input name="phone" type="tel" required placeholder="01XXXXXXXXX" className="h-12 w-full rounded-xl border-2 border-line bg-paper px-4 font-mono outline-none focus:border-ink" />
+          <input name="phone" type="tel" required placeholder="01XXXXXXXXX" className="h-12 w-full rounded-xl border-2 border-line bg-paper px-4 tabular-nums outline-none focus:border-ink" />
         </label>
         <button type="submit" disabled={pending} className={buttonClass("ink", "lg", "self-end")}>
           {pending ? <Loader2 className="size-4 animate-spin" /> : <Search className="size-4" />} Track
@@ -46,10 +46,10 @@ export function TrackForm() {
           <div className="flex flex-wrap items-start justify-between gap-4">
             <div>
               <p className="eyebrow text-muted">Order</p>
-              <p className="font-mono text-2xl font-bold">{order.number}</p>
+              <p className="tabular-nums text-2xl font-bold">{order.number}</p>
               <p className="text-sm text-muted">Placed {formatDate(order.createdAt, true)} · {order.district}</p>
             </div>
-            <span className={cn("rounded-full px-4 py-2 font-mono text-xs font-bold uppercase tracking-wider", stopped ? "bg-signal text-white" : order.status === "delivered" ? "bg-ok text-white" : "bg-primary text-paper")}>
+            <span className={cn("rounded-full px-4 py-2 tabular-nums text-xs font-bold uppercase", stopped ? "bg-signal text-white" : order.status === "delivered" ? "bg-ok text-white" : "bg-primary text-ink")}>
               {STATUS_LABEL[order.status]}
             </span>
           </div>
@@ -73,7 +73,7 @@ export function TrackForm() {
                       <p className={cn("font-bold uppercase tracking-tight", !done && "text-muted")}>{STATUS_LABEL[s]}</p>
                       <p className="text-sm text-muted">{FLOW_TEXT[s]}{at && done ? ` · ${formatDate(at, true)}` : ""}</p>
                       {s === "shipped" && done && (order.courier || order.trackingCode) && (
-                        <p className="mt-1 font-mono text-xs">
+                        <p className="mt-1 tabular-nums text-xs">
                           {order.courier}{order.trackingCode && ` · Tracking: ${order.trackingCode}`}
                         </p>
                       )}
@@ -95,7 +95,7 @@ export function TrackForm() {
                 </li>
               ))}
             </ul>
-            <p className="mt-4 flex justify-between font-mono font-bold">
+            <p className="mt-4 flex justify-between tabular-nums font-bold">
               <span>Cash on delivery</span>
               <span>{taka(order.total)}</span>
             </p>

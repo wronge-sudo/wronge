@@ -109,7 +109,7 @@ export function CheckoutForm() {
   }
 
   return (
-    <form onSubmit={submit} noValidate className="grid gap-10 lg:grid-cols-12">
+    <form onSubmit={submit} noValidate className="grid grid-cols-1 gap-10 lg:grid-cols-12">
       <div className="space-y-8 lg:col-span-7">
         {formError && (
           <div className="rounded-2xl border-2 border-signal bg-signal/10 p-4 text-sm font-semibold text-signal" role="alert">
@@ -190,7 +190,7 @@ export function CheckoutForm() {
                       <input type="radio" name="zone" value={value} checked={active} disabled={disabled} onChange={() => setZone(value)} className="accent-primary" />
                       <span className="text-sm font-semibold">{label}</span>
                     </span>
-                    <span className="font-mono text-sm font-bold">{totals.subtotal >= (settings.free_delivery_min ?? Infinity) ? "Free" : taka(fee)}</span>
+                    <span className="tabular-nums text-sm font-bold">{totals.subtotal >= (settings.free_delivery_min ?? Infinity) ? "Free" : taka(fee)}</span>
                   </label>
                 );
               })}
@@ -207,7 +207,7 @@ export function CheckoutForm() {
         <fieldset>
           <legend className="display-narrow mb-3 text-2xl">Payment</legend>
           <div className="flex items-start gap-4 rounded-2xl border-2 border-primary bg-primary-tint p-4">
-            <Banknote className="mt-0.5 size-6 shrink-0 text-primary" />
+            <Banknote className="mt-0.5 size-6 shrink-0 text-ink" />
             <div>
               <p className="font-bold">Cash on delivery</p>
               <p className="text-sm text-ink/75">Pay the rider in cash when your order arrives. No advance payment, no card needed.</p>
@@ -220,7 +220,7 @@ export function CheckoutForm() {
       </div>
 
       <aside className="lg:col-span-5">
-        <div className="rounded-3xl bg-paper-2 p-6 lg:sticky lg:top-28">
+        <div className="rounded-[21px] border border-line bg-card p-6 lg:sticky lg:top-28">
           <div className="flex items-center justify-between">
             <p className="display-narrow text-2xl">Your order</p>
             <Link href="/cart" className="text-xs font-bold uppercase tracking-wider underline underline-offset-4">Edit</Link>
@@ -228,7 +228,7 @@ export function CheckoutForm() {
           <div className="mt-2 max-h-[40vh] overflow-y-auto">
             <CartLines editable={false} compact />
           </div>
-          <dl className="mt-4 space-y-2 border-t border-line pt-4 font-mono text-sm">
+          <dl className="mt-4 space-y-2 border-t border-line pt-4 tabular-nums text-sm">
             <div className="flex justify-between">
               <dt className="text-muted">Subtotal</dt>
               <dd>{taka(totals.subtotal)}</dd>

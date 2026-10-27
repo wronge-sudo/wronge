@@ -14,7 +14,7 @@ export default function CustomPage() {
       <section className="border-b border-line bg-ink text-paper">
         <Container className="py-12 sm:py-16">
           <p className="eyebrow mb-3 text-primary-light">Custom panel studio</p>
-          <h1 className="display text-5xl sm:text-7xl lg:text-8xl">
+          <h1 className="display text-[2.5rem] sm:text-[3.5rem]">
             Your art.
             <br />
             Your back.

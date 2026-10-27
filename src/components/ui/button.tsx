@@ -2,25 +2,31 @@ import Link from "next/link";
 import type { ComponentProps, ReactNode } from "react";
 import { cn } from "@/lib/format";
 
-type Variant = "primary" | "ink" | "outline" | "outline-light" | "ghost" | "white";
-type Size = "sm" | "md" | "lg";
+type Variant = "primary" | "cta" | "ink" | "outline" | "outline-light" | "ghost" | "white";
+type Size = "sm" | "md" | "lg" | "xl";
 
 const base =
-  "group inline-flex items-center justify-center gap-2 rounded-full font-semibold uppercase tracking-[0.06em] transition-all duration-200 disabled:pointer-events-none disabled:opacity-40 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-light active:scale-[0.98] select-none whitespace-nowrap";
+  "group inline-flex items-center justify-center gap-2 rounded-full font-display font-black uppercase leading-none tracking-[-0.02em] transition-[transform,box-shadow,background-color,color] duration-150 disabled:pointer-events-none disabled:opacity-40 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-(--focus-ring) select-none whitespace-nowrap";
+
+// Filled variants sit on a 4px ink "press" shadow that collapses on hover/press.
+const press = "shadow-press hover:translate-y-0.5 hover:shadow-[0_2px_0_0_var(--color-ink)] active:translate-y-1 active:shadow-none";
 
 const variants: Record<Variant, string> = {
-  primary: "bg-primary text-paper hover:bg-primary-hover shadow-[0_2px_0_0_rgb(11_11_11)] hover:shadow-none",
-  ink: "bg-ink text-paper hover:bg-primary",
-  outline: "border-2 border-ink text-ink hover:bg-ink hover:text-paper",
-  "outline-light": "border-2 border-paper/80 text-paper hover:bg-paper hover:text-ink",
-  ghost: "text-ink hover:bg-ink/5",
-  white: "bg-paper text-ink hover:bg-ink hover:text-paper",
+  primary: `border-[3px] border-ink bg-primary text-ink hover:bg-primary-hover ${press}`,
+  // Big flat call-to-action (set card, FAQ): thinner border, no press shadow.
+  cta: "border-2 border-ink bg-primary text-ink hover:bg-primary-hover active:translate-y-px",
+  ink: "border-[3px] border-ink bg-ink text-paper hover:bg-ink-3",
+  outline: `border-[3px] border-ink bg-card text-ink ${press}`,
+  "outline-light": "border-[3px] border-paper text-paper hover:bg-paper hover:text-ink",
+  ghost: "border-[3px] border-transparent text-ink hover:bg-ink/5",
+  white: `border-[3px] border-ink bg-paper text-ink ${press}`,
 };
 
 const sizes: Record<Size, string> = {
-  sm: "h-9 px-4 text-[0.7rem]",
-  md: "h-11 px-6 text-xs",
-  lg: "h-14 px-8 text-sm",
+  sm: "h-9 px-4 text-[0.82rem]",
+  md: "h-11 px-6 text-[0.98rem]",
+  lg: "h-[52px] px-7 text-[1.12rem]",
+  xl: "h-[52px] px-6 text-[1.45rem] sm:text-[1.875rem]",
 };
 
 export function buttonClass(variant: Variant = "primary", size: Size = "md", className?: string) {

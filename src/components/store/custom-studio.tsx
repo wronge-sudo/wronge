@@ -77,7 +77,7 @@ export function CustomStudio({ uploadsEnabled }: { uploadsEnabled: boolean }) {
 
   const slider = (label: string, value: number, set: (n: number) => void, min: number, max: number, step: number) => (
     <label className="block">
-      <span className="flex justify-between font-mono text-xs uppercase tracking-wider">
+      <span className="flex justify-between tabular-nums text-xs uppercase">
         <span>{label}</span>
         <span className="text-muted">{label === "Zoom" ? `${value.toFixed(2)}×` : value}</span>
       </span>
@@ -86,7 +86,7 @@ export function CustomStudio({ uploadsEnabled }: { uploadsEnabled: boolean }) {
   );
 
   return (
-    <div className="grid gap-10 lg:grid-cols-12 lg:gap-14">
+    <div className="grid grid-cols-1 gap-10 lg:grid-cols-12 lg:gap-14">
       <div className="lg:col-span-6">
         <div className="lg:sticky lg:top-28">
           <JacketBack panel={image ? { image, name: "Your custom panel", custom: { zoom, x, y } } : null} showLabel eager />
@@ -130,7 +130,7 @@ export function CustomStudio({ uploadsEnabled }: { uploadsEnabled: boolean }) {
         <div className={cn("space-y-5", !image && "pointer-events-none opacity-40")}>
           <div className="flex items-center justify-between">
             <p className="eyebrow">2 · Position it</p>
-            <button type="button" onClick={() => { setZoom(1); setX(0); setY(0); }} className="inline-flex items-center gap-1 text-xs font-bold uppercase tracking-wider text-muted hover:text-ink">
+            <button type="button" onClick={() => { setZoom(1); setX(0); setY(0); }} className="-my-2 inline-flex items-center gap-1 py-2 text-xs font-bold uppercase tracking-wider text-muted hover:text-ink">
               <RotateCcw className="size-3.5" /> Reset
             </button>
           </div>
@@ -163,7 +163,7 @@ export function CustomStudio({ uploadsEnabled }: { uploadsEnabled: boolean }) {
               type="button"
               disabled={!uploaded || !rights || busy || full}
               onClick={addToPack}
-              className="mt-5 h-14 w-full rounded-full bg-primary text-sm font-bold uppercase tracking-wider text-paper shadow-[0_2px_0_0_rgb(11_11_11)] transition hover:bg-primary-hover disabled:cursor-not-allowed disabled:opacity-40 disabled:shadow-none"
+              className="mt-5 h-14 w-full rounded-full bg-primary text-sm font-bold uppercase tracking-wider text-ink shadow-[0_2px_0_0_rgb(11_11_11)] transition hover:bg-primary-hover disabled:cursor-not-allowed disabled:opacity-40 disabled:shadow-none"
             >
               {full ? "Your pack is full" : `Add to pack${settings.custom_panel_fee ? ` (+${taka(settings.custom_panel_fee)})` : ""}`}
             </button>

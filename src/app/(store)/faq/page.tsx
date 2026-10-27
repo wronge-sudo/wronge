@@ -28,7 +28,7 @@ export default async function FaqPage() {
         Can&apos;t find what you need?{" "}
         <Link href="/contact" className="font-semibold text-ink underline underline-offset-4">Message us</Link>.
       </PageHero>
-      <Container className="grid gap-12 py-12 sm:py-16 lg:grid-cols-12">
+      <Container className="grid grid-cols-1 gap-12 py-12 sm:py-16 lg:grid-cols-12">
         <nav className="hidden lg:col-span-3 lg:block" aria-label="FAQ sections">
           <ul className="sticky top-28 space-y-2">
             {groups.map((g) => (

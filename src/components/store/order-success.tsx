@@ -24,16 +24,16 @@ export function OrderSuccess() {
 
   return (
     <div className="mx-auto max-w-2xl text-center">
-      <div className="mx-auto grid size-20 place-items-center rounded-full bg-primary text-paper">
+      <div className="mx-auto grid size-20 place-items-center rounded-full bg-primary text-ink">
         <CheckCircle2 className="size-10" />
       </div>
-      <h1 className="display mt-6 text-5xl sm:text-7xl">Order placed!</h1>
+      <h1 className="display mt-6 text-[2.4rem] sm:text-[3rem]">Order placed!</h1>
       {order ? (
         <>
           <p className="mt-4 text-lg text-muted">
             Thank you, {order.name.split(" ")[0]}. Your order number is
           </p>
-          <p className="mt-2 inline-block rounded-full bg-ink px-6 py-2 font-mono text-2xl font-bold text-primary-light">{order.orderNumber}</p>
+          <p className="mt-2 inline-block rounded-full bg-ink px-6 py-2 tabular-nums text-2xl font-bold text-primary-light">{order.orderNumber}</p>
 
           <div className="mt-10 rounded-3xl bg-paper-2 p-6 text-left">
             <ul className="divide-y divide-line">
@@ -43,11 +43,11 @@ export function OrderSuccess() {
                     <p className="font-bold uppercase">{i.title} × {i.qty}</p>
                     {i.panels.length > 0 && <p className="text-xs text-muted">{i.panels.join(", ")}</p>}
                   </div>
-                  <p className="font-mono text-sm font-bold">{taka(i.lineTotal)}</p>
+                  <p className="tabular-nums text-sm font-bold">{taka(i.lineTotal)}</p>
                 </li>
               ))}
             </ul>
-            <dl className="mt-3 space-y-1.5 border-t border-line pt-3 font-mono text-sm">
+            <dl className="mt-3 space-y-1.5 border-t border-line pt-3 tabular-nums text-sm">
               <div className="flex justify-between"><dt className="text-muted">Subtotal</dt><dd>{taka(order.subtotal)}</dd></div>
               <div className="flex justify-between"><dt className="text-muted">Delivery</dt><dd>{order.delivery ? taka(order.delivery) : "Free"}</dd></div>
               <div className="flex justify-between text-lg font-bold"><dt>Pay on delivery</dt><dd>{taka(order.total)}</dd></div>

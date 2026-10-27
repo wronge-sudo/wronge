@@ -50,9 +50,9 @@ export function TryOnModal({ panel, onClose }: { panel: Panel | null; onClose: (
             <JacketBack panel={{ image: panel.image_url, name: panel.name }} sizes="(min-width: 640px) 440px, 90vw" className="max-h-[52vh] sm:max-h-none" />
             <div className="flex flex-col justify-center pb-2">
               <p className="eyebrow text-muted">{panel.category}</p>
-              <h2 className="display mt-2 text-4xl sm:text-5xl">{panel.name}</h2>
+              <h2 className="display mt-2 text-[2rem] sm:text-[2.4rem]">{panel.name}</h2>
               {panel.description && <p className="mt-4 text-muted">{panel.description}</p>}
-              <p className="mt-4 font-mono text-xs uppercase tracking-wider text-muted">Art by {panel.artist}</p>
+              <p className="mt-4 tabular-nums text-xs uppercase text-muted">Art by {panel.artist}</p>
               <div className="mt-6 flex flex-wrap gap-2">
                 <button
                   type="button"
@@ -60,7 +60,7 @@ export function TryOnModal({ panel, onClose }: { panel: Panel | null; onClose: (
                   onClick={() => toggle(toPanelRef(panel), settings.pack_size)}
                   className={cn(
                     "inline-flex h-12 items-center gap-2 rounded-full px-6 text-xs font-bold uppercase tracking-wider transition disabled:opacity-40",
-                    inPack ? "bg-ink text-primary-light" : "bg-primary text-paper hover:bg-primary-hover",
+                    inPack ? "bg-ink text-primary-light" : "bg-primary text-ink hover:bg-primary-hover",
                   )}
                 >
                   {inPack ? <Check className="size-4" /> : <Plus className="size-4" />}

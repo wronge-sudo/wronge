@@ -56,7 +56,7 @@ export function CartLines({ editable = true, compact = false }: { editable?: boo
                   )}
                   {line.type === "jacket" && <p className="mt-1 text-xs text-muted">Includes the matching blank denim panel</p>}
                 </div>
-                <p className="shrink-0 font-mono text-sm font-bold">{taka(unit * line.qty)}</p>
+                <p className="shrink-0 tabular-nums text-sm font-bold">{taka(unit * line.qty)}</p>
               </div>
 
               {editable ? (
@@ -71,7 +71,7 @@ export function CartLines({ editable = true, compact = false }: { editable?: boo
                     >
                       <Minus className="size-3.5" />
                     </button>
-                    <span className="w-6 text-center font-mono text-sm">{line.qty}</span>
+                    <span className="w-6 text-center tabular-nums text-sm">{line.qty}</span>
                     <button
                       type="button"
                       className="grid size-8 place-items-center rounded-full hover:bg-ink/5 disabled:opacity-30"
@@ -91,7 +91,7 @@ export function CartLines({ editable = true, compact = false }: { editable?: boo
                   </button>
                 </div>
               ) : (
-                <p className="mt-1 font-mono text-xs text-muted">
+                <p className="mt-1 tabular-nums text-xs text-muted">
                   Qty {line.qty} × {taka(unit)}
                 </p>
               )}

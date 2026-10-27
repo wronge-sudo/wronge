@@ -49,14 +49,14 @@ export default async function JacketPage() {
 
   return (
     <>
-      <Container className="grid gap-10 py-8 sm:py-12 lg:grid-cols-12 lg:gap-14">
+      <Container className="grid grid-cols-1 gap-10 py-8 sm:py-12 lg:grid-cols-12 lg:gap-14">
         <div className="lg:col-span-7">
           <JacketGallery artPanel={art ? { image: art.image_url, name: art.name } : null} />
         </div>
         <div className="lg:col-span-5">
           <div className="lg:sticky lg:top-28">
             <p className="eyebrow text-muted">Washed black · Unisex</p>
-            <h1 className="display mt-3 text-5xl sm:text-6xl">The Wronge denim jacket</h1>
+            <h1 className="display mt-3 text-[2.25rem] sm:text-[2.75rem]">The Wronge denim jacket</h1>
             <p className="mt-4 text-muted">
               A heavyweight trucker with a hole in its back, on purpose. Zip in the matching denim panel for an everyday classic, or any
               art panel for a statement. Same jacket, a different jacket.
@@ -92,20 +92,20 @@ export default async function JacketPage() {
 
       {/* Details + size */}
       <section className="py-20 sm:py-24">
-        <Container className="grid gap-14 lg:grid-cols-2">
+        <Container className="grid grid-cols-1 gap-14 lg:grid-cols-2">
           <div>
-            <h2 className="display text-4xl sm:text-5xl">Details</h2>
+            <h2 className="display text-[2rem] sm:text-[2.4rem]">Details</h2>
             <dl className="mt-8 divide-y divide-line border-y border-line">
               {DETAILS.map((d) => (
                 <div key={d.k} className="grid grid-cols-3 gap-4 py-4">
-                  <dt className="font-mono text-xs font-bold uppercase tracking-wider">{d.k}</dt>
+                  <dt className="tabular-nums text-xs font-bold uppercase">{d.k}</dt>
                   <dd className="col-span-2 text-sm text-muted">{d.v}</dd>
                 </div>
               ))}
             </dl>
           </div>
           <div id="size-guide">
-            <h2 className="display text-4xl sm:text-5xl">Size guide</h2>
+            <h2 className="display text-[2rem] sm:text-[2.4rem]">Size guide</h2>
             <div className="mt-8">
               <SizeGuideTable />
             </div>
@@ -120,7 +120,7 @@ export default async function JacketPage() {
           <div className="mt-10 overflow-x-auto">
             <table className="w-full min-w-[560px] text-left">
               <thead>
-                <tr className="border-b border-paper/20 font-mono text-xs uppercase tracking-wider text-paper/60">
+                <tr className="border-b border-paper/20 tabular-nums text-xs uppercase text-paper/60">
                   <th className="py-4 pr-4" />
                   <th className="py-4 pr-4 text-primary-light">Wronge set</th>
                   <th className="py-4">Four regular jackets</th>
@@ -135,7 +135,7 @@ export default async function JacketPage() {
                   ["Your own art", "Yes, upload it", "No"],
                 ].map(([k, a, b]) => (
                   <tr key={k} className="border-b border-paper/10">
-                    <td className="py-4 pr-4 font-mono text-xs uppercase tracking-wider text-paper/60">{k}</td>
+                    <td className="py-4 pr-4 tabular-nums text-xs uppercase text-paper/60">{k}</td>
                     <td className="py-4 pr-4 font-bold">{a}</td>
                     <td className="py-4 text-paper/60">{b}</td>
                   </tr>
@@ -151,7 +151,7 @@ export default async function JacketPage() {
 
       <section className="py-20 sm:py-24">
         <Container className="max-w-4xl">
-          <h2 className="display text-4xl sm:text-5xl">Questions</h2>
+          <h2 className="display text-[2rem] sm:text-[2.4rem]">Questions</h2>
           <div className="mt-8">
             <FaqList faqs={getFaqs(settings).filter((f) => f.group === "Product" || f.group === "Swapping")} />
           </div>

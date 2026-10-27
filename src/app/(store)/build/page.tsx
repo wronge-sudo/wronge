@@ -19,7 +19,7 @@ export default async function BuildPage() {
           <p className="eyebrow mb-3 text-muted">
             Jacket + any {settings.pack_size} panels · {taka(settings.jacket_price + settings.pack_price - settings.bundle_discount)}
           </p>
-          <h1 className="display text-5xl sm:text-7xl lg:text-8xl">Build your set</h1>
+          <h1 className="display text-[2.5rem] sm:text-[3.5rem]">Build your set</h1>
         </Container>
       </section>
       <Container className="py-10">

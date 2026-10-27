@@ -66,7 +66,7 @@ export function SetBuilder({ panels, initialSize = null }: { panels: Panel[]; in
   const step = (num: number, title: string, done: boolean, extra?: React.ReactNode) => (
     <div className="flex items-center justify-between gap-4">
       <div className="flex items-center gap-3">
-        <span className={cn("grid size-9 place-items-center rounded-full font-mono text-sm font-bold", done ? "bg-primary text-paper" : "bg-ink text-paper")}>
+        <span className={cn("grid size-9 place-items-center rounded-full tabular-nums text-sm font-bold", done ? "bg-primary text-ink" : "bg-ink text-paper")}>
           {done ? <Check className="size-4" /> : num}
         </span>
         <h2 className="display-narrow text-2xl sm:text-3xl">{title}</h2>
@@ -76,7 +76,7 @@ export function SetBuilder({ panels, initialSize = null }: { panels: Panel[]; in
   );
 
   return (
-    <div className="grid gap-10 lg:grid-cols-12 lg:gap-14">
+    <div className="grid grid-cols-1 gap-10 lg:grid-cols-12 lg:gap-14">
       {/* live preview */}
       <div className="lg:col-span-5">
         <div className="lg:sticky lg:top-28">
@@ -88,7 +88,7 @@ export function SetBuilder({ panels, initialSize = null }: { panels: Panel[]; in
               className={cn("relative aspect-[4/7] overflow-hidden rounded-lg border-2 bg-ink-3", !shown ? "border-ink" : "border-transparent")}
               aria-label="Preview blank panel"
             >
-              <span className="absolute inset-0 grid place-items-center p-1 text-center font-mono text-[0.55rem] uppercase leading-tight text-paper/70">Blank denim</span>
+              <span className="absolute inset-0 grid place-items-center p-1 text-center tabular-nums text-[0.55rem] uppercase leading-tight text-paper/70">Blank denim</span>
             </button>
             {Array.from({ length: n }).map((_, i) => {
               const p = chosen[i];
@@ -127,7 +127,7 @@ export function SetBuilder({ panels, initialSize = null }: { panels: Panel[]; in
         </section>
 
         <section aria-label="Pick your art panels">
-          {step(2, `Pick any ${n} art panels`, chosen.length === n, <span className="font-mono text-sm font-bold">{chosen.length}/{n}</span>)}
+          {step(2, `Pick any ${n} art panels`, chosen.length === n, <span className="tabular-nums text-sm font-bold">{chosen.length}/{n}</span>)}
           <div className="no-scrollbar -mx-1 mt-5 flex gap-2 overflow-x-auto px-1">
             {[null, ...categories].map((c) => (
               <button
@@ -135,7 +135,7 @@ export function SetBuilder({ panels, initialSize = null }: { panels: Panel[]; in
                 type="button"
                 onClick={() => setCategory(c)}
                 className={cn(
-                  "h-9 shrink-0 rounded-full border px-4 text-[0.7rem] font-bold uppercase tracking-wider transition",
+                  "h-9 shrink-0 rounded-full border px-4 text-[0.75rem] font-bold uppercase tracking-wider transition",
                   category === c ? "border-ink bg-ink text-paper" : "border-line hover:border-ink",
                 )}
               >
@@ -161,10 +161,10 @@ export function SetBuilder({ panels, initialSize = null }: { panels: Panel[]; in
                   )}
                 >
                   <Image src={p.image_url} alt="" fill sizes="(min-width:1280px) 9vw, (min-width:640px) 14vw, 30vw" className="object-cover" />
-                  <span className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-ink/90 to-transparent p-2 pt-6 text-[0.65rem] font-bold uppercase leading-tight text-paper">
+                  <span className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-ink/90 to-transparent p-2 pt-6 text-[0.7rem] font-bold uppercase leading-tight text-paper">
                     {p.name}
                   </span>
-                  <span className={cn("absolute right-1.5 top-1.5 grid size-6 place-items-center rounded-full transition", isPicked ? "bg-primary text-paper" : "bg-paper/85 text-ink opacity-0 group-hover:opacity-100")}>
+                  <span className={cn("absolute right-1.5 top-1.5 grid size-6 place-items-center rounded-full transition", isPicked ? "bg-primary text-ink" : "bg-paper/85 text-ink opacity-0 group-hover:opacity-100")}>
                     {isPicked ? <Check className="size-3.5" /> : <Plus className="size-3.5" />}
                   </span>
                 </button>
@@ -184,7 +184,7 @@ export function SetBuilder({ panels, initialSize = null }: { panels: Panel[]; in
 
         <section aria-label="Review your set" className="rounded-3xl bg-ink p-6 text-paper sm:p-8">
           {step(3, "Your set", complete)}
-          <dl className="mt-6 space-y-2.5 font-mono text-sm">
+          <dl className="mt-6 space-y-2.5 tabular-nums text-sm">
             <div className="flex justify-between gap-4">
               <dt className="text-paper/70">Jacket {size ? `· ${size}` : ""} + blank panel</dt>
               <dd>{taka(settings.jacket_price)}</dd>
@@ -230,13 +230,13 @@ export function SetBuilder({ panels, initialSize = null }: { panels: Panel[]; in
                 type="button"
                 onClick={addSet}
                 disabled={!complete}
-                className="mt-6 h-14 w-full rounded-full bg-primary text-sm font-bold uppercase tracking-wider text-paper transition hover:bg-primary-hover disabled:cursor-not-allowed disabled:opacity-40"
+                className="mt-6 h-14 w-full rounded-full bg-primary text-sm font-bold uppercase tracking-wider text-ink transition hover:bg-primary-hover disabled:cursor-not-allowed disabled:bg-paper/15 disabled:text-paper/75"
               >
                 {complete ? "Add set to bag" : !size ? "Choose a size first" : `Pick ${n - chosen.length} more panel${n - chosen.length === 1 ? "" : "s"}`}
               </button>
               <div className="mt-4 flex flex-wrap justify-center gap-x-5 gap-y-2 text-xs text-paper/60">
-                <Link href="/jacket" className="underline-offset-4 hover:text-paper hover:underline">Just the jacket</Link>
-                <Link href="/panels" className="underline-offset-4 hover:text-paper hover:underline">Just panels (already have a jacket)</Link>
+                <Link href="/jacket" className="py-2 underline-offset-4 hover:text-paper hover:underline">Just the jacket</Link>
+                <Link href="/panels" className="py-2 underline-offset-4 hover:text-paper hover:underline">Just panels (already have a jacket)</Link>
               </div>
             </>
           )}

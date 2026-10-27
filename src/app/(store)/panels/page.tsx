@@ -16,10 +16,10 @@ export default async function PanelsPage() {
   return (
     <>
       <section className="border-b border-line">
-        <Container className="grid gap-6 py-12 sm:py-16 lg:grid-cols-12 lg:items-end lg:py-20">
+        <Container className="grid grid-cols-1 gap-6 py-12 sm:py-16 lg:grid-cols-12 lg:items-end lg:py-20">
           <div className="lg:col-span-8">
             <p className="eyebrow mb-4 text-muted">The swaps</p>
-            <h1 className="display text-6xl sm:text-8xl lg:text-9xl">Art panels</h1>
+            <h1 className="display text-[2.75rem] sm:text-[4rem]">Art panels</h1>
           </div>
           <div className="lg:col-span-4">
             <p className="text-muted sm:text-lg">

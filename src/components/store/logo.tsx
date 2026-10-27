@@ -12,7 +12,7 @@ export function Logo({ light = false, className }: { light?: boolean; className?
         width={ASSET_SIZES.wordmark.width}
         height={ASSET_SIZES.wordmark.height}
         loading="eager"
-        className="h-6 w-auto sm:h-7"
+        className="h-6 w-auto sm:h-[30px]"
       />
     </Link>
   );

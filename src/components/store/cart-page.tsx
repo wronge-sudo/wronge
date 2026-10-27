@@ -34,14 +34,14 @@ export function CartPageClient() {
 
   const { subtotal } = priceCart(lines, settings, null);
   return (
-    <div className="grid gap-10 lg:grid-cols-12">
+    <div className="grid grid-cols-1 gap-10 lg:grid-cols-12">
       <div className="lg:col-span-8">
         <CartLines />
       </div>
       <aside className="lg:col-span-4">
-        <div className="rounded-3xl bg-paper-2 p-6 lg:sticky lg:top-28">
+        <div className="rounded-[21px] border border-line bg-card p-6 lg:sticky lg:top-28">
           <p className="display-narrow text-2xl">Summary</p>
-          <dl className="mt-5 space-y-2 font-mono text-sm">
+          <dl className="mt-5 space-y-2 tabular-nums text-sm">
             <div className="flex justify-between">
               <dt className="text-muted">Subtotal</dt>
               <dd className="font-bold">{taka(subtotal)}</dd>

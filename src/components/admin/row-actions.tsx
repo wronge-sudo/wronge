@@ -17,7 +17,7 @@ export function ReviewActions({ id, approved, featured }: { id: string; approved
           <EyeOff className="size-3.5" /> Hide
         </button>
       ) : (
-        <button type="button" disabled={pending} className={cn(btn, "border-ink bg-ink text-paper hover:bg-primary hover:text-paper")} onClick={() => run(() => moderateReview(id, { is_approved: true }))}>
+        <button type="button" disabled={pending} className={cn(btn, "border-ink bg-ink text-paper hover:bg-primary hover:text-ink")} onClick={() => run(() => moderateReview(id, { is_approved: true }))}>
           <Check className="size-3.5" /> Approve
         </button>
       )}

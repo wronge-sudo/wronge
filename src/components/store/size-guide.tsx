@@ -14,7 +14,7 @@ export function SizeGuideButton({ className }: { className?: string }) {
   const [open, setOpen] = useState(false);
   return (
     <>
-      <button type="button" onClick={() => setOpen(true)} className={cn("inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider underline underline-offset-4 hover:text-muted", className)}>
+      <button type="button" onClick={() => setOpen(true)} className={cn("-my-2 inline-flex items-center gap-1.5 py-2 text-xs font-bold uppercase tracking-wider underline underline-offset-4 hover:text-muted", className)}>
         <Ruler className="size-3.5" /> Size guide
       </button>
       <SizeGuideModal open={open} onClose={() => setOpen(false)} />
@@ -38,7 +38,7 @@ export function SizeGuideTable() {
               key={u}
               type="button"
               onClick={() => setUnit(u)}
-              className={cn("h-8 rounded-full px-3 font-mono text-xs font-bold uppercase", unit === u ? "bg-ink text-paper" : "text-muted")}
+              className={cn("h-8 rounded-full px-3 tabular-nums text-xs font-bold uppercase", unit === u ? "bg-ink text-paper" : "text-muted")}
             >
               {u}
             </button>
@@ -48,7 +48,7 @@ export function SizeGuideTable() {
       <div className="mt-4 overflow-x-auto">
         <table className="w-full min-w-[460px] text-left text-sm">
           <thead>
-            <tr className="border-b-2 border-ink font-mono text-xs uppercase tracking-wider">
+            <tr className="border-b-2 border-ink tabular-nums text-xs uppercase">
               <th className="py-2.5 pr-3">Size</th>
               <th className="py-2.5 pr-3">Chest (flat)</th>
               <th className="py-2.5 pr-3">Length</th>
@@ -60,9 +60,9 @@ export function SizeGuideTable() {
             {rows.map((r) => (
               <tr key={r.size} className="border-b border-line">
                 <td className="py-2.5 pr-3 font-bold">{r.size}</td>
-                <td className="py-2.5 pr-3 font-mono">{v(r.chest)}</td>
-                <td className="py-2.5 pr-3 font-mono">{v(r.length)}</td>
-                <td className="py-2.5 pr-3 font-mono">{v(r.sleeve)}</td>
+                <td className="py-2.5 pr-3 tabular-nums">{v(r.chest)}</td>
+                <td className="py-2.5 pr-3 tabular-nums">{v(r.length)}</td>
+                <td className="py-2.5 pr-3 tabular-nums">{v(r.sleeve)}</td>
                 <td className="py-2.5 text-muted">{r.fit}</td>
               </tr>
             ))}

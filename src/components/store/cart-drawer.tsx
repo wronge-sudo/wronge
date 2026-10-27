@@ -92,7 +92,7 @@ export function CartDrawer() {
                 <div className="border-t border-line bg-paper px-5 py-5">
                   <div className="flex items-center justify-between">
                     <span className="eyebrow text-muted">Subtotal</span>
-                    <span className="font-mono text-lg font-bold">{taka(subtotal)}</span>
+                    <span className="tabular-nums text-lg font-bold">{taka(subtotal)}</span>
                   </div>
                   <p className="mt-1 text-xs text-muted">
                     Delivery: {taka(settings.delivery_inside_dhaka)} inside Dhaka · {taka(settings.delivery_outside_dhaka)} outside. Pay cash when it arrives.

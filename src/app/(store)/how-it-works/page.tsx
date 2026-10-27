@@ -29,8 +29,8 @@ export default async function HowItWorksPage() {
                   <SwapDiagram step={(i + 1) as 1 | 2 | 3 | 4} className="mx-auto max-w-sm" />
                 </div>
                 <div>
-                  <p className="font-mono text-sm font-bold text-primary-light">Step 0{i + 1}</p>
-                  <h2 className="display mt-3 text-4xl sm:text-6xl">{s.title}</h2>
+                  <p className="tabular-nums text-sm font-bold text-primary-light">Step 0{i + 1}</p>
+                  <h2 className="display mt-3 text-[2rem] sm:text-[2.4rem]">{s.title}</h2>
                   <p className="mt-4 max-w-md text-paper/70 sm:text-lg">{s.body}</p>
                 </div>
               </div>
@@ -74,7 +74,7 @@ export default async function HowItWorksPage() {
 
       <section className="py-16 text-center sm:py-24">
         <Container>
-          <h2 className="display text-5xl sm:text-7xl">Ready?</h2>
+          <h2 className="display text-[2.4rem] sm:text-[3rem]">Ready?</h2>
           <LinkButton href="/build" size="lg" className="mt-8">
             Build your set <Arrow />
           </LinkButton>
