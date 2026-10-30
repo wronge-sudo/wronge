@@ -10,12 +10,21 @@ const toCm = (v: string) => {
   return Number.isFinite(n) ? (n * 2.54).toFixed(0) : v;
 };
 
-export function SizeGuideButton({ className }: { className?: string }) {
+/** Opens the size guide. `plain` is the sentence-case underlined link used inside the product size card. */
+export function SizeGuideButton({ className, plain = false, label = "Size guide" }: { className?: string; plain?: boolean; label?: string }) {
   const [open, setOpen] = useState(false);
   return (
     <>
-      <button type="button" onClick={() => setOpen(true)} className={cn("-my-2 inline-flex items-center gap-1.5 py-2 text-xs font-bold uppercase tracking-wider underline underline-offset-4 hover:text-muted", className)}>
-        <Ruler className="size-3.5" /> Size guide
+      <button
+        type="button"
+        onClick={() => setOpen(true)}
+        className={cn(
+          "-my-2 inline-flex items-center gap-1.5 py-2 underline underline-offset-4 hover:text-muted",
+          plain ? "text-[0.92rem]" : "text-xs font-bold uppercase tracking-wider",
+          className,
+        )}
+      >
+        <Ruler className={plain ? "size-4" : "size-3.5"} /> {label}
       </button>
       <SizeGuideModal open={open} onClose={() => setOpen(false)} />
     </>

@@ -2,7 +2,7 @@ import Link from "next/link";
 import type { ComponentProps, ReactNode } from "react";
 import { cn } from "@/lib/format";
 
-type Variant = "primary" | "cta" | "ink" | "outline" | "outline-light" | "ghost" | "white";
+type Variant = "primary" | "cream" | "cta" | "ink" | "outline" | "outline-light" | "ghost" | "white";
 type Size = "sm" | "md" | "lg" | "xl";
 
 const base =
@@ -13,6 +13,8 @@ const press = "shadow-press hover:translate-y-0.5 hover:shadow-[0_2px_0_0_var(--
 
 const variants: Record<Variant, string> = {
   primary: `border-[3px] border-ink bg-primary text-ink hover:bg-primary-hover ${press}`,
+  // Pale "not ready yet" step CTA (e.g. "Choose a size"): still clickable, it points at what's missing.
+  cream: `border-[3px] border-ink bg-cream text-ink hover:bg-primary/30 ${press}`,
   // Big flat call-to-action (set card, FAQ): thinner border, no press shadow.
   cta: "border-2 border-ink bg-primary text-ink hover:bg-primary-hover active:translate-y-px",
   ink: "border-[3px] border-ink bg-ink text-paper hover:bg-ink-3",

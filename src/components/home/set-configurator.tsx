@@ -2,24 +2,16 @@
 import Image from "next/image";
 import { useState } from "react";
 import { ArrowRight, Banknote, ChevronDown, RefreshCcw, Ruler } from "lucide-react";
-import { ASSETS, BACK_PANEL_RECT, asset } from "@/config/assets";
+import { ASSETS, asset } from "@/config/assets";
 import { cn, taka } from "@/lib/format";
 import { LinkButton } from "@/components/ui/button";
-import { JACKET_ASPECT, JacketBack } from "@/components/store/jacket-back";
+import { BLANK_PANEL_CROP, JACKET_ASPECT, JacketBack } from "@/components/store/jacket-back";
 import { LOW_STOCK } from "@/components/store/size-picker";
 import { useStoreData } from "@/components/store/store-data";
 
 type Art = { slug: string; name: string; image: string };
 type OptionId = "jacket" | "set" | "panels";
 
-// Shows the blank denim panel by scaling the jacket-back photo so its zip frame fills the thumb.
-const r = BACK_PANEL_RECT;
-const BLANK_CROP = {
-  width: `${(100 / r.width) * 100}%`,
-  height: `${(100 / r.height) * 100}%`,
-  left: `${(-r.left / r.width) * 100}%`,
-  top: `${(-r.top / r.height) * 100}%`,
-};
 // Same `sizes` as the big preview, so the browser reuses that download for the thumb.
 const PREVIEW_SIZES = "(min-width: 1024px) 480px, 90vw";
 
@@ -112,7 +104,7 @@ export function SetConfigurator({ art }: { art: Art[] }) {
                   !shown && "ring-2 ring-ink ring-offset-2 ring-offset-studio",
                 )}
               >
-                <span className="absolute" style={BLANK_CROP}>
+                <span className="absolute" style={BLANK_PANEL_CROP}>
                   <Image src={asset(ASSETS.jacketBack)} alt="" fill sizes={PREVIEW_SIZES} />
                 </span>
                 <span className="absolute inset-x-0 bottom-0 bg-white/72 py-[3px] text-[0.68rem] font-semibold leading-none">Included</span>

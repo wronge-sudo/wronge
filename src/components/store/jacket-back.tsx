@@ -15,6 +15,14 @@ const NOISE = "url(/brand/noise.png)";
 /** CSS aspect-ratio of the back photo, for wrappers that size JacketBack by height. */
 export const JACKET_ASPECT = `${ASSET_SIZES.jacketBack.width} / ${ASSET_SIZES.jacketBack.height}`;
 
+/** Position for the back photo inside a panel-shaped thumb, so its zip frame (the blank denim panel) fills the thumb. */
+export const BLANK_PANEL_CROP = {
+  width: `${(100 / BACK_PANEL_RECT.width) * 100}%`,
+  height: `${(100 / BACK_PANEL_RECT.height) * 100}%`,
+  left: `${(-BACK_PANEL_RECT.left / BACK_PANEL_RECT.width) * 100}%`,
+  top: `${(-BACK_PANEL_RECT.top / BACK_PANEL_RECT.height) * 100}%`,
+};
+
 /**
  * The jacket back flat-lay with an art panel "zipped" into the centre frame.
  * Pass `panel={null}` to show the matching blank denim panel.

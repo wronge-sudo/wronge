@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { Suspense } from "react";
-import { getPanels, getSettings } from "@/lib/data";
-import { taka } from "@/lib/format";
+import { getPanels } from "@/lib/data";
 import { Container } from "@/components/ui/section";
 import { SetBuilder, SetBuilderFromParams } from "@/components/store/set-builder";
 
@@ -11,22 +10,12 @@ export const metadata: Metadata = {
 };
 
 export default async function BuildPage() {
-  const [panels, settings] = await Promise.all([getPanels(), getSettings()]);
+  const panels = await getPanels();
   return (
-    <>
-      <section className="border-b border-line">
-        <Container className="py-10 sm:py-14">
-          <p className="eyebrow mb-3 text-muted">
-            Jacket + any {settings.pack_size} panels · {taka(settings.jacket_price + settings.pack_price - settings.bundle_discount)}
-          </p>
-          <h1 className="display text-[2.5rem] sm:text-[3.5rem]">Build your set</h1>
-        </Container>
-      </section>
-      <Container className="py-10">
-        <Suspense fallback={<SetBuilder panels={panels} />}>
-          <SetBuilderFromParams panels={panels} />
-        </Suspense>
-      </Container>
-    </>
+    <Container className="pb-16 pt-4 sm:pt-6">
+      <Suspense fallback={<SetBuilder panels={panels} />}>
+        <SetBuilderFromParams panels={panels} />
+      </Suspense>
+    </Container>
   );
 }
