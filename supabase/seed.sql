@@ -4,22 +4,18 @@
 --  moves them to Cloudinary and updates these rows automatically.
 -- ════════════════════════════════════════════════════════════════════
 
-insert into public.store_settings (id, jacket_price, pack_price, pack_size, bundle_discount,
-  delivery_inside_dhaka, delivery_outside_dhaka, announcement, size_chart)
-values (1, 5000, 1000, 3, 0, 80, 150, 'Cash on delivery all over Bangladesh',
+insert into public.store_settings (id, jacket_price, delivery_inside_dhaka, delivery_outside_dhaka, announcement, size_chart)
+values (1, 4800, 80, 150, null,
   '[
-    {"size":"XS","chest":"21","length":"24.5","sleeve":"23","fit":"Cropped & close"},
-    {"size":"S","chest":"22","length":"25","sleeve":"23.5","fit":"Relaxed"},
-    {"size":"M","chest":"23","length":"25.5","sleeve":"24","fit":"Relaxed, boxy"},
-    {"size":"L","chest":"24","length":"26","sleeve":"24.5","fit":"Boxy"},
-    {"size":"XL","chest":"25","length":"26.5","sleeve":"25","fit":"Roomy layering"},
-    {"size":"XXL","chest":"26","length":"27","sleeve":"25.5","fit":"Extra roomy"}
+    {"size":"M","chest":"40","length":"26","sleeve":"","fit":""},
+    {"size":"L","chest":"42","length":"27","sleeve":"","fit":""},
+    {"size":"XL","chest":"44","length":"28","sleeve":"","fit":""},
+    {"size":"XXL","chest":"46","length":"29","sleeve":"","fit":""}
   ]'::jsonb)
 on conflict (id) do nothing;
 
+-- Sizes on sale: M, L, XL, XXL.
 insert into public.jacket_sizes (size, sort_order, stock, is_active) values
-  ('XS', 1, 10, true),
-  ('S',  2, 20, true),
   ('M',  3, 25, true),
   ('L',  4, 25, true),
   ('XL', 5, 20, true),

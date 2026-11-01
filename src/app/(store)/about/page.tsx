@@ -51,7 +51,7 @@ export default function AboutPage() {
           {[
             ["One jacket", "Built to last, designed to be worn constantly."],
             ["Endless backs", "Original art panels, new drops, and your own designs."],
-            ["Zero fuss", "Cash on delivery across all 64 districts."],
+            ["Zero fuss", "Delivery across all 64 districts with the courier you choose."],
           ].map(([t, b]) => (
             <div key={t}>
               <p className="display-narrow text-3xl">{t}</p>

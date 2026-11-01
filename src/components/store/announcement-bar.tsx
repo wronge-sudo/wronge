@@ -2,27 +2,23 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
-import { Banknote, ChevronRight } from "lucide-react";
+import { ChevronRight, Truck } from "lucide-react";
+import { DELIVERY_CITY } from "@/config/delivery";
 import { taka } from "@/lib/format";
 import type { StoreSettings } from "@/lib/types";
 
 const ROTATE_MS = 4500;
+// Offers we no longer run. Hidden even if an old announcement in Admin → Settings still mentions them.
+const RETIRED = [/cash on delivery/i, /art panels? for/i];
 
 /** Yellow strip above the header. Shows one message at a time and cycles through them all. */
 export function AnnouncementBar({ settings }: { settings: StoreSettings }) {
-  const custom = (settings.announcement || "Cash on delivery all over Bangladesh")
+  const custom = (settings.announcement ?? "")
     .split("|")
     .map((s) => s.trim())
-    .filter(Boolean);
+    .filter((s) => s && !RETIRED.some((r) => r.test(s)));
   const items = [
-    ...new Set([
-      ...custom,
-      `Any ${settings.pack_size} art panels for ${taka(settings.pack_price)}`,
-      settings.free_delivery_min
-        ? `Free delivery over ${taka(settings.free_delivery_min)}`
-        : `Delivery ${taka(settings.delivery_inside_dhaka)} inside Dhaka`,
-      "Swap your back panel in under a minute",
-    ]),
+    ...new Set([...custom, `Delivery ${taka(settings.delivery_inside_dhaka)} inside ${DELIVERY_CITY}`, "Swap your back panel in under a minute"]),
   ];
 
   const [index, setIndex] = useState(0);
@@ -49,7 +45,7 @@ export function AnnouncementBar({ settings }: { settings: StoreSettings }) {
     >
       <div className="mx-auto flex h-10 max-w-[1440px] items-center justify-center gap-3 px-4 text-center text-[0.86rem] leading-tight sm:h-9">
         <span className="grid size-[22px] shrink-0 place-items-center rounded-full border border-ink" aria-hidden>
-          <Banknote className="size-3" strokeWidth={2.4} />
+          <Truck className="size-3" strokeWidth={2.4} />
         </span>
         <AnimatePresence mode="wait" initial={false}>
           <motion.strong

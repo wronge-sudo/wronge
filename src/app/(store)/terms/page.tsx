@@ -17,15 +17,10 @@ export default function TermsPage() {
       </section>
       <section>
         <h2>Payment</h2>
-        <p>All orders are paid in cash on delivery. Repeatedly refusing parcels without a valid reason may stop you from ordering again.</p>
-      </section>
-      <section>
-        <h2>Custom panels</h2>
-        <ul>
-          <li>You confirm you own, or have permission to use, any image you upload.</li>
-          <li>We may refuse designs that are hateful, explicit, illegal, or use someone else&apos;s trademark or copyright.</li>
-          <li>Colours on screen and on fabric can differ slightly. Low-resolution images may print soft.</li>
-        </ul>
+        <p>
+          Full advance payment is required after we confirm your order. With S.A. Paribahan or Sundarban Courier Service, you pay only the delivery
+          charge in advance and the rest in cash on delivery. Repeatedly refusing parcels without a valid reason may stop you from ordering again.
+        </p>
       </section>
       <section>
         <h2>Designs and content</h2>

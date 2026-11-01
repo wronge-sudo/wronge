@@ -3,6 +3,7 @@ import Link from "next/link";
 import { useEffect } from "react";
 import { AnimatePresence, motion } from "motion/react";
 import { ShoppingBag, Truck, X } from "lucide-react";
+import { DELIVERY_CITY } from "@/config/delivery";
 import { priceCart } from "@/lib/pricing";
 import { taka } from "@/lib/format";
 import { useCart } from "@/store/cart";
@@ -68,7 +69,7 @@ export function CartDrawer() {
                   <ShoppingBag className="size-7" />
                 </div>
                 <p className="display-narrow text-2xl">Your bag is empty</p>
-                <p className="text-sm text-muted">Start with the jacket, then pick the art you want to wear on your back.</p>
+                <p className="text-sm text-muted">One jacket, a blank denim panel and two art panels. Four pieces, three looks.</p>
                 <Link href="/build" onClick={() => setOpen(false)} className={buttonClass("primary", "lg", "mt-2")}>
                   Build your set →
                 </Link>
@@ -95,10 +96,10 @@ export function CartDrawer() {
                     <span className="tabular-nums text-lg font-bold">{taka(subtotal)}</span>
                   </div>
                   <p className="mt-1 text-xs text-muted">
-                    Delivery: {taka(settings.delivery_inside_dhaka)} inside Dhaka · {taka(settings.delivery_outside_dhaka)} outside. Pay cash when it arrives.
+                    Delivery: {taka(settings.delivery_inside_dhaka)} inside {DELIVERY_CITY} city · {taka(settings.delivery_outside_dhaka)} outside. Choose your courier at checkout.
                   </p>
                   <Link href="/checkout" onClick={() => setOpen(false)} className={buttonClass("primary", "lg", "mt-4 w-full")}>
-                    Checkout · Cash on delivery
+                    Checkout
                   </Link>
                   <Link href="/cart" onClick={() => setOpen(false)} className="mt-3 block text-center text-xs font-semibold uppercase tracking-wider underline-offset-4 hover:underline">
                     View full bag

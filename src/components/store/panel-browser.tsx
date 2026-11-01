@@ -3,6 +3,7 @@ import { useSearchParams } from "next/navigation";
 import { useMemo, useState } from "react";
 import { Heart, Search, X } from "lucide-react";
 import type { Panel } from "@/lib/types";
+import { isPackagePanel } from "@/config/package";
 import { cn } from "@/lib/format";
 import { useWishlist } from "@/store/wishlist";
 import { useMounted } from "@/lib/use-mounted";
@@ -56,7 +57,12 @@ export function PanelBrowser({
     );
     if (sort === "az") list = [...list].sort((a, b) => a.name.localeCompare(b.name));
     if (sort === "new") list = [...list].sort((a, b) => (b.created_at ?? "").localeCompare(a.created_at ?? "") || b.sort_order - a.sort_order);
-    if (sort === "featured") list = [...list].sort((a, b) => Number(b.is_featured) - Number(a.is_featured) || a.sort_order - b.sort_order);
+    // Featured: the package's designs (the ones on sale) first.
+    if (sort === "featured")
+      list = [...list].sort(
+        (a, b) =>
+          Number(isPackagePanel(b.slug)) - Number(isPackagePanel(a.slug)) || Number(b.is_featured) - Number(a.is_featured) || a.sort_order - b.sort_order,
+      );
     return list;
   }, [panels, category, savedOnly, saved, mounted, query, sort]);
 

@@ -7,35 +7,28 @@
 import type { Panel, SizeRow, StoreSettings } from "@/lib/types";
 
 export const DEFAULT_SETTINGS: StoreSettings = {
-  jacket_price: 5000,
+  jacket_price: 4800,
   jacket_compare_at: null,
-  pack_price: 1000,
-  pack_size: 3,
-  bundle_discount: 0,
-  custom_panel_fee: 0,
   delivery_inside_dhaka: 80,
   delivery_outside_dhaka: 150,
   free_delivery_min: null,
-  announcement: "Cash on delivery all over Bangladesh",
+  announcement: null,
   orders_enabled: true,
   support_phone: null,
   support_email: null,
   whatsapp: null,
   facebook_url: null,
   instagram_url: null,
+  // Client size chart (inches), Nov 2026. Sleeve and fit weren't supplied, so those columns stay hidden.
   size_chart: [
-    { size: "XS", chest: "21", length: "24.5", sleeve: "23", fit: "Cropped & close" },
-    { size: "S", chest: "22", length: "25", sleeve: "23.5", fit: "Relaxed" },
-    { size: "M", chest: "23", length: "25.5", sleeve: "24", fit: "Relaxed, boxy" },
-    { size: "L", chest: "24", length: "26", sleeve: "24.5", fit: "Boxy" },
-    { size: "XL", chest: "25", length: "26.5", sleeve: "25", fit: "Roomy layering" },
-    { size: "XXL", chest: "26", length: "27", sleeve: "25.5", fit: "Extra roomy" },
+    { size: "M", chest: "40", length: "26", sleeve: "", fit: "" },
+    { size: "L", chest: "42", length: "27", sleeve: "", fit: "" },
+    { size: "XL", chest: "44", length: "28", sleeve: "", fit: "" },
+    { size: "XXL", chest: "46", length: "29", sleeve: "", fit: "" },
   ],
 };
 
 export const DEFAULT_SIZES: SizeRow[] = [
-  { size: "XS", sort_order: 1, stock: 10, is_active: true },
-  { size: "S", sort_order: 2, stock: 20, is_active: true },
   { size: "M", sort_order: 3, stock: 25, is_active: true },
   { size: "L", sort_order: 4, stock: 25, is_active: true },
   { size: "XL", sort_order: 5, stock: 20, is_active: true },

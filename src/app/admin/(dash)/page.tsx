@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { AlertTriangle, Banknote, PackageCheck, Shirt, ShoppingBag, TrendingUp } from "lucide-react";
+import { ZONE_LABEL } from "@/config/delivery";
 import { getDashboardStats } from "@/lib/admin-data";
 import { cn, formatDate, STATUS_LABEL, taka } from "@/lib/format";
 import { ORDER_STATUSES } from "@/lib/types";
@@ -139,11 +140,11 @@ export default async function DashboardPage(props: PageProps<"/admin">) {
           <div className="mb-5 grid grid-cols-2 gap-3 text-center">
             <div className="rounded-xl bg-paper-2/70 p-3">
               <p className="font-mono text-xl font-bold">{s.zones.inside_dhaka}</p>
-              <p className="text-xs text-muted">Inside Dhaka</p>
+              <p className="text-xs text-muted">{ZONE_LABEL.inside_dhaka}</p>
             </div>
             <div className="rounded-xl bg-paper-2/70 p-3">
               <p className="font-mono text-xl font-bold">{s.zones.outside_dhaka}</p>
-              <p className="text-xs text-muted">Outside Dhaka</p>
+              <p className="text-xs text-muted">{ZONE_LABEL.outside_dhaka}</p>
             </div>
           </div>
           <BarList rows={s.districts.map(([label, value]) => ({ label, value }))} empty="No deliveries yet." />

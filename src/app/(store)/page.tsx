@@ -5,7 +5,7 @@ import { getApprovedReviews, getPanels, getSettings } from "@/lib/data";
 import type { Panel, Review } from "@/lib/types";
 import { ASSETS, BACK_PANEL_RECT, asset } from "@/config/assets";
 import { getFaqs } from "@/config/faq";
-import { taka } from "@/lib/format";
+import { isPackagePanel, packagePanels } from "@/config/package";
 import { Container } from "@/components/ui/section";
 import { Arrow, LinkButton } from "@/components/ui/button";
 import { FaqList } from "@/components/ui/faq-list";
@@ -19,10 +19,10 @@ import { SWAP_STEPS, SwapDiagram } from "@/components/store/swap-diagram";
 
 const featuredFirst = (a: Panel, b: Panel) => Number(b.is_featured) - Number(a.is_featured);
 
-function groupBy(panels: Panel[], key: "category" | "artist", href: (name: string) => string): VibeGroup[] {
+function groupBy(panels: Panel[], key: "category" | "artist"): VibeGroup[] {
   return Array.from(new Set(panels.map((p) => p[key]))).map((name) => {
     const list = panels.filter((p) => p[key] === name).sort(featuredFirst);
-    return { name, count: list.length, images: list.slice(0, 3).map((p) => p.image_url), badge: list.find((p) => p.badge)?.badge ?? null, href: href(name) };
+    return { name, count: list.length, images: list.slice(0, 3).map((p) => p.image_url) };
   });
 }
 
@@ -55,10 +55,13 @@ function wallRows(reviews: Review[], pool: Panel[]): [WallItem[], WallItem[]] {
 export default async function HomePage() {
   const [panels, settings, reviews] = await Promise.all([getPanels(), getSettings(), getApprovedReviews()]);
   const showcase = [...panels].sort(featuredFirst);
-  const art = showcase.slice(0, settings.pack_size).map((p) => ({ slug: p.slug, name: p.name, image: p.image_url }));
-  const looks = showcase.slice(0, 7).map((p) => ({ slug: p.slug, name: p.name, image: p.image_url, badge: p.badge }));
-  const categories = groupBy(panels, "category", (c) => `/panels?category=${encodeURIComponent(c)}`);
-  const artists = groupBy(panels, "artist", (a) => `/panels?q=${encodeURIComponent(a)}`);
+  // The 4-in-1 package's art panels are the only designs on sale; the rest are "coming soon".
+  const included = packagePanels(panels);
+  const upcoming = panels.filter((p) => !isPackagePanel(p.slug));
+  const art = included.map((p) => ({ slug: p.slug, name: p.name, image: p.image_url }));
+  const looks = included.map((p) => ({ slug: p.slug, name: p.name, image: p.image_url, badge: p.badge }));
+  const categories = groupBy(upcoming, "category");
+  const artists = groupBy(upcoming, "artist");
   const faqs = getFaqs(settings).slice(0, 8);
 
   return (
@@ -96,7 +99,7 @@ export default async function HomePage() {
               { Icon: RefreshCcw, t: "Zip-out back panel", href: "/how-it-works" },
               { Icon: Layers, t: "Every panel fits every jacket", href: "/panels" },
               { Icon: Palette, t: "Original art", href: "/panels" },
-              { Icon: Upload, t: "Upload your own design", href: "/custom" },
+              { Icon: Upload, t: "Custom art coming soon", href: "/custom" },
             ].map(({ Icon, t, href }) => (
               <li key={t}>
                 <Link
@@ -161,10 +164,10 @@ export default async function HomePage() {
           <p className="eyebrow mb-3 text-primary-light">Swap studio</p>
           <h2 className="display text-[2rem] sm:text-[2.4rem]">Try it on. Right here.</h2>
           <p className="mt-3 max-w-xl text-[1.05rem] text-paper/75 sm:text-[1.2rem]">
-            Tap any design to zip it into the back of the jacket. Find your favourites, add them to your pack.
+            Tap a design to zip it into the back of the jacket. Both come in the box with the blank denim panel.
           </p>
           <div className="mt-10">
-            <SwapStudio panels={panels} />
+            <SwapStudio panels={included} />
           </div>
         </Container>
       </section>
@@ -173,7 +176,7 @@ export default async function HomePage() {
       <section className="bg-cream py-12 sm:py-14">
         <Container>
           <div className="text-center">
-            <p className="eyebrow">Create your own</p>
+            <p className="eyebrow">Coming soon</p>
             <h2 className="display mt-3 text-[2rem] sm:text-[2.4rem]">
               Your art.
               <br />
@@ -196,7 +199,7 @@ export default async function HomePage() {
                 </span>
               </div>
               <span className="absolute left-[17px] top-[17px] rounded-full bg-ink/80 px-3 py-1.5 text-[0.8rem] font-black uppercase tracking-tight text-paper backdrop-blur">
-                Custom panel studio
+                Custom panels · Coming soon
               </span>
             </Link>
             {[
@@ -215,7 +218,7 @@ export default async function HomePage() {
                 fit: "object-cover",
                 shade: "bg-gradient-to-r from-ink/70 via-ink/30 to-ink/0",
                 title: <>Checked by us.<br />Printed for you.</>,
-                body: `It takes one slot in your pack${settings.custom_panel_fee > 0 ? ` (+${taka(settings.custom_panel_fee)})` : ""}. We check every design before we print.`,
+                body: "We'll check every design before we print it. Custom panels are coming soon.",
               },
             ].map((t, i) => (
               <div key={i} className="relative flex min-h-[260px] items-end overflow-hidden rounded-[16px] bg-ink p-6 text-paper shadow-[0_3px_10px_rgb(0_0_0/0.07)] sm:p-7">
@@ -232,7 +235,7 @@ export default async function HomePage() {
           </div>
           <div className="mt-8 text-center">
             <LinkButton href="/custom" size="lg">
-              Upload your art <Arrow />
+              Get notified <Arrow />
             </LinkButton>
           </div>
         </Container>

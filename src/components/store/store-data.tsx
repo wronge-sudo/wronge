@@ -1,8 +1,9 @@
 "use client";
 import { createContext, use, type ReactNode } from "react";
-import type { SizeRow, StoreSettings } from "@/lib/types";
+import type { PanelRef, SizeRow, StoreSettings } from "@/lib/types";
 
-type StoreData = { settings: StoreSettings; sizes: SizeRow[] };
+/** `packagePanels`: the art panels that ship in every 4-in-1 package (config/package.ts). */
+type StoreData = { settings: StoreSettings; sizes: SizeRow[]; packagePanels: PanelRef[] };
 
 const StoreDataContext = createContext<StoreData | null>(null);
 

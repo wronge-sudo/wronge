@@ -47,16 +47,18 @@ revoke all on function public.make_admin(text) from public, anon, authenticated;
 -- ─── Store settings (exactly one row) ────────────────────────────────
 create table if not exists public.store_settings (
   id                     smallint primary key default 1 check (id = 1),
-  jacket_price           integer not null default 5000 check (jacket_price >= 0),
+  jacket_price           integer not null default 4800 check (jacket_price >= 0), -- the 4-in-1 package price
   jacket_compare_at      integer check (jacket_compare_at >= 0),
+  -- pack_price, pack_size, bundle_discount, custom_panel_fee: unused since the Nov 2026 revisions (one package only).
   pack_price             integer not null default 1000 check (pack_price >= 0),
   pack_size              smallint not null default 3 check (pack_size between 1 and 12),
   bundle_discount        integer not null default 0 check (bundle_discount >= 0),
   custom_panel_fee       integer not null default 0 check (custom_panel_fee >= 0),
+  -- Legacy column names: "dhaka" now means Chattogram (see src/config/delivery.ts).
   delivery_inside_dhaka  integer not null default 80 check (delivery_inside_dhaka >= 0),
   delivery_outside_dhaka integer not null default 150 check (delivery_outside_dhaka >= 0),
   free_delivery_min      integer check (free_delivery_min >= 0),
-  announcement           text default 'Cash on delivery all over Bangladesh',
+  announcement           text,
   orders_enabled         boolean not null default true,
   support_phone          text,
   support_email          text,
@@ -138,7 +140,7 @@ create table if not exists public.orders (
   discount       integer not null default 0,
   delivery_fee   integer not null default 0,
   total          integer not null check (total >= 0),
-  payment_method text not null default 'cod',
+  payment_method text not null default 'cod', -- full_advance | delivery_fee_advance (cod = older orders)
   payment_status text not null default 'unpaid' check (payment_status in ('unpaid','paid','refunded')),
   courier        text,
   tracking_code  text,
@@ -225,13 +227,15 @@ begin
 
   insert into public.orders (
     customer_name, phone, email, district, area, address, delivery_zone, note,
-    subtotal, discount, delivery_fee, total, payment_method, ip_hash
+    subtotal, discount, delivery_fee, total, payment_method, courier, ip_hash
   ) values (
     p_order->>'customer_name', p_order->>'phone', nullif(p_order->>'email',''),
     p_order->>'district', nullif(p_order->>'area',''), p_order->>'address',
     p_order->>'delivery_zone', nullif(p_order->>'note',''),
     (p_order->>'subtotal')::int, coalesce((p_order->>'discount')::int, 0),
-    (p_order->>'delivery_fee')::int, (p_order->>'total')::int, 'cod', p_order->>'ip_hash'
+    (p_order->>'delivery_fee')::int, (p_order->>'total')::int,
+    case when p_order->>'payment_method' in ('full_advance','delivery_fee_advance') then p_order->>'payment_method' else 'cod' end,
+    nullif(p_order->>'courier',''), p_order->>'ip_hash'
   ) returning * into v_order;
 
   insert into public.order_items (order_id, item_type, title, size, quantity, unit_price, line_total, panels)
@@ -240,7 +244,7 @@ begin
     from jsonb_array_elements(p_items) as i;
 
   insert into public.order_events (order_id, status, note, created_by)
-  values (v_order.id, 'pending', 'Order placed (Cash on Delivery)', 'customer');
+  values (v_order.id, 'pending', 'Order placed', 'customer');
 
   new_order_id := v_order.id;
   new_order_number := v_order.order_number;

@@ -1,17 +1,17 @@
 import { Suspense } from "react";
-import { getSettings, getSizes } from "@/lib/data";
+import { getPanels, getSettings, getSizes } from "@/lib/data";
+import { packagePanels, toPanelRef } from "@/config/package";
 import { AnnouncementBar } from "@/components/store/announcement-bar";
 import { Header, HeaderWithPath } from "@/components/store/header";
 import { Footer } from "@/components/store/footer";
 import { CartDrawer } from "@/components/store/cart-drawer";
-import { PackTrayGate } from "@/components/store/pack-tray";
 import { StoreDataProvider } from "@/components/store/store-data";
 
 export default async function StoreLayout({ children }: { children: React.ReactNode }) {
-  const [settings, sizes] = await Promise.all([getSettings(), getSizes()]);
+  const [settings, sizes, panels] = await Promise.all([getSettings(), getSizes(), getPanels()]);
 
   return (
-    <StoreDataProvider value={{ settings, sizes }}>
+    <StoreDataProvider value={{ settings, sizes, packagePanels: packagePanels(panels).map(toPanelRef) }}>
       <a
         href="#main"
         className="sr-only focus:not-sr-only focus:fixed focus:left-3 focus:top-3 focus:z-[100] focus:rounded-full focus:bg-primary focus:text-ink focus:px-4 focus:py-2 focus:text-sm focus:font-bold"
@@ -27,9 +27,6 @@ export default async function StoreLayout({ children }: { children: React.ReactN
       </main>
       <Footer settings={settings} />
       <CartDrawer />
-      <Suspense>
-        <PackTrayGate />
-      </Suspense>
     </StoreDataProvider>
   );
 }

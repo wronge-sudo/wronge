@@ -31,13 +31,12 @@ export type SizeChartRow = {
 };
 
 export type StoreSettings = {
+  /** Price of the 4-in-1 package (jacket + blank panel + art panels). */
   jacket_price: number;
   jacket_compare_at: number | null;
-  pack_price: number;
-  pack_size: number;
-  bundle_discount: number;
-  custom_panel_fee: number;
+  /** Inside Chattogram city (legacy column name). */
   delivery_inside_dhaka: number;
+  /** Outside Chattogram city (legacy column name). */
   delivery_outside_dhaka: number;
   free_delivery_min: number | null;
   announcement: string | null;
@@ -74,6 +73,7 @@ export const ORDER_STATUSES = [
 ] as const;
 export type OrderStatus = (typeof ORDER_STATUSES)[number];
 
+/** Stored values: inside / outside Chattogram city. Labels live in `config/delivery.ts`. */
 export type DeliveryZone = "inside_dhaka" | "outside_dhaka";
 
 /** A panel as it is stored inside a cart line / order item. */

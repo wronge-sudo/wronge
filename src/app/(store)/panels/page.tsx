@@ -1,13 +1,14 @@
 import type { Metadata } from "next";
 import { Suspense } from "react";
 import { getPanels, getSettings } from "@/lib/data";
+import { PACKAGE_PIECES } from "@/config/package";
 import { taka } from "@/lib/format";
 import { Container } from "@/components/ui/section";
 import { PanelBrowser, PanelBrowserFromParams } from "@/components/store/panel-browser";
 
 export const metadata: Metadata = {
   title: "Art Panels",
-  description: "Original zip-in art panels for the Wronge denim jacket. Pick any 3 and change your look in under a minute.",
+  description: "Original zip-in art panels for the Wronge denim jacket. Two launch designs come with the 4-in-1 package; more are coming soon.",
 };
 
 export default async function PanelsPage() {
@@ -25,9 +26,9 @@ export default async function PanelsPage() {
             <p className="text-muted sm:text-lg">
               Every design zips into every Wronge jacket.{" "}
               <strong className="text-ink">
-                Pick any {settings.pack_size} for {taka(settings.pack_price)}
+                Our two launch designs come in the {PACKAGE_PIECES}-in-1 package for {taka(settings.jacket_price)}
               </strong>
-              . Tap <em>Try on</em> to see it on the jacket first.
+              . Everything else is coming soon. Tap <em>Try on</em> to see a design on the jacket.
             </p>
           </div>
         </Container>

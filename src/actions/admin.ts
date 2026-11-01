@@ -239,10 +239,6 @@ const optionalText = (max: number) => z.string().trim().max(max);
 const settingsSchema = z.object({
   jacket_price: money,
   jacket_compare_at: z.string().trim().regex(/^\d*$/, "Whole number or empty"),
-  pack_price: money,
-  pack_size: z.coerce.number().int().min(1).max(12),
-  bundle_discount: money,
-  custom_panel_fee: money,
   delivery_inside_dhaka: money,
   delivery_outside_dhaka: money,
   free_delivery_min: z.string().trim().regex(/^\d*$/, "Whole number or empty"),
@@ -283,10 +279,6 @@ export async function saveSettings(_prev: AdminState, form: FormData): Promise<A
     .update({
       jacket_price: d.jacket_price,
       jacket_compare_at: d.jacket_compare_at === "" ? null : Number(d.jacket_compare_at),
-      pack_price: d.pack_price,
-      pack_size: d.pack_size,
-      bundle_discount: d.bundle_discount,
-      custom_panel_fee: d.custom_panel_fee,
       delivery_inside_dhaka: d.delivery_inside_dhaka,
       delivery_outside_dhaka: d.delivery_outside_dhaka,
       free_delivery_min: d.free_delivery_min === "" ? null : Number(d.free_delivery_min),

@@ -3,6 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Suspense } from "react";
 import { getPanel, getPanels } from "@/lib/data";
+import { isPackagePanel } from "@/config/package";
 import { Container } from "@/components/ui/section";
 import { PanelCard } from "@/components/store/panel-card";
 import { PanelActions, PanelGallery } from "@/components/store/panel-actions";
@@ -36,9 +37,11 @@ async function PanelDetail({ params }: { params: Promise<{ slug: string }> }) {
   const [panel, panels] = await Promise.all([getPanel(slug), getPanels()]);
   if (!panel) notFound();
 
+  // The package's designs first, then the same category.
   const related = [
-    ...panels.filter((p) => p.category === panel.category && p.slug !== panel.slug),
-    ...panels.filter((p) => p.category !== panel.category),
+    ...panels.filter((p) => isPackagePanel(p.slug) && p.slug !== panel.slug),
+    ...panels.filter((p) => !isPackagePanel(p.slug) && p.category === panel.category && p.slug !== panel.slug),
+    ...panels.filter((p) => !isPackagePanel(p.slug) && p.category !== panel.category),
   ].slice(0, 4);
 
   return (
@@ -68,10 +71,9 @@ async function PanelDetail({ params }: { params: Promise<{ slug: string }> }) {
 
             <dl className="mt-10 divide-y divide-line border-y border-line text-sm">
               {[
-                ["Fabric", "Thick, smooth woven canvas that stays flat and taut. No sagging, no creasing."],
-                ["Print", "High-definition, fade-resistant print framed by a narrow black border."],
-                ["Fit", "Standard Wronge panel size. Zips into every Wronge jacket via the 3-sided zip frame."],
-                ["Care", "Spot-clean, or hand-wash gently in cold water and dry flat. Don't iron directly on the print."],
+                ["Print", "Screen-printed artwork."],
+                ["Fit", "Fits every denim base. Attaches with a YKK zipper + Velcro."],
+                ["Care", "Spot-clean art panels as needed. Reattach the original blank panel before washing your base."],
               ].map(([k, v]) => (
                 <div key={k} className="grid grid-cols-3 gap-4 py-3.5">
                   <dt className="tabular-nums text-xs font-bold uppercase">{k}</dt>

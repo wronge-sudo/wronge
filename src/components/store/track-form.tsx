@@ -2,6 +2,7 @@
 import { useActionState } from "react";
 import { Check, Loader2, Search, X } from "lucide-react";
 import { trackOrder, type TrackResult } from "@/actions/public";
+import { PAYMENT_LABEL, paymentSplit } from "@/config/delivery";
 import { cn, formatDate, STATUS_LABEL, taka } from "@/lib/format";
 import { buttonClass } from "@/components/ui/button";
 
@@ -9,7 +10,7 @@ const FLOW = ["pending", "confirmed", "processing", "shipped", "delivered"] as c
 const FLOW_TEXT: Record<string, string> = {
   pending: "We've received your order",
   confirmed: "We called you and confirmed it",
-  processing: "Being packed (and custom panels printed)",
+  processing: "Being packed",
   shipped: "With the courier, on its way",
   delivered: "Delivered. Enjoy your jacket!",
 };
@@ -96,8 +97,12 @@ export function TrackForm() {
               ))}
             </ul>
             <p className="mt-4 flex justify-between tabular-nums font-bold">
-              <span>Cash on delivery</span>
+              <span>Total</span>
               <span>{taka(order.total)}</span>
+            </p>
+            <p className="mt-1 flex justify-between tabular-nums text-sm text-muted">
+              <span>{PAYMENT_LABEL[order.paymentMethod] ?? "Payment"}</span>
+              <span>Pay on delivery: {taka(paymentSplit(order.paymentMethod, order.total, order.deliveryFee).onDelivery)}</span>
             </p>
           </div>
         </div>

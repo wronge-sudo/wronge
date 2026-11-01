@@ -2,19 +2,12 @@
 import Link from "next/link";
 import { useEffect } from "react";
 import { AnimatePresence, motion } from "motion/react";
-import { Check, Plus, X } from "lucide-react";
+import { X } from "lucide-react";
 import type { Panel } from "@/lib/types";
-import { cn } from "@/lib/format";
-import { usePack } from "@/store/pack";
+import { isPackagePanel } from "@/config/package";
 import { JacketBack } from "./jacket-back";
-import { toPanelRef } from "./panel-card";
-import { useStoreData } from "./store-data";
 
 export function TryOnModal({ panel, onClose }: { panel: Panel | null; onClose: () => void }) {
-  const { settings } = useStoreData();
-  const inPack = usePack((s) => !!panel && s.panels.some((p) => p.slug === panel.slug));
-  const full = usePack((s) => s.panels.length >= settings.pack_size);
-  const toggle = usePack((s) => s.toggle);
 
   useEffect(() => {
     if (!panel) return;
@@ -54,18 +47,15 @@ export function TryOnModal({ panel, onClose }: { panel: Panel | null; onClose: (
               {panel.description && <p className="mt-4 text-muted">{panel.description}</p>}
               <p className="mt-4 tabular-nums text-xs uppercase text-muted">Art by {panel.artist}</p>
               <div className="mt-6 flex flex-wrap gap-2">
-                <button
-                  type="button"
-                  disabled={!inPack && full}
-                  onClick={() => toggle(toPanelRef(panel), settings.pack_size)}
-                  className={cn(
-                    "inline-flex h-12 items-center gap-2 rounded-full px-6 text-xs font-bold uppercase tracking-wider transition disabled:opacity-40",
-                    inPack ? "bg-ink text-primary-light" : "bg-primary text-ink hover:bg-primary-hover",
-                  )}
-                >
-                  {inPack ? <Check className="size-4" /> : <Plus className="size-4" />}
-                  {inPack ? "In your pack" : full ? "Pack is full" : "Add to pack"}
-                </button>
+                {isPackagePanel(panel.slug) ? (
+                  <Link href="/build" className="inline-flex h-12 items-center rounded-full bg-primary px-6 text-xs font-bold uppercase tracking-wider text-ink transition hover:bg-primary-hover">
+                    Get the 4-in-1 set
+                  </Link>
+                ) : (
+                  <span className="inline-flex h-12 items-center rounded-full bg-ink px-6 text-xs font-bold uppercase tracking-wider text-primary-light">
+                    Coming soon
+                  </span>
+                )}
                 <Link href={`/panels/${panel.slug}`} className="inline-flex h-12 items-center rounded-full border-2 border-ink px-6 text-xs font-bold uppercase tracking-wider hover:bg-ink hover:text-paper">
                   Details
                 </Link>

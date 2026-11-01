@@ -50,18 +50,39 @@ export function OrderSuccess() {
             <dl className="mt-3 space-y-1.5 border-t border-line pt-3 tabular-nums text-sm">
               <div className="flex justify-between"><dt className="text-muted">Subtotal</dt><dd>{taka(order.subtotal)}</dd></div>
               <div className="flex justify-between"><dt className="text-muted">Delivery</dt><dd>{order.delivery ? taka(order.delivery) : "Free"}</dd></div>
-              <div className="flex justify-between text-lg font-bold"><dt>Pay on delivery</dt><dd>{taka(order.total)}</dd></div>
+              <div className="flex justify-between text-lg font-bold"><dt>Total</dt><dd>{taka(order.total)}</dd></div>
+              {order.courier && (
+                <>
+                  <div className="flex justify-between"><dt className="text-muted">Pay in advance</dt><dd className="font-bold">{taka(order.advance)}</dd></div>
+                  <div className="flex justify-between"><dt className="text-muted">Pay on delivery</dt><dd className="font-bold">{taka(order.onDelivery)}</dd></div>
+                </>
+              )}
             </dl>
           </div>
 
           <div className="mt-6 grid gap-3 text-left sm:grid-cols-2">
             <div className="flex gap-3 rounded-2xl border border-line p-4">
               <Phone className="size-5 shrink-0" />
-              <p className="text-sm text-muted">We&apos;ll call <strong className="text-ink">{order.phone}</strong> soon to confirm your order.</p>
+              <p className="text-sm text-muted">We&apos;ll call <strong className="text-ink">{order.phone}</strong> soon to confirm your order and share payment details.</p>
             </div>
             <div className="flex gap-3 rounded-2xl border border-line p-4">
               <Truck className="size-5 shrink-0" />
-              <p className="text-sm text-muted">Keep <strong className="text-ink">{taka(order.total)}</strong> in cash ready for the rider.</p>
+              <p className="text-sm text-muted">
+                {order.courier ? (
+                  <>
+                    Ships with <strong className="text-ink">{order.courier}</strong>.{" "}
+                    {order.onDelivery > 0 ? (
+                      <>
+                        After the advance, pay <strong className="text-ink">{taka(order.onDelivery)}</strong> in cash on delivery.
+                      </>
+                    ) : (
+                      "Nothing to pay on delivery once your advance is in."
+                    )}
+                  </>
+                ) : (
+                  <>We&apos;ll confirm the courier and payment when we call.</>
+                )}
+              </p>
             </div>
           </div>
         </>
@@ -71,7 +92,7 @@ export function OrderSuccess() {
 
       <div className="mt-10 flex flex-wrap justify-center gap-3">
         <Link href="/track" className={buttonClass("ink", "lg")}>Track your order</Link>
-        <Link href="/panels" className={buttonClass("outline", "lg")}>Keep browsing</Link>
+        <Link href="/" className={buttonClass("outline", "lg")}>Back to home</Link>
       </div>
     </div>
   );

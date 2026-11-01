@@ -1,6 +1,7 @@
 "use client";
 import Link from "next/link";
 import { ShoppingBag } from "lucide-react";
+import { DELIVERY_CITY } from "@/config/delivery";
 import { priceCart } from "@/lib/pricing";
 import { taka } from "@/lib/format";
 import { useCart } from "@/store/cart";
@@ -23,10 +24,9 @@ export function CartPageClient() {
           <ShoppingBag className="size-7" />
         </div>
         <p className="display-narrow text-3xl">Your bag is empty</p>
-        <p className="max-w-sm text-muted">Start with the jacket, then pick the art you want on your back.</p>
+        <p className="max-w-sm text-muted">One jacket, a blank denim panel and two art panels. Four pieces, three looks.</p>
         <div className="mt-2 flex flex-wrap justify-center gap-2">
           <Link href="/build" className={buttonClass("primary", "lg")}>Build your set →</Link>
-          <Link href="/panels" className={buttonClass("outline", "lg")}>Shop panels</Link>
         </div>
       </div>
     );
@@ -49,7 +49,7 @@ export function CartPageClient() {
             <div className="flex justify-between">
               <dt className="text-muted">Delivery</dt>
               <dd className="text-right text-xs text-muted">
-                {taka(settings.delivery_inside_dhaka)} Dhaka
+                {taka(settings.delivery_inside_dhaka)} {DELIVERY_CITY}
                 <br />
                 {taka(settings.delivery_outside_dhaka)} outside
               </dd>
@@ -61,7 +61,7 @@ export function CartPageClient() {
           <Link href="/checkout" className={buttonClass("primary", "lg", "mt-6 w-full")}>
             Checkout →
           </Link>
-          <p className="mt-3 text-center text-xs text-muted">Cash on delivery · No advance payment</p>
+          <p className="mt-3 text-center text-xs text-muted">Choose your courier and see how you pay at checkout.</p>
         </div>
       </aside>
     </div>

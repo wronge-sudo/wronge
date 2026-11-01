@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { getPanels, getSettings } from "@/lib/data";
 import { ASSETS, ASSET_SIZES, asset } from "@/config/assets";
+import { PACKAGE_LOOKS, packagePanels } from "@/config/package";
 import { taka } from "@/lib/format";
 import { Container, SectionHeading } from "@/components/ui/section";
 import { Arrow, LinkButton } from "@/components/ui/button";
@@ -14,18 +15,18 @@ import { SizeGuideTable } from "@/components/store/size-guide";
 export const metadata: Metadata = {
   title: "The Jacket",
   description:
-    "The Wronge washed-black denim trucker jacket with a zip-out back panel. Unisex, boxy fit. Comes with a matching blank denim panel. Cash on delivery in Bangladesh.",
+    "The Wronge washed-black denim trucker jacket with a zip-out back panel. The 4-in-1 package: the jacket, a blank denim panel and 2 screen-printed art panels.",
 };
 
+// Client product copy (Nov 2026).
 const DETAILS = [
-  { k: "Fabric", v: "Heavyweight matte washed-black denim with tonal black stitching on every seam." },
-  { k: "Front", v: "Full-length placket with five polished silver-tone snap buttons. A pointed turn-down collar and no chest flap pockets keep the front clean." },
-  { k: "Pockets", v: "Two angled welt hand pockets at the lower front." },
-  { k: "Sleeves", v: "Loose, slightly dropped-shoulder sleeves with structured button cuffs and silver-tone snaps." },
-  { k: "Hem", v: "Structured waistband with adjustable cinch tabs and rectangular silver slide buckles on both back hips." },
-  { k: "Back", v: "A full centre-back window with a hidden 3-sided zip frame (left, right and bottom). The top edge tucks under the yoke flap." },
-  { k: "Fit", v: "Unisex, boxy and relaxed, with dropped shoulders and wide sleeves for easy layering. Standard trucker length, at or just below the belt." },
-  { k: "In the box", v: "The jacket, with its matching washed-black denim panel zipped in." },
+  { k: "Fabric", v: "5 oz 100% cotton denim." },
+  { k: "Pockets", v: "Two front side pockets." },
+  { k: "Front", v: "Snap buttons." },
+  { k: "Swap panel", v: "One blank denim swap included." },
+  { k: "Closure", v: "YKK zipper + Velcro." },
+  { k: "Art panels", v: "Screen-printed artwork. Fits every denim base." },
+  { k: "Care", v: "Reattach the original blank panel before washing your base. Spot-clean art panels as needed." },
 ];
 
 const BACK_SPOTS = [
@@ -45,7 +46,8 @@ const FRONT_SPOTS = [
 
 export default async function JacketPage() {
   const [settings, panels] = await Promise.all([getSettings(), getPanels()]);
-  const art = panels.find((p) => p.is_featured) ?? panels[0];
+  const included = packagePanels(panels);
+  const art = included[0] ?? panels[0];
 
   return (
     <>
@@ -58,8 +60,8 @@ export default async function JacketPage() {
             <p className="eyebrow text-muted">Washed black · Unisex</p>
             <h1 className="display mt-3 text-[2.25rem] sm:text-[2.75rem]">The Wronge denim jacket</h1>
             <p className="mt-4 text-muted">
-              A heavyweight trucker with a hole in its back, on purpose. Zip in the matching denim panel for an everyday classic, or any
-              art panel for a statement. Same jacket, a different jacket.
+              A washed-black trucker with a hole in its back, on purpose. Zip in the blank denim panel for an everyday classic, or an art
+              panel for a statement. Same jacket, a different jacket.
             </p>
             <div className="mt-8">
               <JacketBuy />
@@ -116,23 +118,22 @@ export default async function JacketPage() {
       {/* Compare */}
       <section className="halftone-dark py-20 text-paper sm:py-24">
         <Container>
-          <SectionHeading eyebrow="Do the maths" title={<>One jacket vs.<br />four jackets</>} light />
+          <SectionHeading eyebrow="Do the maths" title={<>One jacket vs.<br />three jackets</>} light />
           <div className="mt-10 overflow-x-auto">
             <table className="w-full min-w-[560px] text-left">
               <thead>
                 <tr className="border-b border-paper/20 tabular-nums text-xs uppercase text-paper/60">
                   <th className="py-4 pr-4" />
                   <th className="py-4 pr-4 text-primary-light">Wronge set</th>
-                  <th className="py-4">Four regular jackets</th>
+                  <th className="py-4">Three regular jackets</th>
                 </tr>
               </thead>
               <tbody className="text-sm">
                 {[
-                  ["Looks", `${settings.pack_size + 1} (and counting)`, "4"],
-                  ["Cost", taka(settings.jacket_price + settings.pack_price - settings.bundle_discount), "4 × a jacket"],
-                  ["Wardrobe space", "1 hanger + a few flat panels", "4 hangers"],
-                  ["New look", `Any ${settings.pack_size} panels for ${taka(settings.pack_price)}`, "Buy another jacket"],
-                  ["Your own art", "Yes, upload it", "No"],
+                  ["Looks", `${PACKAGE_LOOKS} (more designs coming soon)`, String(PACKAGE_LOOKS)],
+                  ["Cost", taka(settings.jacket_price), `${PACKAGE_LOOKS} × a jacket`],
+                  ["Wardrobe space", "1 hanger + a few flat panels", `${PACKAGE_LOOKS} hangers`],
+                  ["New look", "Swap the back in under a minute", "Buy another jacket"],
                 ].map(([k, a, b]) => (
                   <tr key={k} className="border-b border-paper/10">
                     <td className="py-4 pr-4 tabular-nums text-xs uppercase text-paper/60">{k}</td>

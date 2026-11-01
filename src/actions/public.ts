@@ -93,6 +93,7 @@ export type TrackResult =
         district: string;
         courier: string | null;
         trackingCode: string | null;
+        paymentMethod: string;
         items: { title: string; quantity: number; panels: string[] }[];
         events: { status: string; at: string }[];
       };
@@ -111,7 +112,7 @@ export async function trackOrder(_prev: TrackResult, form: FormData): Promise<Tr
   const db = createServiceClient();
   const { data: order } = await db
     .from("orders")
-    .select("id, order_number, status, created_at, total, delivery_fee, district, courier, tracking_code, phone")
+    .select("id, order_number, status, created_at, total, delivery_fee, district, courier, tracking_code, payment_method, phone")
     .eq("order_number", number)
     .eq("phone", phone)
     .maybeSingle();
@@ -133,6 +134,7 @@ export async function trackOrder(_prev: TrackResult, form: FormData): Promise<Tr
       district: order.district,
       courier: order.courier,
       trackingCode: order.tracking_code,
+      paymentMethod: order.payment_method,
       items: (items ?? []).map((i) => ({
         title: i.title,
         quantity: i.quantity,

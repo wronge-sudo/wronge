@@ -1,15 +1,14 @@
 "use client";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
+import Link from "next/link";
 import { useState } from "react";
-import { Check, Heart, Plus } from "lucide-react";
+import { Heart } from "lucide-react";
 import type { Panel } from "@/lib/types";
+import { PACKAGE_PIECES, isPackagePanel } from "@/config/package";
 import { cn, taka } from "@/lib/format";
-import { usePack } from "@/store/pack";
 import { useWishlist } from "@/store/wishlist";
 import { useMounted } from "@/lib/use-mounted";
 import { JacketBack } from "./jacket-back";
-import { toPanelRef } from "./panel-card";
 import { useStoreData } from "./store-data";
 
 export function PanelGallery({ panel }: { panel: Panel }) {
@@ -43,26 +42,20 @@ export function PanelGallery({ panel }: { panel: Panel }) {
 }
 
 export function PanelActions({ panel }: { panel: Panel }) {
-  const router = useRouter();
   const mounted = useMounted();
   const { settings } = useStoreData();
-  const packPanels = usePack((s) => s.panels);
-  const toggle = usePack((s) => s.toggle);
-  const add = usePack((s) => s.add);
   const wished = useWishlist((s) => s.slugs.includes(panel.slug));
   const toggleWish = useWishlist((s) => s.toggle);
-
-  const inPack = mounted && packPanels.some((p) => p.slug === panel.slug);
-  const full = mounted && packPanels.length >= settings.pack_size;
-  const soldOut = panel.stock !== null && panel.stock <= 0;
+  const available = isPackagePanel(panel.slug);
+  const soldOut = available && panel.stock !== null && panel.stock <= 0;
 
   return (
     <div>
       <div className="flex flex-wrap items-center gap-2">
         <span className="rounded-full bg-primary px-3.5 py-1.5 tabular-nums text-xs font-bold uppercase text-ink">
-          Any {settings.pack_size} for {taka(settings.pack_price)}
+          {available ? `In the ${PACKAGE_PIECES}-in-1 package · ${taka(settings.jacket_price)}` : "Coming soon"}
         </span>
-        {panel.stock !== null && panel.stock > 0 && panel.stock <= 10 && (
+        {available && panel.stock !== null && panel.stock > 0 && panel.stock <= 10 && (
           <span className="rounded-full bg-signal/10 px-3.5 py-1.5 tabular-nums text-xs font-bold uppercase text-signal">
             Only {panel.stock} left
           </span>
@@ -70,18 +63,18 @@ export function PanelActions({ panel }: { panel: Panel }) {
       </div>
 
       <div className="mt-6 flex flex-wrap gap-2">
-        <button
-          type="button"
-          disabled={soldOut || (!inPack && full)}
-          onClick={() => toggle(toPanelRef(panel), settings.pack_size)}
-          className={cn(
-            "inline-flex h-14 flex-1 items-center justify-center gap-2 rounded-full px-8 text-sm font-bold uppercase tracking-wider transition disabled:opacity-40 sm:flex-none",
-            inPack ? "bg-ink text-primary-light" : "bg-primary text-ink shadow-[0_2px_0_0_rgb(11_11_11)] hover:bg-primary-hover hover:shadow-none",
-          )}
-        >
-          {inPack ? <Check className="size-4" /> : <Plus className="size-4" />}
-          {soldOut ? "Sold out" : inPack ? "In your pack" : full ? "Pack is full" : "Add to pack"}
-        </button>
+        {available && !soldOut ? (
+          <Link
+            href="/build"
+            className="inline-flex h-14 flex-1 items-center justify-center gap-2 rounded-full bg-primary px-8 text-sm font-bold uppercase tracking-wider text-ink shadow-[0_2px_0_0_rgb(11_11_11)] transition hover:bg-primary-hover hover:shadow-none sm:flex-none"
+          >
+            Get the {PACKAGE_PIECES}-in-1 set
+          </Link>
+        ) : (
+          <span className="inline-flex h-14 flex-1 cursor-not-allowed items-center justify-center rounded-full bg-ink px-8 text-sm font-bold uppercase tracking-wider text-primary-light sm:flex-none">
+            {soldOut ? "Sold out" : "Coming soon"}
+          </span>
+        )}
         <button
           type="button"
           onClick={() => toggleWish(panel.slug)}
@@ -92,25 +85,11 @@ export function PanelActions({ panel }: { panel: Panel }) {
         </button>
       </div>
 
-      {!soldOut && (
-        <button
-          type="button"
-          onClick={() => {
-            add(toPanelRef(panel), settings.pack_size);
-            router.push("/build");
-          }}
-          className="mt-3 text-sm font-semibold underline underline-offset-4 hover:text-muted"
-        >
-          Build a jacket + pack with this design →
-        </button>
-      )}
-
-      {mounted && packPanels.length > 0 && (
-        <p className="mt-4 text-sm text-muted">
-          Your pack: {packPanels.length}/{settings.pack_size} picked
-          {packPanels.length < settings.pack_size ? ` — choose ${settings.pack_size - packPanels.length} more.` : " — ready to add to your bag."}
-        </p>
-      )}
+      <p className="mt-4 text-sm text-muted">
+        {available
+          ? "Comes with the jacket, a blank denim panel and our other launch design."
+          : "This design isn't on sale yet. Save it and check back soon."}
+      </p>
     </div>
   );
 }

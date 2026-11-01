@@ -26,7 +26,7 @@ export default function PrivacyPage() {
       </section>
       <section>
         <h2>Your bag and saved items</h2>
-        <p>Your bag, pack and saved panels are stored in your own browser, not on our servers, until you place an order.</p>
+        <p>Your bag and saved panels are stored in your own browser, not on our servers, until you place an order.</p>
       </section>
       <section>
         <h2>Your choices</h2>

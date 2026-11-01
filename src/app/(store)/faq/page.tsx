@@ -7,7 +7,7 @@ import { FaqList } from "@/components/ui/faq-list";
 
 export const metadata: Metadata = {
   title: "FAQ",
-  description: "Answers about swapping panels, sizing, cash on delivery, delivery times and exchanges.",
+  description: "Answers about swapping panels, the 4-in-1 package, payment, delivery times and exchanges.",
 };
 
 export default async function FaqPage() {

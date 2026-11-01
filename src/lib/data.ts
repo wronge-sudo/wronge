@@ -5,6 +5,7 @@
  */
 import { cacheLife, cacheTag } from "next/cache";
 import { DEFAULT_SETTINGS, DEFAULT_SIZES, SEED_PANELS } from "@/config/defaults";
+import { SIZES } from "@/config/site";
 import { isSupabaseConfigured } from "./env";
 import { createPublicClient } from "./supabase/public";
 import type { Panel, Review, SizeRow, StoreSettings } from "./types";
@@ -45,7 +46,8 @@ export async function getSizes(): Promise<SizeRow[]> {
     return DEFAULT_SIZES;
   }
   cacheLife("minutes");
-  return data as SizeRow[];
+  // Only sizes on sale (config/site.ts SIZES) reach the store, whatever else the table holds.
+  return (data as SizeRow[]).filter((s) => (SIZES as readonly string[]).includes(s.size));
 }
 
 export async function getPanels(): Promise<Panel[]> {

@@ -8,7 +8,7 @@ export const SITE = {
   legalName: "Wronge",
   tagline: "One jacket. Endless backs.",
   description:
-    "Wronge makes a washed-black denim trucker jacket with a zip-out back panel. Wear it plain, or zip in original art panels and change your look in seconds. Cash on delivery all over Bangladesh.",
+    "Wronge makes a washed-black denim trucker jacket with a zip-out back panel. Wear it plain, or zip in original art panels and change your look in seconds. Delivery all over Bangladesh.",
   // On Vercel, falls back to the project's production domain (custom domain once one is added).
   url:
     process.env.NEXT_PUBLIC_SITE_URL ||
@@ -32,7 +32,7 @@ export const FOOTER_LINKS = {
     { href: "/build", label: "Build your set" },
     { href: "/jacket", label: "The jacket" },
     { href: "/panels", label: "All art panels" },
-    { href: "/custom", label: "Create your own panel" },
+    { href: "/custom", label: "Custom panels (coming soon)" },
   ],
   help: [
     { href: "/track", label: "Track your order" },
@@ -49,4 +49,5 @@ export const FOOTER_LINKS = {
   ],
 };
 
-export const SIZES = ["XS", "S", "M", "L", "XL", "XXL"] as const;
+/** The only sizes on sale. Sizes in the database but not listed here are never shown or sold. */
+export const SIZES = ["M", "L", "XL", "XXL"] as const;

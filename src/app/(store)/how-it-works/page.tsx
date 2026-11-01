@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { getPanels } from "@/lib/data";
+import { packagePanels } from "@/config/package";
 import { Container, PageHero, SectionHeading } from "@/components/ui/section";
 import { Arrow, LinkButton } from "@/components/ui/button";
 import { Reveal } from "@/components/ui/reveal";
@@ -52,7 +53,7 @@ export default async function HowItWorksPage() {
             },
             {
               t: "One standard size",
-              b: "Every panel is cut to the same rectangle with the same black zipper tape, so every panel fits every Wronge jacket we make, now and later.",
+              b: "Every panel is cut to the same rectangle with the same black zipper tape, so every panel fits every Wronge jacket.",
             },
           ].map((c) => (
             <div key={c.t}>
@@ -67,7 +68,7 @@ export default async function HowItWorksPage() {
         <Container>
           <SectionHeading eyebrow="Try it" title="Now you swap" light />
           <div className="mt-10">
-            <SwapStudio panels={panels} />
+            <SwapStudio panels={packagePanels(panels)} />
           </div>
         </Container>
       </section>

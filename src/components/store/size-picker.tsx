@@ -5,7 +5,7 @@ import { useStoreData } from "./store-data";
 /** At or below this many in stock, a size is flagged as running low. */
 export const LOW_STOCK = 3;
 
-/** `tiles` is the 6-column grid; `circles` is the round chip row used in the product size card. */
+/** `tiles` is the 4-column grid; `circles` is the round chip row used in the product size card. */
 export function SizePicker({
   value,
   onChange,
@@ -22,7 +22,7 @@ export function SizePicker({
 
   return (
     <div>
-      <div className={round ? "flex flex-wrap gap-[5px] sm:gap-2" : "grid grid-cols-6 gap-2"}>
+      <div className={round ? "flex flex-wrap gap-[5px] sm:gap-2" : "grid grid-cols-4 gap-2"}>
         {active.map((s) => {
           const out = s.stock <= 0;
           return (

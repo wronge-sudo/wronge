@@ -36,11 +36,14 @@ export function SizeGuideTable() {
   const [unit, setUnit] = useState<"in" | "cm">("in");
   const rows = settings.size_chart;
   const v = (x: string) => (unit === "in" ? x : toCm(x));
+  // Sleeve and fit are optional in the chart; only show them when the chart has values.
+  const hasSleeve = rows.some((r) => r.sleeve?.trim());
+  const hasFit = rows.some((r) => r.fit?.trim());
 
   return (
     <div>
       <div className="flex items-center justify-between gap-4">
-        <p className="text-sm text-muted">Garment measurements, laid flat. Chest is measured armpit to armpit.</p>
+        <p className="text-sm text-muted">Jacket measurements, in {unit === "in" ? "inches" : "centimetres"}.</p>
         <div className="flex shrink-0 rounded-full border border-line p-0.5">
           {(["in", "cm"] as const).map((u) => (
             <button
@@ -55,14 +58,14 @@ export function SizeGuideTable() {
         </div>
       </div>
       <div className="mt-4 overflow-x-auto">
-        <table className="w-full min-w-[460px] text-left text-sm">
+        <table className={cn("w-full text-left text-sm", (hasSleeve || hasFit) && "min-w-[460px]")}>
           <thead>
             <tr className="border-b-2 border-ink tabular-nums text-xs uppercase">
               <th className="py-2.5 pr-3">Size</th>
-              <th className="py-2.5 pr-3">Chest (flat)</th>
+              <th className="py-2.5 pr-3">Chest</th>
               <th className="py-2.5 pr-3">Length</th>
-              <th className="py-2.5 pr-3">Sleeve</th>
-              <th className="py-2.5">Fit</th>
+              {hasSleeve && <th className="py-2.5 pr-3">Sleeve</th>}
+              {hasFit && <th className="py-2.5">Fit</th>}
             </tr>
           </thead>
           <tbody>
@@ -71,8 +74,8 @@ export function SizeGuideTable() {
                 <td className="py-2.5 pr-3 font-bold">{r.size}</td>
                 <td className="py-2.5 pr-3 tabular-nums">{v(r.chest)}</td>
                 <td className="py-2.5 pr-3 tabular-nums">{v(r.length)}</td>
-                <td className="py-2.5 pr-3 tabular-nums">{v(r.sleeve)}</td>
-                <td className="py-2.5 text-muted">{r.fit}</td>
+                {hasSleeve && <td className="py-2.5 pr-3 tabular-nums">{v(r.sleeve)}</td>}
+                {hasFit && <td className="py-2.5 text-muted">{r.fit}</td>}
               </tr>
             ))}
           </tbody>

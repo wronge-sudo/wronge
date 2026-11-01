@@ -3,6 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { AlertTriangle, ArrowLeft, ExternalLink, MessageCircle, Phone } from "lucide-react";
 import { ASSETS, asset } from "@/config/assets";
+import { DELIVERY_CITY, PAYMENT_LABEL, ZONE_LABEL, paymentSplit } from "@/config/delivery";
 import { getAdminSettings, getOrder } from "@/lib/admin-data";
 import { cn, formatDate, STATUS_LABEL, taka } from "@/lib/format";
 import { Card, StatusBadge } from "@/components/admin/ui";
@@ -18,11 +19,13 @@ export default async function OrderDetailPage(props: PageProps<"/admin/orders/[i
   const { order: o, items, events, history } = data;
   const failedBefore = history.filter((h) => h.status === "cancelled" || h.status === "returned").length;
   const intlPhone = `880${o.phone.replace(/^0/, "")}`;
+  const split = paymentSplit(o.payment_method, o.total, o.delivery_fee);
+  const paymentLabel = PAYMENT_LABEL[o.payment_method] ?? o.payment_method;
   const courierText = [
     o.customer_name,
     o.phone,
     [o.address, o.area, o.district].filter(Boolean).join(", "),
-    `COD: ${o.total} BDT`,
+    `Collect on delivery: ${split.onDelivery} BDT`,
     `Ref: ${o.order_number}`,
   ].join("\n");
 
@@ -86,8 +89,11 @@ export default async function OrderDetailPage(props: PageProps<"/admin/orders/[i
               <dl className="space-y-1.5 border-t border-line/70 bg-paper-2/30 px-5 py-4 font-mono text-sm">
                 <div className="flex justify-between"><dt className="text-muted">Subtotal</dt><dd>{taka(o.subtotal)}</dd></div>
                 {o.discount > 0 && <div className="flex justify-between"><dt className="text-muted">Discount</dt><dd>−{taka(o.discount)}</dd></div>}
-                <div className="flex justify-between"><dt className="text-muted">Delivery ({o.delivery_zone === "inside_dhaka" ? "inside Dhaka" : "outside Dhaka"})</dt><dd>{o.delivery_fee ? taka(o.delivery_fee) : "Free"}</dd></div>
-                <div className="flex justify-between border-t border-line pt-2 text-base font-bold"><dt>Cash to collect</dt><dd>{taka(o.total)}</dd></div>
+                <div className="flex justify-between"><dt className="text-muted">Delivery ({o.delivery_zone === "inside_dhaka" ? "inside" : "outside"} {DELIVERY_CITY})</dt><dd>{o.delivery_fee ? taka(o.delivery_fee) : "Free"}</dd></div>
+                <div className="flex justify-between border-t border-line pt-2 text-base font-bold"><dt>Total</dt><dd>{taka(o.total)}</dd></div>
+                <div className="flex justify-between"><dt className="text-muted">Advance</dt><dd>{taka(split.advance)}</dd></div>
+                <div className="flex justify-between"><dt className="text-muted">Cash to collect</dt><dd>{taka(split.onDelivery)}</dd></div>
+                <div className="flex justify-between text-xs"><dt className="text-muted">Terms</dt><dd>{paymentLabel}</dd></div>
                 <div className="flex justify-between text-xs"><dt className="text-muted">Payment</dt><dd className={o.payment_status === "paid" ? "text-emerald-700" : ""}>{o.payment_status.toUpperCase()}</dd></div>
               </dl>
             </Card>
@@ -130,7 +136,7 @@ export default async function OrderDetailPage(props: PageProps<"/admin/orders/[i
                   {o.address}
                   {o.area && <>, {o.area}</>}
                   <br />
-                  <strong>{o.district}</strong> · {o.delivery_zone === "inside_dhaka" ? "Inside Dhaka" : "Outside Dhaka"}
+                  <strong>{o.district}</strong> · {ZONE_LABEL[o.delivery_zone]}
                 </p>
                 <div className="mt-3"><CopyButton text={courierText} label="Copy for courier" /></div>
               </div>
@@ -190,7 +196,8 @@ export default async function OrderDetailPage(props: PageProps<"/admin/orders/[i
           </div>
           <div className="text-right">
             <p className="text-xs font-bold uppercase">Payment</p>
-            <p className="mt-1 font-bold">Cash on delivery</p>
+            <p className="mt-1 font-bold">{paymentLabel}</p>
+            {split.onDelivery > 0 && <p>Collect {taka(split.onDelivery)}</p>}
             {o.courier && <p>{o.courier}{o.tracking_code && ` · ${o.tracking_code}`}</p>}
           </div>
         </div>

@@ -2,8 +2,9 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState, useTransition } from "react";
-import { Banknote, Loader2, Lock, Phone } from "lucide-react";
+import { Info, Loader2, Lock, Phone } from "lucide-react";
 import { placeOrder } from "@/actions/checkout";
+import { COURIERS, DELIVERY_CITY, PAYMENT_SHORT, ZONE_LABEL, paymentSplit, type CourierId } from "@/config/delivery";
 import { ALL_DISTRICTS } from "@/lib/bd";
 import { priceCart } from "@/lib/pricing";
 import { cn, taka } from "@/lib/format";
@@ -14,7 +15,7 @@ import { buttonClass } from "@/components/ui/button";
 import { CartLines } from "./cart-lines";
 import { useStoreData } from "./store-data";
 
-const DISTRICTS = ["Dhaka", ...ALL_DISTRICTS.filter((d) => d !== "Dhaka")];
+const DISTRICTS = [DELIVERY_CITY, ...ALL_DISTRICTS.filter((d) => d !== DELIVERY_CITY)];
 export const LAST_ORDER_KEY = "wronge-last-order";
 
 const inputCls = (err?: string) =>
@@ -43,8 +44,9 @@ export function CheckoutForm() {
   const lines = useCart((s) => s.lines);
   const clearCart = useCart((s) => s.clear);
   const [pending, start] = useTransition();
-  const [district, setDistrict] = useState("Dhaka");
+  const [district, setDistrict] = useState(DELIVERY_CITY);
   const [zone, setZone] = useState<DeliveryZone>("inside_dhaka");
+  const [courierId, setCourierId] = useState<CourierId | null>(null);
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [formError, setFormError] = useState<string | null>(null);
 
@@ -59,8 +61,10 @@ export function CheckoutForm() {
     );
   }
 
-  const effectiveZone: DeliveryZone = district === "Dhaka" ? zone : "outside_dhaka";
+  const effectiveZone: DeliveryZone = district === DELIVERY_CITY ? zone : "outside_dhaka";
   const totals = priceCart(lines, settings, effectiveZone);
+  const courier = COURIERS.find((c) => c.id === courierId) ?? null;
+  const split = courier ? paymentSplit(courier.payment, totals.total, totals.delivery) : null;
 
   function submit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -75,6 +79,7 @@ export function CheckoutForm() {
       area: String(f.get("area") ?? ""),
       address: String(f.get("address") ?? ""),
       zone: effectiveZone,
+      courier: courierId ?? "",
       note: String(f.get("note") ?? ""),
       website: String(f.get("website") ?? ""),
       lines,
@@ -141,7 +146,7 @@ export function CheckoutForm() {
                 value={district}
                 onChange={(e) => {
                   setDistrict(e.target.value);
-                  if (e.target.value !== "Dhaka") setZone("outside_dhaka");
+                  if (e.target.value !== DELIVERY_CITY) setZone("outside_dhaka");
                 }}
                 className={inputCls(errors.district)}
               >
@@ -151,7 +156,7 @@ export function CheckoutForm() {
               </select>
             </Field>
             <Field label="Area / Thana" htmlFor="area" optional>
-              <input id="area" name="area" className={inputCls()} placeholder="e.g. Dhanmondi" />
+              <input id="area" name="area" className={inputCls()} placeholder="e.g. Panchlaish" />
             </Field>
           </div>
           <Field label="Full address" htmlFor="address" error={errors.address}>
@@ -171,11 +176,11 @@ export function CheckoutForm() {
             <div className="grid gap-2 sm:grid-cols-2">
               {(
                 [
-                  ["inside_dhaka", "Inside Dhaka city", settings.delivery_inside_dhaka],
-                  ["outside_dhaka", "Outside Dhaka city", settings.delivery_outside_dhaka],
+                  ["inside_dhaka", settings.delivery_inside_dhaka],
+                  ["outside_dhaka", settings.delivery_outside_dhaka],
                 ] as const
-              ).map(([value, label, fee]) => {
-                const disabled = value === "inside_dhaka" && district !== "Dhaka";
+              ).map(([value, fee]) => {
+                const disabled = value === "inside_dhaka" && district !== DELIVERY_CITY;
                 const active = effectiveZone === value;
                 return (
                   <label
@@ -188,14 +193,13 @@ export function CheckoutForm() {
                   >
                     <span className="flex items-center gap-3">
                       <input type="radio" name="zone" value={value} checked={active} disabled={disabled} onChange={() => setZone(value)} className="accent-primary" />
-                      <span className="text-sm font-semibold">{label}</span>
+                      <span className="text-sm font-semibold">{ZONE_LABEL[value]}</span>
                     </span>
                     <span className="tabular-nums text-sm font-bold">{totals.subtotal >= (settings.free_delivery_min ?? Infinity) ? "Free" : taka(fee)}</span>
                   </label>
                 );
               })}
             </div>
-            {district === "Dhaka" && <p className="mt-2 text-xs text-muted">Savar, Keraniganj, Dhamrai and other areas outside the city count as outside Dhaka.</p>}
           </div>
 
           <Field label="Order note" htmlFor="note" optional>
@@ -205,16 +209,44 @@ export function CheckoutForm() {
         </fieldset>
 
         <fieldset>
-          <legend className="display-narrow mb-3 text-2xl">Payment</legend>
-          <div className="flex items-start gap-4 rounded-2xl border-2 border-primary bg-primary-tint p-4">
-            <Banknote className="mt-0.5 size-6 shrink-0 text-ink" />
-            <div>
-              <p className="font-bold">Cash on delivery</p>
-              <p className="text-sm text-ink/75">Pay the rider in cash when your order arrives. No advance payment, no card needed.</p>
+          <legend className="display-narrow mb-3 text-2xl">Courier</legend>
+          <div className="grid gap-2 sm:grid-cols-2">
+            {COURIERS.map((c) => {
+              const active = courierId === c.id;
+              return (
+                <label
+                  key={c.id}
+                  className={cn(
+                    "flex cursor-pointer items-start gap-3 rounded-xl border-2 px-4 py-3.5 transition",
+                    active ? "border-ink bg-ink text-paper" : errors.courier ? "border-signal hover:border-ink" : "border-line hover:border-ink",
+                  )}
+                >
+                  <input type="radio" name="courier" value={c.id} checked={active} onChange={() => setCourierId(c.id)} className="mt-1 accent-primary" />
+                  <span>
+                    <span className="block text-sm font-semibold">{c.name}</span>
+                    <span className={cn("block text-xs", active ? "text-paper/75" : "text-muted")}>{PAYMENT_SHORT[c.payment]}</span>
+                  </span>
+                </label>
+              );
+            })}
+          </div>
+          {errors.courier && <p className="mt-1.5 text-xs font-semibold text-signal">{errors.courier}</p>}
+
+          <div className="mt-4 flex items-start gap-3 rounded-2xl border-2 border-line bg-card p-4" role="note" aria-label="How you pay">
+            <Info className="mt-0.5 size-5 shrink-0" aria-hidden />
+            <div className="space-y-1.5 text-sm">
+              <p className="font-bold">How you pay</p>
+              <p className={cn(courier?.payment === "delivery_fee_advance" && "text-muted")}>
+                <strong>Pathao or Steadfast:</strong> full advance payment. After we confirm your order, you pay the full amount before we ship it.
+              </p>
+              <p className={cn(courier?.payment === "full_advance" && "text-muted")}>
+                <strong>S.A. Paribahan or Sundarban Courier Service:</strong> pay only the delivery charge in advance, then pay the rest in cash on
+                delivery.
+              </p>
             </div>
           </div>
           <p className="mt-3 flex items-center gap-2 text-xs text-muted">
-            <Phone className="size-3.5" /> We&apos;ll call you to confirm your order before we ship it.
+            <Phone className="size-3.5" /> We&apos;ll call you to confirm your order and share payment details before we ship it.
           </p>
         </fieldset>
       </div>
@@ -234,13 +266,25 @@ export function CheckoutForm() {
               <dd>{taka(totals.subtotal)}</dd>
             </div>
             <div className="flex justify-between">
-              <dt className="text-muted">Delivery ({effectiveZone === "inside_dhaka" ? "inside Dhaka" : "outside Dhaka"})</dt>
+              <dt className="text-muted">Delivery ({effectiveZone === "inside_dhaka" ? "inside" : "outside"} {DELIVERY_CITY})</dt>
               <dd>{totals.delivery === 0 ? "Free" : taka(totals.delivery)}</dd>
             </div>
             <div className="flex justify-between border-t border-line pt-3 text-lg font-bold">
-              <dt>Total (cash)</dt>
+              <dt>Total</dt>
               <dd>{taka(totals.total)}</dd>
             </div>
+            {split && (
+              <>
+                <div className="flex justify-between">
+                  <dt className="text-muted">Pay in advance</dt>
+                  <dd className="font-bold">{taka(split.advance)}</dd>
+                </div>
+                <div className="flex justify-between">
+                  <dt className="text-muted">Pay on delivery</dt>
+                  <dd className="font-bold">{taka(split.onDelivery)}</dd>
+                </div>
+              </>
+            )}
           </dl>
           <button type="submit" disabled={pending} className={buttonClass("primary", "lg", "mt-6 w-full")}>
             {pending ? <Loader2 className="size-4 animate-spin" /> : <Lock className="size-4" />}

@@ -1,6 +1,7 @@
 import Link from "next/link";
 import Form from "next/form";
 import { ChevronLeft, ChevronRight, Download, Search } from "lucide-react";
+import { ZONE_LABEL } from "@/config/delivery";
 import { getOrders } from "@/lib/admin-data";
 import { cn, formatDate, STATUS_LABEL, taka } from "@/lib/format";
 import { ORDER_STATUSES } from "@/lib/types";
@@ -104,7 +105,7 @@ export default async function OrdersPage(props: PageProps<"/admin/orders">) {
                   </td>
                   <td className="px-4 py-3">
                     {o.district}
-                    <p className="text-xs text-muted">{o.delivery_zone === "inside_dhaka" ? "Inside Dhaka" : "Outside Dhaka"}</p>
+                    <p className="text-xs text-muted">{ZONE_LABEL[o.delivery_zone]}</p>
                   </td>
                   <td className="px-4 py-3 text-right font-mono">{o.order_items.reduce((s, i) => s + i.quantity, 0)}</td>
                   <td className="px-4 py-3 text-right font-mono font-bold">{taka(o.total)}</td>

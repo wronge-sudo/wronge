@@ -1,6 +1,9 @@
+import Image from "next/image";
 import Link from "next/link";
-import { Banknote, RefreshCcw, Truck } from "lucide-react";
+import { RefreshCcw, Truck, Wallet } from "lucide-react";
 import { cacheLife } from "next/cache";
+import { ASSETS, ASSET_SIZES, asset } from "@/config/assets";
+import { DELIVERY_CITY } from "@/config/delivery";
 import { FOOTER_LINKS, SITE } from "@/config/site";
 import { taka } from "@/lib/format";
 import type { StoreSettings } from "@/lib/types";
@@ -47,8 +50,12 @@ export async function Footer({ settings }: { settings: StoreSettings }) {
   ].filter(Boolean) as { href: string; label: string; Icon: typeof FacebookIcon }[];
 
   const reassurance = [
-    { Icon: Banknote, t: "Cash on delivery", b: "Check your jacket, then pay the rider. No card or bKash needed." },
-    { Icon: Truck, t: "All 64 districts", b: `Delivery from ${taka(settings.delivery_inside_dhaka)} inside Dhaka, ${taka(settings.delivery_outside_dhaka)} outside.` },
+    {
+      Icon: Wallet,
+      t: "Advance payment",
+      b: "Full advance for Pathao or Steadfast. With S.A. Paribahan or Sundarban, pay the delivery charge first and the rest on delivery.",
+    },
+    { Icon: Truck, t: "All 64 districts", b: `Delivery ${taka(settings.delivery_inside_dhaka)} inside ${DELIVERY_CITY}, ${taka(settings.delivery_outside_dhaka)} outside.` },
     { Icon: RefreshCcw, t: "7-day size exchange", b: "Wrong size? Swap it within 7 days of delivery." },
   ];
 
@@ -112,6 +119,18 @@ export async function Footer({ settings }: { settings: StoreSettings }) {
               )}
             </div>
           </div>
+        </div>
+
+        {/* Full-width wordmark watermark */}
+        <div className="relative mt-16 select-none" aria-hidden>
+          <Image
+            src={asset(ASSETS.wordmarkBlack)}
+            alt=""
+            width={ASSET_SIZES.wordmark.width}
+            height={ASSET_SIZES.wordmark.height}
+            sizes="100vw"
+            className="h-auto w-full opacity-[0.07]"
+          />
         </div>
       </Container>
 

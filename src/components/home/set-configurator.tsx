@@ -1,8 +1,9 @@
 "use client";
 import Image from "next/image";
 import { useState } from "react";
-import { ArrowRight, Banknote, ChevronDown, RefreshCcw, Ruler } from "lucide-react";
+import { ArrowRight, ChevronDown, RefreshCcw, Ruler, Truck } from "lucide-react";
 import { ASSETS, asset } from "@/config/assets";
+import { PACKAGE_LOOKS, PACKAGE_PIECES } from "@/config/package";
 import { cn, taka } from "@/lib/format";
 import { LinkButton } from "@/components/ui/button";
 import { BLANK_PANEL_CROP, JACKET_ASPECT, JacketBack } from "@/components/store/jacket-back";
@@ -10,60 +11,26 @@ import { LOW_STOCK } from "@/components/store/size-picker";
 import { useStoreData } from "@/components/store/store-data";
 
 type Art = { slug: string; name: string; image: string };
-type OptionId = "jacket" | "set" | "panels";
 
 // Same `sizes` as the big preview, so the browser reuses that download for the thumb.
 const PREVIEW_SIZES = "(min-width: 1024px) 480px, 90vw";
 
-/** Home-page "set" card: jacket preview + art rail on the left, size / option picker and total on the right. */
+/**
+ * Home-page package card: jacket preview + the included panels on the left, size picker and total on the right.
+ * There is one product (config/package.ts), so the right side shows what's in the box instead of options.
+ */
 export function SetConfigurator({ art }: { art: Art[] }) {
   const { settings, sizes } = useStoreData();
-  const n = settings.pack_size;
-  const looks = n + 1;
-  const discount = settings.bundle_discount;
-  const fullPrice = settings.jacket_price + settings.pack_price;
-
-  const [option, setOption] = useState<OptionId>("set");
   const [preview, setPreview] = useState<Art | null>(art[0] ?? null);
   const [size, setSize] = useState<string | null>(null);
   const [sizeOpen, setSizeOpen] = useState(false);
 
-  const options: Record<
-    OptionId,
-    { count: number; unit: string; badge?: { text: string; dark: boolean }; offer?: string; price: number; compare?: number; includes: string; cta: string; href: string }
-  > = {
-    jacket: {
-      count: 1,
-      unit: "Look",
-      price: settings.jacket_price,
-      includes: "1 jacket + 1 blank denim panel",
-      cta: "Get the jacket",
-      href: "/jacket",
-    },
-    set: {
-      count: looks,
-      unit: "Looks",
-      badge: discount > 0 ? { text: "Best value", dark: true } : undefined,
-      offer: discount > 0 ? `Save ${taka(discount)}` : undefined,
-      price: fullPrice - discount,
-      compare: discount > 0 ? fullPrice : undefined,
-      includes: `1 jacket + 1 blank panel + ${n} art panels`,
-      cta: "Build my set",
-      href: size ? `/build?size=${encodeURIComponent(size)}` : "/build",
-    },
-    panels: {
-      count: n,
-      unit: "Panels",
-      badge: { text: "Own one?", dark: false },
-      price: settings.pack_price,
-      includes: `${n} art panels · fit every Wronge jacket`,
-      cta: `Pick ${n} panels`,
-      href: "/panels",
-    },
-  };
-  const chosen = options[option];
-  const shown = option === "jacket" ? null : preview;
   const activeSizes = sizes.filter((s) => s.is_active);
+  const pieces = [
+    { count: 1, unit: "Jacket" },
+    { count: 1, unit: "Blank panel" },
+    { count: art.length, unit: art.length === 1 ? "Art panel" : "Art panels" },
+  ];
 
   return (
     <div className="mx-auto max-w-[1220px]">
@@ -73,8 +40,8 @@ export function SetConfigurator({ art }: { art: Art[] }) {
           <header className="flex items-center gap-3 lg:col-start-2 lg:row-start-2">
             <h2 className="inline-flex flex-wrap items-center gap-x-[7px] gap-y-0.5 rounded-full border border-plum bg-[linear-gradient(118deg,#40242f_0%,#5c2c2b_62%,#7a3f22_100%)] px-[17px] py-[11.9px] text-[1.05rem] font-semibold leading-tight tracking-[-0.03em] sm:text-[1.2rem]">
               <RefreshCcw className="size-[18px] text-peach" strokeWidth={2.8} aria-hidden />
-              <span className="text-primary">The {looks}-in-1 set</span>
-              <span className="text-cream">{discount > 0 ? `Save ${taka(discount)}` : "Cash on delivery"}</span>
+              <span className="text-primary">The {PACKAGE_PIECES}-in-1 package</span>
+              <span className="text-cream">{PACKAGE_LOOKS} looks, 1 jacket</span>
             </h2>
           </header>
 
@@ -82,13 +49,13 @@ export function SetConfigurator({ art }: { art: Art[] }) {
           <figure className="flex flex-col overflow-hidden rounded-[16px] bg-studio lg:col-start-1 lg:row-span-4 lg:row-start-1">
             <div className="relative aspect-[548/456] overflow-hidden">
               <div className="absolute left-1/2 top-1/2 h-[104%] -translate-x-1/2 -translate-y-1/2" style={{ aspectRatio: JACKET_ASPECT }}>
-                <JacketBack panel={shown && { image: shown.image, name: shown.name }} rounded={false} sizes={PREVIEW_SIZES} />
+                <JacketBack panel={preview && { image: preview.image, name: preview.name }} rounded={false} sizes={PREVIEW_SIZES} />
               </div>
               {/* tilted "looks" card */}
               <div className="absolute bottom-[7px] right-[6px] flex w-[77px] rotate-[7deg] flex-col items-center gap-1 rounded-[10px] border border-ink/12 bg-card px-2 pb-2.5 pt-2 shadow-[0_3px_9px_rgb(0_0_0/0.05)] sm:w-[105px]">
                 <Image src={asset(ASSETS.markDark)} alt="" width={64} height={64} className="h-10 w-auto sm:h-14" />
                 <span className="flex items-center gap-1">
-                  <span className="text-[1.05rem] font-black leading-none tracking-tight sm:text-[1.2rem]">{looks}×</span>
+                  <span className="text-[1.05rem] font-black leading-none tracking-tight sm:text-[1.2rem]">{PACKAGE_LOOKS}×</span>
                   <strong className="rounded-full bg-sale px-1.5 py-[3px] text-[0.66rem] font-black uppercase leading-none text-white">Looks</strong>
                 </span>
               </div>
@@ -98,42 +65,39 @@ export function SetConfigurator({ art }: { art: Art[] }) {
               <button
                 type="button"
                 onClick={() => setPreview(null)}
-                aria-pressed={!shown}
+                aria-pressed={!preview}
                 className={cn(
                   "relative h-[110px] w-[68px] shrink-0 overflow-hidden rounded-[6px] border border-line-warm transition sm:h-[126px] sm:w-[78px]",
-                  !shown && "ring-2 ring-ink ring-offset-2 ring-offset-studio",
+                  !preview && "ring-2 ring-ink ring-offset-2 ring-offset-studio",
                 )}
               >
                 <span className="absolute" style={BLANK_PANEL_CROP}>
                   <Image src={asset(ASSETS.jacketBack)} alt="" fill sizes={PREVIEW_SIZES} />
                 </span>
-                <span className="absolute inset-x-0 bottom-0 bg-white/72 py-[3px] text-[0.68rem] font-semibold leading-none">Included</span>
+                <span className="absolute inset-x-0 bottom-0 bg-white/72 py-[3px] text-[0.68rem] font-semibold leading-none">Blank</span>
                 <span className="sr-only">Blank denim panel</span>
               </button>
               {art.map((a) => (
                 <button
                   key={a.slug}
                   type="button"
-                  onClick={() => {
-                    setPreview(a);
-                    if (option === "jacket") setOption("set");
-                  }}
-                  aria-pressed={shown?.slug === a.slug}
+                  onClick={() => setPreview(a)}
+                  aria-pressed={preview?.slug === a.slug}
                   className={cn(
                     "relative h-[110px] w-[68px] shrink-0 overflow-hidden rounded-[6px] border border-line-warm transition sm:h-[126px] sm:w-[78px]",
-                    shown?.slug === a.slug ? "ring-2 ring-ink ring-offset-2 ring-offset-studio" : "hover:-translate-y-0.5",
+                    preview?.slug === a.slug ? "ring-2 ring-ink ring-offset-2 ring-offset-studio" : "hover:-translate-y-0.5",
                   )}
                 >
                   <Image src={a.image} alt={a.name} fill sizes="78px" className="object-cover" />
                 </button>
               ))}
             </div>
-            <figcaption className="px-4 pb-4 pt-3 text-center text-[0.75rem] leading-snug">Sample panels shown. Pick your own {n} at the next step.</figcaption>
+            <figcaption className="px-4 pb-4 pt-3 text-center text-[0.75rem] leading-snug">All {PACKAGE_PIECES} pieces ship together. Tap a panel to see it on the jacket.</figcaption>
           </figure>
 
           {/* controls */}
           <div className="lg:col-start-2 lg:row-start-3">
-            {option === "set" && activeSizes.length > 0 && (
+            {activeSizes.length > 0 && (
               <div className="border-b border-line-warm pb-1.5">
                 <button
                   type="button"
@@ -174,65 +138,35 @@ export function SetConfigurator({ art }: { art: Art[] }) {
               </div>
             )}
 
-            <fieldset className="grid grid-cols-3 gap-2 pt-[10px]">
-              <legend className="sr-only">Choose what to buy</legend>
-              {(Object.keys(options) as OptionId[]).map((id) => {
-                const o = options[id];
-                const active = option === id;
-                return (
-                  <button
-                    key={id}
-                    type="button"
-                    onClick={() => setOption(id)}
-                    aria-pressed={active}
-                    className={cn(
-                      "relative mt-2.5 flex h-20 flex-col rounded-[9px] border-2 text-center transition-colors",
-                      active ? "border-ink bg-primary" : "border-line-warm bg-card hover:border-ink/40",
-                    )}
-                  >
-                    {o.badge && (
-                      <span
-                        className={cn(
-                          "absolute left-1/2 top-0 -translate-x-1/2 -translate-y-1/2 whitespace-nowrap rounded-full border px-1.5 py-[3px] text-[0.68rem] font-extrabold leading-none",
-                          o.badge.dark ? "border-ink bg-ink text-cream" : "border-plum bg-primary text-plum",
-                        )}
-                      >
-                        {o.badge.text}
-                      </span>
-                    )}
-                    <span className="flex flex-1 flex-col items-center justify-center gap-[3px] px-[3px] pb-2 pt-2.5">
-                      <strong className="text-[1.17rem] font-black leading-none">{o.count}</strong>
-                      <span className="text-[0.8rem] font-medium leading-none">{o.unit}</span>
-                    </span>
-                    {o.offer && (
-                      <span className="rounded-b-[7px] bg-sale px-0.5 py-1 text-[0.72rem] font-bold leading-tight text-white">{o.offer}</span>
-                    )}
-                  </button>
-                );
-              })}
-            </fieldset>
+            <ul className="grid grid-cols-3 gap-2 pt-[10px]" aria-label={`What's in the ${PACKAGE_PIECES}-in-1 package`}>
+              {pieces.map((p) => (
+                <li key={p.unit} className="mt-2.5 flex h-20 flex-col rounded-[9px] border-2 border-line-warm bg-card text-center">
+                  <span className="flex flex-1 flex-col items-center justify-center gap-[3px] px-[3px] pb-2 pt-2.5">
+                    <strong className="text-[1.17rem] font-black leading-none">{p.count}</strong>
+                    <span className="text-[0.8rem] font-medium leading-none">{p.unit}</span>
+                  </span>
+                </li>
+              ))}
+            </ul>
 
             <div className="mt-4 grid grid-cols-[1fr_auto] items-center gap-x-3 gap-y-[5px] border-t border-line-warm pt-[18px]">
-              <div className="flex flex-wrap items-center gap-x-2 gap-y-1">
-                <p className="text-[0.8rem]">Total</p>
-                {chosen.compare && (
-                  <p className="rounded-full bg-sale-deep px-[9px] py-1 text-[0.8rem] font-bold leading-tight text-white">
-                    Save {taka(chosen.compare - chosen.price)}
-                  </p>
-                )}
-              </div>
+              <p className="text-[0.8rem]">Total</p>
               <p className="flex items-baseline gap-2">
-                <strong className="text-[1.25rem] font-extrabold leading-none tracking-tight">{taka(chosen.price)}</strong>
-                {chosen.compare && <s className="text-[0.93rem]">{taka(chosen.compare)}</s>}
+                <strong className="text-[1.25rem] font-extrabold leading-none tracking-tight">{taka(settings.jacket_price)}</strong>
+                {settings.jacket_compare_at && settings.jacket_compare_at > settings.jacket_price && (
+                  <s className="text-[0.93rem]">{taka(settings.jacket_compare_at)}</s>
+                )}
               </p>
-              <p className="col-span-2 text-[0.8rem]">{chosen.includes}</p>
+              <p className="col-span-2 text-[0.8rem]">
+                1 jacket + 1 blank denim panel + {art.length} art panels = {PACKAGE_PIECES} pieces
+              </p>
             </div>
 
-            <LinkButton href={chosen.href} variant="cta" size="xl" className="mt-[19px] w-full">
-              {chosen.cta}
+            <LinkButton href={size ? `/build?size=${encodeURIComponent(size)}` : "/build"} variant="cta" size="xl" className="mt-[19px] w-full">
+              Build my set
               <ArrowRight className="ml-2 size-[23px]" strokeWidth={2.4} aria-hidden />
             </LinkButton>
-            <p className="mt-[9px] text-center text-[0.75rem]">Cash on delivery all over Bangladesh. Pick your art at the next step.</p>
+            <p className="mt-[9px] text-center text-[0.75rem]">Delivery all over Bangladesh. Both art panels are in the box.</p>
           </div>
         </div>
       </div>
@@ -240,7 +174,7 @@ export function SetConfigurator({ art }: { art: Art[] }) {
       <ul className="mt-[19px] grid grid-cols-3 gap-4">
         {[
           { Icon: RefreshCcw, t: "Zip-out back panel" },
-          { Icon: Banknote, t: "Cash on delivery" },
+          { Icon: Truck, t: "All 64 districts" },
           { Icon: Ruler, t: "7-day size exchange" },
         ].map(({ Icon, t }) => (
           <li key={t} className="flex flex-col items-center justify-center gap-2 text-center text-[0.78rem] font-semibold sm:flex-row sm:text-[0.86rem]">

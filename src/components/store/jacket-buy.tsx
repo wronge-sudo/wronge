@@ -1,5 +1,4 @@
 "use client";
-import Link from "next/link";
 import { useState } from "react";
 import { Minus, Plus, ShoppingBag } from "lucide-react";
 import { taka } from "@/lib/format";
@@ -10,18 +9,18 @@ import { SizePicker } from "./size-picker";
 import { useStoreData } from "./store-data";
 
 export function JacketBuy() {
-  const { settings } = useStoreData();
+  const { settings, packagePanels } = useStoreData();
   const add = useCart((s) => s.add);
   const [size, setSize] = useState<string | null>(null);
   const [qty, setQty] = useState(1);
   const [error, setError] = useState(false);
 
-  function addJacket() {
+  function addPackage() {
     if (!size) {
       setError(true);
       return;
     }
-    add({ type: "jacket", size, qty });
+    add({ size, qty });
   }
 
   return (
@@ -32,7 +31,10 @@ export function JacketBuy() {
           <span className="tabular-nums text-lg text-muted line-through">{taka(settings.jacket_compare_at)}</span>
         )}
       </div>
-      <p className="mt-1 text-sm text-muted">Includes the matching blank denim panel · Cash on delivery</p>
+      <p className="mt-1 text-sm text-muted">
+        4-in-1 package: the jacket, a blank denim panel
+        {packagePanels.length > 0 && ` and ${packagePanels.length} art panels (${packagePanels.map((p) => p.name).join(", ")})`}
+      </p>
 
       <div className="mt-8">
         <div className="mb-3 flex items-center justify-between">
@@ -60,22 +62,10 @@ export function JacketBuy() {
             <Plus className="size-4" />
           </button>
         </div>
-        <button type="button" onClick={addJacket} className={buttonClass("ink", "lg", "flex-1")}>
+        <button type="button" onClick={addPackage} className={buttonClass("ink", "lg", "flex-1")}>
           <ShoppingBag className="hidden size-4 sm:block" aria-hidden />
-          <span className="sm:hidden">Add to bag</span>
-          <span className="hidden sm:inline">Add jacket to bag</span>
+          Add to bag
         </button>
-      </div>
-
-      <div className="mt-4 rounded-2xl border border-primary-border bg-primary-tint p-5">
-        <p className="font-bold uppercase tracking-tight">Make it a {settings.pack_size + 1}-in-1 set</p>
-        <p className="mt-1 text-sm text-ink/75">
-          Add any {settings.pack_size} art panels for {taka(settings.pack_price)}
-          {settings.bundle_discount > 0 ? ` and save ${taka(settings.bundle_discount)}` : ""}. {settings.pack_size + 1} looks in one jacket.
-        </p>
-        <Link href={size ? `/build?size=${size}` : "/build"} className={buttonClass("ink", "md", "mt-4")}>
-          Build my set →
-        </Link>
       </div>
     </div>
   );

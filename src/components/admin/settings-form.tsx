@@ -2,7 +2,8 @@
 import { useActionState, useState } from "react";
 import { Loader2, Plus, Trash2 } from "lucide-react";
 import { saveSettings, type AdminState } from "@/actions/admin";
-import { cn, taka } from "@/lib/format";
+import { DELIVERY_CITY } from "@/config/delivery";
+import { cn } from "@/lib/format";
 import type { SizeChartRow, StoreSettings } from "@/lib/types";
 import { adminInput } from "./ui";
 
@@ -34,7 +35,6 @@ function Section({ title, description, children }: { title: string; description?
 export function SettingsForm({ settings }: { settings: StoreSettings }) {
   const [state, action, pending] = useActionState<AdminState, FormData>(saveSettings, null);
   const [chart, setChart] = useState<SizeChartRow[]>(settings.size_chart ?? []);
-  const [prices, setPrices] = useState({ jacket: settings.jacket_price, pack: settings.pack_price, discount: settings.bundle_discount });
   const fe = state?.fieldErrors ?? {};
   const v = (n: number | null) => (n === null || n === undefined ? "" : String(n));
 
@@ -42,22 +42,15 @@ export function SettingsForm({ settings }: { settings: StoreSettings }) {
     <form action={action} className="rounded-2xl border border-line/80 bg-white p-5 sm:p-7">
       <Section title="Prices" description="Whole taka. Changes show in the store right away.">
         <div className="grid gap-4 sm:grid-cols-2">
-          <Field label="Jacket price" name="jacket_price" prefix="৳" inputMode="numeric" defaultValue={settings.jacket_price} error={fe.jacket_price} hint="Includes the blank denim panel" onChange={(e) => setPrices((p) => ({ ...p, jacket: Number(e.target.value) || 0 }))} />
+          <Field label="Package price" name="jacket_price" prefix="৳" inputMode="numeric" defaultValue={settings.jacket_price} error={fe.jacket_price} hint="Jacket + blank panel + 2 art panels" />
           <Field label="Old price (crossed out)" name="jacket_compare_at" prefix="৳" inputMode="numeric" defaultValue={v(settings.jacket_compare_at)} error={fe.jacket_compare_at} hint="Optional, for showing a sale" />
-          <Field label="Panel pack price" name="pack_price" prefix="৳" inputMode="numeric" defaultValue={settings.pack_price} error={fe.pack_price} onChange={(e) => setPrices((p) => ({ ...p, pack: Number(e.target.value) || 0 }))} />
-          <Field label="Panels per pack" name="pack_size" type="number" min={1} max={12} defaultValue={settings.pack_size} error={fe.pack_size} />
-          <Field label="Set discount" name="bundle_discount" prefix="৳" inputMode="numeric" defaultValue={settings.bundle_discount} error={fe.bundle_discount} hint="Taken off when jacket + pack are bought together" onChange={(e) => setPrices((p) => ({ ...p, discount: Number(e.target.value) || 0 }))} />
-          <Field label="Extra fee per custom panel" name="custom_panel_fee" prefix="৳" inputMode="numeric" defaultValue={settings.custom_panel_fee} error={fe.custom_panel_fee} hint="0 = no extra charge" />
         </div>
-        <p className="rounded-xl bg-paper-2/60 px-4 py-3 text-sm">
-          A full set (jacket + pack) costs <strong className="font-mono">{taka(Math.max(0, prices.jacket + prices.pack - prices.discount))}</strong> before delivery.
-        </p>
       </Section>
 
-      <Section title="Delivery" description="Cash on delivery charges.">
+      <Section title="Delivery" description="Delivery charges.">
         <div className="grid gap-4 sm:grid-cols-3">
-          <Field label="Inside Dhaka" name="delivery_inside_dhaka" prefix="৳" inputMode="numeric" defaultValue={settings.delivery_inside_dhaka} error={fe.delivery_inside_dhaka} />
-          <Field label="Outside Dhaka" name="delivery_outside_dhaka" prefix="৳" inputMode="numeric" defaultValue={settings.delivery_outside_dhaka} error={fe.delivery_outside_dhaka} />
+          <Field label={`Inside ${DELIVERY_CITY}`} name="delivery_inside_dhaka" prefix="৳" inputMode="numeric" defaultValue={settings.delivery_inside_dhaka} error={fe.delivery_inside_dhaka} />
+          <Field label={`Outside ${DELIVERY_CITY}`} name="delivery_outside_dhaka" prefix="৳" inputMode="numeric" defaultValue={settings.delivery_outside_dhaka} error={fe.delivery_outside_dhaka} />
           <Field label="Free delivery from" name="free_delivery_min" prefix="৳" inputMode="numeric" defaultValue={v(settings.free_delivery_min)} error={fe.free_delivery_min} hint="Empty = never free" />
         </div>
       </Section>

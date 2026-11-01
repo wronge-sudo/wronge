@@ -1,6 +1,7 @@
 import { NextResponse, type NextRequest } from "next/server";
 import { getAdminOrNull } from "@/lib/admin-auth";
 import { applyOrderFilters } from "@/lib/admin-data";
+import { PAYMENT_LABEL, ZONE_LABEL } from "@/config/delivery";
 import type { OrderItemRow } from "@/lib/types";
 
 function csvCell(v: unknown) {
@@ -41,7 +42,7 @@ export async function GET(request: NextRequest) {
   const { data, error } = await query;
   if (error) return NextResponse.json({ error: "Export failed" }, { status: 500 });
 
-  const header = ["Order", "Date", "Status", "Customer", "Phone", "Email", "District", "Area", "Address", "Zone", "Items", "Subtotal", "Discount", "Delivery", "Total", "Payment", "Courier", "Tracking", "Customer note", "Admin note"];
+  const header = ["Order", "Date", "Status", "Customer", "Phone", "Email", "District", "Area", "Address", "Zone", "Items", "Subtotal", "Discount", "Delivery", "Total", "Payment terms", "Payment", "Courier", "Tracking", "Customer note", "Admin note"];
   const rows = (data ?? []).map((o) => [
     o.order_number,
     new Date(o.created_at).toLocaleString("en-GB", { timeZone: "Asia/Dhaka" }),
@@ -52,7 +53,7 @@ export async function GET(request: NextRequest) {
     o.district,
     o.area,
     o.address,
-    o.delivery_zone === "inside_dhaka" ? "Inside Dhaka" : "Outside Dhaka",
+    ZONE_LABEL[o.delivery_zone as keyof typeof ZONE_LABEL] ?? o.delivery_zone,
     (o.order_items as Pick<OrderItemRow, "title" | "size" | "quantity" | "panels">[])
       .map((i) => `${i.title}${i.size ? ` (${i.size})` : ""} x${i.quantity}${i.panels.length ? ` [${i.panels.map((p) => p.name).join(" / ")}]` : ""}`)
       .join("; "),
@@ -60,6 +61,7 @@ export async function GET(request: NextRequest) {
     o.discount,
     o.delivery_fee,
     o.total,
+    PAYMENT_LABEL[o.payment_method] ?? o.payment_method,
     o.payment_status,
     o.courier,
     o.tracking_code,
