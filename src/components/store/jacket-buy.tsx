@@ -1,9 +1,10 @@
 "use client";
 import { useState } from "react";
-import { Minus, Plus, ShoppingBag } from "lucide-react";
+import { ShoppingBag } from "lucide-react";
 import { taka } from "@/lib/format";
 import { useCart } from "@/store/cart";
 import { buttonClass } from "@/components/ui/button";
+import { QtyStepper } from "./qty-stepper";
 import { SizeGuideButton } from "./size-guide";
 import { SizePicker } from "./size-picker";
 import { useStoreData } from "./store-data";
@@ -53,15 +54,7 @@ export function JacketBuy() {
       </div>
 
       <div className="mt-6 flex gap-2">
-        <div className="flex h-14 items-center rounded-full border-2 border-line">
-          <button type="button" onClick={() => setQty(Math.max(1, qty - 1))} className="grid size-12 place-items-center rounded-full hover:bg-ink/5" aria-label="Decrease quantity">
-            <Minus className="size-4" />
-          </button>
-          <span className="w-6 text-center tabular-nums font-bold">{qty}</span>
-          <button type="button" onClick={() => setQty(Math.min(10, qty + 1))} className="grid size-12 place-items-center rounded-full hover:bg-ink/5" aria-label="Increase quantity">
-            <Plus className="size-4" />
-          </button>
-        </div>
+        <QtyStepper value={qty} onChange={setQty} />
         <button type="button" onClick={addPackage} className={buttonClass("ink", "lg", "flex-1")}>
           <ShoppingBag className="hidden size-4 sm:block" aria-hidden />
           Add to bag

@@ -9,6 +9,7 @@ import { LinkButton } from "@/components/ui/button";
 import { BLANK_PANEL_CROP, JACKET_ASPECT, JacketBack } from "@/components/store/jacket-back";
 import { LOW_STOCK } from "@/components/store/size-picker";
 import { useStoreData } from "@/components/store/store-data";
+import { OrderBar } from "./order-bar";
 
 type Art = { slug: string; name: string; image: string };
 
@@ -183,6 +184,8 @@ export function SetConfigurator({ art }: { art: Art[] }) {
           </li>
         ))}
       </ul>
+
+      <OrderBar size={size} onSizeChange={setSize} />
     </div>
   );
 }

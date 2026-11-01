@@ -49,7 +49,7 @@ export function getFaqs(s: StoreSettings): Faq[] {
     {
       group: "Product",
       q: "What is the jacket made of?",
-      a: "5 oz 100% cotton denim, with snap buttons and two front side pockets. The back panel attaches with a YKK zipper and Velcro, and the art panels are screen-printed.",
+      a: "11.5 oz 100% cotton denim, with snap buttons and two front side pockets. The back panel attaches with a YKK zipper and Velcro, and the art panels are screen-printed.",
     },
     {
       group: "Product",
