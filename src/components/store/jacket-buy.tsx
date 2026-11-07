@@ -55,7 +55,7 @@ export function JacketBuy() {
 
       <div className="mt-6 flex gap-2">
         <QtyStepper value={qty} onChange={setQty} />
-        <button type="button" onClick={addPackage} className={buttonClass("ink", "lg", "flex-1")}>
+        <button type="button" onClick={addPackage} className={buttonClass("ink", "lg", "flex-1 max-sm:px-4")}>
           <ShoppingBag className="hidden size-4 sm:block" aria-hidden />
           Add to bag
         </button>

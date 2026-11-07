@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useState } from "react";
 import { Heart } from "lucide-react";
 import type { Panel } from "@/lib/types";
+import { PANEL_PHOTOS } from "@/config/assets";
 import { PACKAGE_PIECES, isPackagePanel } from "@/config/package";
 import { cn, taka } from "@/lib/format";
 import { useWishlist } from "@/store/wishlist";
@@ -11,19 +12,35 @@ import { useMounted } from "@/lib/use-mounted";
 import { JacketBack } from "./jacket-back";
 import { useStoreData } from "./store-data";
 
+const VIEW_LABEL = { worn: "Worn", jacket: "On the jacket", flat: "Flat panel" } as const;
+
 export function PanelGallery({ panel }: { panel: Panel }) {
-  const [view, setView] = useState<"jacket" | "flat">("jacket");
+  // Panels with a real photo from the shoot open on it.
+  const photo = PANEL_PHOTOS[panel.slug];
+  const views: (keyof typeof VIEW_LABEL)[] = photo ? ["worn", "jacket", "flat"] : ["jacket", "flat"];
+  const [view, setView] = useState(views[0]);
   return (
     <div>
-      {view === "jacket" ? (
-        <JacketBack panel={{ image: panel.image_url, name: panel.name }} eager />
-      ) : (
+      {view === "worn" && photo ? (
+        <div className={cn("relative aspect-[4/5] overflow-hidden rounded-3xl", photo.cutout ? "bg-sand" : "bg-studio")}>
+          <Image
+            src={photo.src}
+            alt={photo.alt}
+            fill
+            loading="eager"
+            sizes="(min-width: 1024px) 640px, 92vw"
+            className={photo.cutout ? "object-contain object-bottom" : "object-cover"}
+          />
+        </div>
+      ) : view === "flat" ? (
         <div className="relative mx-auto aspect-[4/7] max-h-[80vh] overflow-hidden rounded-3xl bg-ink">
           <Image src={panel.image_url} alt={`${panel.name} art panel, flat`} fill sizes="(min-width:1024px) 40vw, 90vw" className="object-contain" />
         </div>
+      ) : (
+        <JacketBack panel={{ image: panel.image_url, name: panel.name }} eager />
       )}
       <div className="mt-3 flex gap-2">
-        {(["jacket", "flat"] as const).map((v) => (
+        {views.map((v) => (
           <button
             key={v}
             type="button"
@@ -33,7 +50,7 @@ export function PanelGallery({ panel }: { panel: Panel }) {
               view === v ? "border-ink bg-ink text-paper" : "border-line hover:border-ink",
             )}
           >
-            {v === "jacket" ? "On the jacket" : "Flat panel"}
+            {VIEW_LABEL[v]}
           </button>
         ))}
       </div>

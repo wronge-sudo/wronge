@@ -1,7 +1,7 @@
 "use client";
 import Image from "next/image";
 import { Minus, Plus, Trash2 } from "lucide-react";
-import { ASSETS, asset } from "@/config/assets";
+import { PHOTOS } from "@/config/assets";
 import { lineTitle, unitPrice } from "@/lib/pricing";
 import type { PanelRef } from "@/lib/types";
 import { taka, cn } from "@/lib/format";
@@ -13,7 +13,7 @@ function LineThumb({ panels }: { panels: PanelRef[] }) {
   return (
     <div className="relative flex h-20 w-20 shrink-0 items-center justify-center gap-0.5 overflow-hidden rounded-xl bg-ink p-1.5">
       <div className="relative h-full w-5 shrink-0 overflow-hidden rounded-sm bg-studio">
-        <Image src={asset(ASSETS.jacketFront)} alt="" fill sizes="24px" className="object-cover" />
+        <Image src={PHOTOS.frontModel.src} alt="" fill sizes="24px" className="object-cover object-[center_45%]" />
       </div>
       {panels.slice(0, 3).map((p) => (
         <div key={p.slug} className="relative h-full flex-1 overflow-hidden rounded-sm bg-ink-3">

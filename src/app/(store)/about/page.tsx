@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Image from "next/image";
-import { ASSETS, asset } from "@/config/assets";
+import { PHOTOS } from "@/config/assets";
 import { Container } from "@/components/ui/section";
 import { Arrow, LinkButton } from "@/components/ui/button";
 
@@ -41,8 +41,8 @@ export default function AboutPage() {
             Build your set <Arrow />
           </LinkButton>
         </div>
-        <div className="relative aspect-square overflow-hidden rounded-[2rem] bg-ink">
-          <Image src={asset(ASSETS.profileDark)} alt="Wronge logo" fill sizes="(min-width:1024px) 45vw, 92vw" className="object-cover" />
+        <div className="relative aspect-[4/5] overflow-hidden rounded-[2rem] bg-studio lg:self-start">
+          <Image src={PHOTOS.skyDuo.src} alt={PHOTOS.skyDuo.alt} fill sizes="(min-width:1024px) 540px, 92vw" className="object-cover object-[center_35%]" />
         </div>
       </Container>
 

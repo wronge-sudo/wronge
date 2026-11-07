@@ -3,7 +3,7 @@ import Link from "next/link";
 import { Layers, Palette, RefreshCcw, Star, Upload } from "lucide-react";
 import { getApprovedReviews, getPanels, getSettings } from "@/lib/data";
 import type { Panel, Review } from "@/lib/types";
-import { ASSETS, BACK_PANEL_RECT, asset } from "@/config/assets";
+import { ASSETS, BACK_PANEL_RECT, PANEL_PHOTOS, PHOTOS, asset } from "@/config/assets";
 import { getFaqs } from "@/config/faq";
 import { isPackagePanel, packagePanels } from "@/config/package";
 import { Container } from "@/components/ui/section";
@@ -13,6 +13,7 @@ import { SetConfigurator } from "@/components/home/set-configurator";
 import { LookCarousel } from "@/components/home/look-carousel";
 import { VibeCarousel, type VibeGroup } from "@/components/home/vibe-carousel";
 import { ReviewWall, type WallItem } from "@/components/home/review-wall";
+import { Lookbook } from "@/components/home/lookbook";
 import { SwapStudio } from "@/components/store/swap-studio";
 import { JacketBack } from "@/components/store/jacket-back";
 import { SWAP_STEPS, SwapDiagram } from "@/components/store/swap-diagram";
@@ -59,7 +60,7 @@ export default async function HomePage() {
   const included = packagePanels(panels);
   const upcoming = panels.filter((p) => !isPackagePanel(p.slug));
   const art = included.map((p) => ({ slug: p.slug, name: p.name, image: p.image_url }));
-  const looks = included.map((p) => ({ slug: p.slug, name: p.name, image: p.image_url, badge: p.badge }));
+  const looks = included.map((p) => ({ slug: p.slug, name: p.name, image: p.image_url, badge: p.badge, photo: PANEL_PHOTOS[p.slug] ?? null }));
   const categories = groupBy(upcoming, "category");
   const artists = groupBy(upcoming, "artist");
   const faqs = getFaqs(settings).slice(0, 8);
@@ -67,19 +68,23 @@ export default async function HomePage() {
   return (
     <>
       {/* ───────────── HERO ───────────── */}
-      <section className="on-dark relative h-[560px] overflow-hidden bg-ink sm:h-[620px]">
-        <Image
-          src={asset(ASSETS.hero)}
-          alt="Two people wearing Wronge washed-black denim jackets, one showing an art panel zipped into the back"
-          fill
-          loading="eager"
-          fetchPriority="high"
-          sizes="100vw"
-          className="object-cover object-[64%_center]"
-        />
-        <div className="absolute inset-0 bg-gradient-to-t from-ink/75 via-ink/15 to-transparent sm:bg-gradient-to-r sm:from-ink/55 sm:via-ink/15 sm:to-transparent" />
-        <Container className="relative flex h-full items-end pb-10 sm:items-center sm:pb-0">
-          <div className="grid max-w-xl gap-4">
+      {/* The shoot photos are near-square, so on desktop the photo takes the right side instead of the full width
+          (a full-width crop would cut off the art panel); on phones it sits above the text. */}
+      <section className="on-dark relative overflow-hidden bg-ink lg:h-[620px]">
+        <div className="relative aspect-square w-full sm:aspect-[4/3] lg:absolute lg:inset-y-0 lg:right-0 lg:aspect-auto lg:w-[60%]">
+          <Image
+            src={PHOTOS.campfireDuo.src}
+            alt={PHOTOS.campfireDuo.alt}
+            fill
+            loading="eager"
+            fetchPriority="high"
+            sizes="(min-width: 1024px) 60vw, 100vw"
+            className="object-cover object-[70%_center] sm:object-[center_35%]"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-ink via-ink/0 via-30% to-transparent lg:bg-gradient-to-r lg:via-ink/0 lg:via-35%" />
+        </div>
+        <Container className="relative -mt-14 pb-10 sm:-mt-20 lg:mt-0 lg:flex lg:h-full lg:items-center lg:pb-0">
+          <div className="grid max-w-xl gap-4 lg:max-w-[27rem]">
             <h1 className="display text-[1.85rem] text-cream sm:text-[2rem]">One jacket. Endless backs.</h1>
             <p className="text-[1.05rem] leading-[1.55] text-cream sm:text-[1.2rem]">Washed-black denim with a zip-out back panel. New art in under a minute.</p>
             <div className="pt-2">
@@ -158,6 +163,9 @@ export default async function HomePage() {
         </section>
       )}
 
+      {/* ───────────── LOOKBOOK ───────────── */}
+      <Lookbook />
+
       {/* ───────────── SWAP STUDIO ───────────── */}
       <section className="halftone-dark py-14 text-paper sm:py-16" id="studio">
         <Container>
@@ -204,15 +212,16 @@ export default async function HomePage() {
             </Link>
             {[
               {
-                img: ASSETS.hero,
+                src: PHOTOS.classicDuo.src,
                 box: "inset-0",
-                fit: "object-cover object-[30%_center]",
+                // the friend with the Keep It Classic panel sits on the right of the photo
+                fit: "object-cover object-[85%_40%]",
                 shade: "bg-gradient-to-t from-ink/90 via-ink/50 to-ink/10",
                 title: <>Upload anything.<br />Wear it on your back.</>,
                 body: "A drawing, a photo, your band's logo or your crew's inside joke. Upload it, position it, done.",
               },
               {
-                img: ASSETS.profileDark,
+                src: asset(ASSETS.profileDark),
                 // The square W mark sits at the right and fades into the black tile.
                 box: "inset-y-0 right-0 aspect-square [mask-image:linear-gradient(90deg,transparent,#000_45%)]",
                 fit: "object-cover",
@@ -223,7 +232,7 @@ export default async function HomePage() {
             ].map((t, i) => (
               <div key={i} className="relative flex min-h-[260px] items-end overflow-hidden rounded-[16px] bg-ink p-6 text-paper shadow-[0_3px_10px_rgb(0_0_0/0.07)] sm:p-7">
                 <div className={`absolute ${t.box}`}>
-                  <Image src={asset(t.img)} alt="" fill sizes="(min-width: 1024px) 560px, 92vw" className={t.fit} />
+                  <Image src={t.src} alt="" fill sizes="(min-width: 1024px) 560px, 92vw" className={t.fit} />
                 </div>
                 <div className={`absolute inset-0 ${t.shade}`} />
                 <div className="relative">

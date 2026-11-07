@@ -1,11 +1,15 @@
 "use client";
+import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
+import type { Photo } from "@/config/assets";
+import { cn } from "@/lib/format";
 import { JACKET_ASPECT, JacketBack } from "@/components/store/jacket-back";
 import { RailArrows, useRail } from "@/components/ui/rail";
 import { Sticker } from "@/components/ui/sticker";
 
-type Look = { slug: string; name: string; image: string; badge: string | null };
+/** `photo`: a real shot of the panel being worn; without one the card shows the jacket preview. */
+type Look = { slug: string; name: string; image: string; badge: string | null; photo: Photo | null };
 
 // Each card sits at a slightly different angle, like photos pinned to a board.
 const TILTS = [-2, 2, -1, 2, -2, 1, -1];
@@ -28,11 +32,21 @@ export function LookCarousel({ looks }: { looks: Look[] }) {
               style={{ rotate: `${TILTS[i % TILTS.length]}deg` }}
             >
               <Link href={`/panels/${l.slug}`} className="block" aria-label={`${l.name} on the Wronge jacket`}>
-                <div className="relative aspect-[330/407] overflow-hidden rounded-[10px] bg-studio">
-                  {/* Height-fit the jacket flat-lay into the portrait frame (sides crop slightly). */}
-                  <div className="absolute left-1/2 top-1/2 h-full -translate-x-1/2 -translate-y-1/2" style={{ aspectRatio: JACKET_ASPECT }}>
-                    <JacketBack panel={{ image: l.image, name: l.name }} rounded={false} sizes="(min-width: 640px) 380px, 85vw" />
-                  </div>
+                <div className={cn("relative aspect-[330/407] overflow-hidden rounded-[10px]", l.photo?.cutout ? "bg-sand" : "bg-studio")}>
+                  {l.photo ? (
+                    <Image
+                      src={l.photo.src}
+                      alt={l.photo.alt}
+                      fill
+                      sizes="(min-width: 640px) 340px, 80vw"
+                      className={l.photo.cutout ? "object-contain object-bottom" : "object-cover"}
+                    />
+                  ) : (
+                    /* Height-fit the jacket flat-lay into the portrait frame (sides crop slightly). */
+                    <div className="absolute left-1/2 top-1/2 h-full -translate-x-1/2 -translate-y-1/2" style={{ aspectRatio: JACKET_ASPECT }}>
+                      <JacketBack panel={{ image: l.image, name: l.name }} rounded={false} sizes="(min-width: 640px) 380px, 85vw" />
+                    </div>
+                  )}
                 </div>
               </Link>
               {l.badge && <Sticker className="absolute -right-1 -top-[18px] size-[94px] rotate-12">{l.badge}</Sticker>}

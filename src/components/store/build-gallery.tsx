@@ -2,7 +2,7 @@
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import { Star } from "lucide-react";
-import { ASSETS, asset } from "@/config/assets";
+import { PHOTOS, type Photo } from "@/config/assets";
 import { cn } from "@/lib/format";
 import { useMounted } from "@/lib/use-mounted";
 import { useWishlist } from "@/store/wishlist";
@@ -31,6 +31,12 @@ function Back({ panel, thumb }: { panel: PreviewPanel | null; thumb: boolean }) 
   );
 }
 
+/** A shoot photo: cutouts stand on the bottom of the frame (head and shoulders in thumbs), location shots fill it. */
+function Shot({ photo, thumb, position = "" }: { photo: Photo; thumb: boolean; position?: string }) {
+  const fit = photo.cutout ? (thumb ? "object-cover object-top" : "object-contain object-bottom") : cn("object-cover", position);
+  return <Image src={photo.src} alt={thumb ? "" : photo.alt} fill sizes={thumb ? THUMB_SIZES : GALLERY_SIZES} className={fit} />;
+}
+
 /**
  * Product gallery for the set builder: a swipeable main image (live jacket preview first),
  * a thumbnail rail and a floating star that saves the previewed art panel to the wishlist.
@@ -54,32 +60,13 @@ export function BuildGallery({
 
   const slides: Slide[] = [
     { id: "preview", label: "Live preview of your set", caption, render: (thumb) => <Back panel={panel} thumb={thumb} /> },
-    {
-      id: "front",
-      label: "Front of the jacket",
-      render: (thumb) => (
-        <Image
-          src={asset(ASSETS.jacketFront)}
-          alt={thumb ? "" : "Front of the Wronge washed-black denim jacket"}
-          fill
-          sizes={thumb ? THUMB_SIZES : GALLERY_SIZES}
-          className="object-contain"
-        />
-      ),
-    },
+    { id: "front", label: "Front of the jacket on the model", render: (thumb) => <Shot photo={PHOTOS.frontModel} thumb={thumb} /> },
+    { id: "back", label: "Back of the jacket on the model, blank panel zipped in", render: (thumb) => <Shot photo={PHOTOS.backModel} thumb={thumb} /> },
     { id: "blank", label: "Back with the blank denim panel", caption: "Matching blank panel · included", render: (thumb) => <Back panel={null} thumb={thumb} /> },
     {
       id: "look",
-      label: "Wronge jackets styled on two people",
-      render: (thumb) => (
-        <Image
-          src={asset(ASSETS.hero)}
-          alt={thumb ? "" : "Wronge jackets styled on two people"}
-          fill
-          sizes={thumb ? THUMB_SIZES : GALLERY_SIZES}
-          className="object-cover object-[62%_center]"
-        />
-      ),
+      label: "Two friends in Wronge jackets, one with the Keep It Classic panel",
+      render: (thumb) => <Shot photo={PHOTOS.classicDuo} thumb={thumb} position="object-[80%_center]" />,
     },
   ];
 

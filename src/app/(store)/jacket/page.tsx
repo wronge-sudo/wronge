@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
-import { getPanels, getSettings } from "@/lib/data";
-import { PACKAGE_LOOKS, packagePanels } from "@/config/package";
+import Image from "next/image";
+import { getSettings } from "@/lib/data";
+import { CANVAS_CALLOUT, PHOTOS } from "@/config/assets";
+import { PACKAGE_LOOKS, PACKAGE_PANEL_SLUGS } from "@/config/package";
 import { taka } from "@/lib/format";
 import { Container, SectionHeading } from "@/components/ui/section";
 import { Arrow, LinkButton } from "@/components/ui/button";
@@ -28,15 +30,13 @@ const DETAILS = [
 ];
 
 export default async function JacketPage() {
-  const [settings, panels] = await Promise.all([getSettings(), getPanels()]);
-  const included = packagePanels(panels);
-  const art = included[0] ?? panels[0];
+  const settings = await getSettings();
 
   return (
     <>
       <Container className="grid grid-cols-1 gap-10 py-8 sm:py-12 lg:grid-cols-12 lg:gap-14">
         <div className="lg:col-span-7 lg:sticky lg:top-24 lg:self-start">
-          <JacketGallery artPanel={art ? { image: art.image_url, name: art.name } : null} />
+          <JacketGallery />
         </div>
         <div className="lg:col-span-5">
           <p className="eyebrow text-muted">Washed black · Unisex</p>
@@ -63,8 +63,56 @@ export default async function JacketPage() {
         </div>
       </Container>
 
+      {/* Know your canvas: the client's graphic rebuilt with live text over the cut-out photo */}
+      <section className="overflow-hidden bg-cream" aria-labelledby="canvas-title">
+        <Container className="grid grid-cols-1 items-center gap-6 pt-14 sm:pt-16 lg:grid-cols-[5fr_6fr] lg:gap-14 lg:pt-0">
+          <div className="lg:py-16">
+            <p className="eyebrow">The swap panel</p>
+            <h2 id="canvas-title" className="display mt-3 text-[2.4rem] sm:text-[3.25rem]">
+              Know your
+              <br />
+              canvas
+            </h2>
+            <p className="mt-4 max-w-md text-[1.05rem] leading-[1.55] sm:text-[1.13rem]">
+              Built-in modular system, designed to sit naturally with existing seams.
+            </p>
+            <ul className="mt-6 grid gap-2.5 text-[0.95rem] font-semibold">
+              {["Attaches with a YKK zipper + Velcro", `Blank denim panel + ${PACKAGE_PANEL_SLUGS.length} art panels in the box`, "Every panel fits every Wronge jacket"].map((t) => (
+                <li key={t} className="flex items-center gap-2.5">
+                  <span className="size-2 shrink-0 rounded-full bg-ink" aria-hidden />
+                  {t}
+                </li>
+              ))}
+            </ul>
+          </div>
+          <figure className="relative mx-auto w-full max-w-[560px] self-end">
+            <Image
+              src={PHOTOS.canvasModel.src}
+              alt={PHOTOS.canvasModel.alt}
+              width={PHOTOS.canvasModel.width}
+              height={PHOTOS.canvasModel.height}
+              sizes="(min-width: 1024px) 560px, 92vw"
+              className="h-auto w-full"
+            />
+            {/* label + line + dot on the panel; the dot's centre is at CANVAS_CALLOUT */}
+            <figcaption
+              className="absolute left-[4%] flex -translate-y-1/2 items-center"
+              style={{ top: `${CANVAS_CALLOUT.y}%`, width: `${CANVAS_CALLOUT.x - 4}%` }}
+            >
+              <span className="shrink-0 text-[0.95rem] font-extrabold leading-[1.1] sm:text-[1.3rem]">
+                Swappable
+                <br />
+                panel
+              </span>
+              <span className="mx-2 h-[3px] flex-1 rounded-full bg-primary sm:mx-3" aria-hidden />
+              <span className="-mr-[7px] size-3.5 shrink-0 rounded-full border-2 border-ink bg-primary" aria-hidden />
+            </figcaption>
+          </figure>
+        </Container>
+      </section>
+
       {/* Size guide */}
-      <section id="size-guide" className="border-t border-line py-20 sm:py-24">
+      <section id="size-guide" className="py-20 sm:py-24">
         <Container className="max-w-4xl">
           <h2 className="display text-[2rem] sm:text-[2.4rem]">Size guide</h2>
           <div className="mt-8">
