@@ -144,6 +144,12 @@ export async function Footer({ settings }: { settings: StoreSettings }) {
             <Link href="/terms" className="py-1.5 hover:underline">Terms</Link>
             <Link href="/privacy" className="py-1.5 hover:underline">Privacy</Link>
             <Link href="/shipping-returns" className="py-1.5 hover:underline">Delivery & exchanges</Link>
+            <span className="py-1.5">
+              Website by{" "}
+              <a href="https://tarunno.tech" target="_blank" rel="noopener" className="font-bold underline underline-offset-2 hover:no-underline">
+                Tarunno
+              </a>
+            </span>
           </div>
         </Container>
       </div>
